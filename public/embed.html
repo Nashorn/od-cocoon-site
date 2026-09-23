@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Code share</title>
+<style>html,body{height:100%;margin:0;background:#191b1f}code-explorer{display:block;height:100%}</style>
+<script src="code-explorer.js"></script>
+</head>
+<body>
+<code-explorer></code-explorer>
+<script>
+(async () => {
+  const ex = document.querySelector('code-explorer');
+  const CE = customElements.get('code-explorer');
+  const m = location.hash.match(/[#&]d=([^&]+)/);
+  if (m) { try { ex.loadPayload(await CE.decodePayload(m[1])); } catch (e) { console.error('embed: bad payload', e); } }
+})();
+</script>
+</body>
+</html>

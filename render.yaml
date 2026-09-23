@@ -1,0 +1,9 @@
+# yaml-language-server: $schema=https://render.com/schema/render.yaml.json
+
+services:
+  - type: web
+    name: od-cocoon-site
+    runtime: static
+    buildCommand: echo "No build required"
+    staticPublishPath: ./public
+    autoDeployTrigger: commit
