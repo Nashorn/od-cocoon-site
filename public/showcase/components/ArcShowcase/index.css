@@ -214,6 +214,7 @@ h2>span {
     mask-image: radial-gradient(ellipse, #000 20%, transparent 70%);
     pointer-events: none;
     opacity: .6;
+    background-image: linear-gradient(rgb(120 150 255 / 10%) 1px, transparent 1px), linear-gradient(90deg, rgb(120 150 255 / 11%) 1px, #00000000 1px);
 }
 
 arc-team-access {

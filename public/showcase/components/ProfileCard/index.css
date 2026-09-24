@@ -2,7 +2,7 @@
   display: block;
   min-inline-size: 0;
   border-radius: 12px;
-  background: #131d32;
+  background: var(--component-surface-bg);
   border: 1px solid #34415f;
   padding: 23px;
   box-shadow: 0 8px 28px #0003;

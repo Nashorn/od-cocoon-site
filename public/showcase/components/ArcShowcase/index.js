@@ -6,9 +6,9 @@ import { PresentationController } from '../../core/PresentationController.js';
 import { InheritedSkin } from '../../core/InheritedSkin.js';
 
 const modeCopy = {
-  interface: ['01 / ASSEMBLED', 'Small pieces.\nOne real interface.', 'A toolbar and two profile cards, assembled on a parent surface. Try the button. See what connects them.', 'Each piece is a real, interactive Cocoon component.'],
-  explore: ['02 / EXPLORE THE PARTS', 'Pull it apart.\nLook a little closer.', 'Drag the open space to turn the assembly. Select a card’s inspect icon to see what it is made of.', 'Rotation is bounded. Your place in the scene is preserved.'],
-  inspect: ['03 / INSPECT & INHERIT', 'Change the base.\nSee both respond.', 'The two cards extend ProfileCard. Edit its host styles and watch both subclasses update.', 'HTML for structure. CSS for style. JavaScript for behavior.'],
+  interface: ['01 / ASSEMBLED', 'Modular parts.\nAssembled as a unit.', 'Build isolated ShadowDOM component-parts that communicate over native W3C events & signals.', 'Each piece is a real, interactive Cocoon component.'],
+  explore: ['02 / EXPLORE THE PARTS', 'Pull it apart.\nLook a little closer.', 'Here, the ProfileCard is an example of a base, parent component. Child-classes will inherit traits,its skin and behavior, from all of its ancestors.', 'Rotation is bounded. Your place in the scene is preserved.'],
+  inspect: ['03 / INSPECT & INHERIT', 'React & Vue share css files. \nCocoon shares traits.', 'There are no build tools or css load order to manage. Cocoon rides the prototype-chain. Components inherit its ancestor\'s look-n-feel naturally. Its automatic. Visual traits cascade down within class families live, in real-time. Built for the enterprise.', 'HTML for structure. CSS for style. JavaScript for behavior.'],
 };
 
 export class ArcShowcase extends DemoComponent {

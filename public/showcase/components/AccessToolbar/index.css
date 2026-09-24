@@ -9,7 +9,7 @@
     padding: 10px;
     border: 1px solid #334363;
     border-radius: 12px;
-    background: #152139;
+    background: var(--component-surface-bg);
     box-shadow: 0 8px 20px #0002;
 }
 
@@ -35,7 +35,7 @@ select {
 }
 
 option {
-    background: #152139;
+    background: var(--component-surface-bg);
 }
 
 .toolbar-caption {
