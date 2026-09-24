@@ -35,7 +35,9 @@ It describes the kernel file, not total application weight.
 ## Interactive component lab
 
 The landing-page middle is a real Cocoon application with an exploded 3D view,
-signal playback, and an inherited-style inspector. See
+signal playback, an inherited-style inspector, and an Edit/Run workspace.
+It runs in its own automatically sized iframe as a namespaced Cocoon application.
+Run reloads only that iframe; the editor itself never hosts the scene. See
 [the component ownership and extension guide](docs/showcase-architecture.md).
 
 Run the browser checks with `npm run test:showcase` (requires installed Chrome).

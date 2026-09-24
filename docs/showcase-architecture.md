@@ -1,96 +1,98 @@
 # Component lab
 
-The middle of the landing page is one persistent stage. Its real DOM components
-are transformed into an exploded assembly and returned to their original layout.
-No screenshot, cloned component, canvas render, or third-party 3D engine substitutes
-for the application UI.
+The landing page embeds `/showcase/index.html` in an automatically sized iframe.
+That document is a Cocoon application, booted with `data-namespace="lab.ShowcaseApplication"`,
+`data-controller="index.js"`, an import map, and the pinned kernel. The hero and
+footer remain in the landing document. The editor's preview iframe is never used.
 
 ## Ownership
 
 | Owner | Responsibility |
 | --- | --- |
-| `ArcShowcase` | Marketing surface, mode controls, inspector, keyboard interaction |
-| `TeamAccess` | Composes the toolbar and cards; responsive assembly geometry |
-| `AccessToolbar` | Selection and approval requests; emits the corresponding signal |
-| `ProfileCard` | Shared template, styling, status display and inspection affordances |
-| `MemberCard`, `AdminCard` | Real ProfileCard subclasses with their own signal reactions |
-| `PresentationController` | Single cancellable timeline, modes, rotation limits, pause/replay/reset |
-| `ConnectionOverlay` | SVG paths projected from named DOM endpoints every playback frame |
-| `InheritedSkin` | Per-stage editable ancestral CSSStyleSheet adopted by both subclasses |
-| `SignalSession` | Cocoon fire/subscribe topic scoping, replay retention and cleanup |
+| `bootstrap.js` | Landing-page iframe height and navigation links |
+| `frame-bridge.js` | Height reporting and boot failure recovery |
+| `src/lab/ShowcaseApplication` | Native Cocoon Application entry |
+| `src/lab/Showcase` | Marketing copy, controls, inspector, selection, editor UI |
+| `src/lab/Component` | Common appearance and open shadow roots |
+| `src/examples/team/TeamAccess` | Composes the toolbar and cards in responsive grid slots |
+| `src/examples/team/AccessToolbar` | Fires native approval and member-selection signals |
+| `src/examples/team/ProfileCard` | Ancestor template/skin, native signal subscriptions |
+| `src/examples/team/MemberCard`, `AdminCard` | ProfileCard subclasses and their reactions |
+| `PresentationController` | Cancellable animation, rotation/depth, pause/replay/reset |
+| `ConnectionOverlay` | SVG paths attached to live DOM endpoints |
+| `InheritedSkin` | Edits the actual inherited ProfileCard CSSStyleSheet |
+| `ProjectWorkspace` | Source files, drafts, Run and reset |
+| `project-worker.js` | Serves immutable edited runs only under `/showcase/runs/` |
 
-Components extend the real Cocoon `WebComponent`, use open shadow roots, and load
-their HTML/CSS through the kernel. The subclasses explicitly inherit the base
-template with `html() { return super.html(); }`. The inspector reads the actual
-source files; CSS edits affect the real adopted base stylesheet.
+Components use namespace imports/registration and `onConnected()` with
+`await super.onConnected()`. They communicate with `this.fire()` and
+`this.subscribe()`. The iframe owns its own event bus and custom-element registry.
+There is no custom session bus, `mount`/`bind` lifecycle, manual registration, or
+component `importCSS` override. MemberCard and AdminCard explicitly reuse the
+ancestor template with `html() { return super.html(); }`; their CSS is inherited
+by the kernel. The shell identifies that sheet by its actual module, not mutable
+constructor metadata. For browsers using the kernel's CSS-fetch fallback, the
+shell normalizes equivalent sheets into one editable shared sheet.
 
-## Add or change a child
+## Edit and Run
 
-1. Implement its behavior and presentation under `public/showcase/components/`.
-2. Compose it in TeamAccess's template and `parts` map. Its layout belongs in
-   TeamAccess CSS. Grid slots flow with their content and stack through container queries;
-   3D transforms lift those same surfaces without fixed layout coordinates or JavaScript scaling.
-3. Bind it to the owned SignalSession in the same path as existing children.
-4. To visualize a connection, expose a small `data-endpoint` element inside it
-   and register source/target getters in ArcShowcase's ConnectionOverlay registry.
-   Never encode screen coordinates in the connection registry.
-5. Add the component to the inspector selector and source-owner mapping if it is
-   inspectable. Layout-only changes do not require changing SVG paths.
+`project.json` lists the actual example source files. Source loading is deferred
+until Edit or source inspection needs it; it never gates initial scene visibility.
+The editor loads those files,
+not a separate copy of the example. The shell and kernel are outside the editable
+namespace. `<code-explorer editor-only>` is mounted once and retains its state
+when switching between editor and scene. HTML preview and sharing controls are
+suppressed in this mode; the hero explorer keeps its existing behavior.
 
-## State and interaction contract
+Edits stay drafts until Run (or Cmd/Ctrl+S). Run writes a new immutable example
+snapshot to Cache Storage and saves draft/view state in sessionStorage. A service
+worker scoped to `/showcase/` serves the snapshot and fixed shell dependencies.
+Only the showcase iframe navigates to the new run. Its fresh document gets a new
+custom-element registry, allowing updated JavaScript classes to register normally.
+New JS files receive namespace import-map entries automatically.
 
-Explore 3D is the initial selected mode. The surfaces stay assembled offscreen;
-a one-shot IntersectionObserver triggers the explosion when at least 30% of the
-stage enters the usable viewport. Subsequent scrolling does not replay the intro.
-An explicit mode/action cancels a pending intro, and disposal disconnects it.
+Run restores rotation, shared depth, selected component and presentation mode.
+Business state starts fresh. Drafts and the active file survive Run. Returning to
+the editor without Run keeps edits unapplied. Inspector skin changes update the
+ProfileCard source as well. Reset example returns to the original project.
 
-Presentation states are `interface`, `exploding`, `playing`, `delivered`,
-`explore`, `inspecting`, and `assembling`. Mode changes cancel the old timeline
-with AbortController. Real business actions are synchronous; cancelling a visual
-transition never discards an approval or member selection. The traveling pulse
-illustrates the real signal exchange after the components separate; it does not
-artificially delay event listeners.
+A startup error exposes a recovery action outside the application. It reopens the
+baseline shell/editor with the failed draft preserved. Service-worker/storage
+failures keep the current editor open with an error message. Run requires HTTPS
+or localhost (service workers and Cache Storage).
 
-Approval/selection opens the scene, visualizes the signal, holds briefly, and
-returns to the flat interface. Explore keeps the scene open. Inspect opens the
-source panel and highlights the chosen component. Rotation is limited to ±25°
-yaw and 6–28° pitch. Reduced-motion mode applies transitions immediately.
+## Visual and interaction contract
 
-Reset cancels playback and restores member selection, status, rotation, and shared
-styles. Closing/reopening inspection preserves applied edits. CSS editing accepts
-valid `border-radius`, `background`, and `border-color` declarations in one `:host`
-rule; validation is atomic. It is deliberately a style playground, not a general
-code execution environment.
+The same scene markup and CSS are retained. Actual component DOM surfaces lift
+from their grid slots; all siblings use the same Z translation and parent
+perspective. No cloned preview, screenshot or canvas substitutes for the UI.
 
-## Runtime integration
+Explore 3D is selected initially, but the first explosion waits for viewport
+visibility. Scrolling away/back does not replay it. Signals update both listeners
+synchronously; the pulse visualizes delivery without delaying business behavior.
+Mode changes cancel the old timeline. Rotation is bounded to ±25° yaw and 6–28°
+pitch; the Z-depth slider moves every sibling together. Reduced motion removes
+transition waits. Cards/toolbar surfaces are selectable; native controls retain
+their actions. The iframe follows content height, so page scrolling remains owned
+by the landing page.
 
-The pinned Cocoon 8.6.0 distribution is vendored, with its license, in
-`public/vendor/cocoon/`. The import map is in the document head. An empty
-`public/.importmap` is also available for kernel fallback. Relative ESM imports
-define the components; automatic sandbox discovery is disabled on the marketing
-page so the existing hero explorer remains independently owned.
+## Extending the example
 
-Two published-kernel details are contained in application adapters:
-
-- Its ancestor walk reuses stylesheet constructor metadata. ProfileCard captures
-  its sheet reference when it is imported, rather than identifying it later by
-  mutable metadata. Each stage adopts its own editable copy in both card roots.
-- Its signal history retains a Set. SignalSession bounds only its instance-owned
-  topics to the latest event and removes those topics/subscriptions on disposal.
-  Other application topics are never touched.
+Add components under `src/examples/team`, declare them in `namespace \`examples.team\``,
+and import dependencies by namespace. Include shipped files in `project.json`
+and `.importmap`/the entry HTML import map. Compose them in TeamAccess. Grid layout
+grows with content. Register named DOM endpoints and inspector entries in the
+shell when the new component needs visualized signals or inspection.
 
 ## Verification
 
-```sh
-npm ci
-npm run test:showcase
-```
+`npm run test:showcase` starts a local static server and uses installed Chrome via
+Playwright. `CHROME_PATH` can select a Chromium executable; `SHOWCASE_ARTIFACTS`
+selects the screenshot directory (default `/tmp/arc-showcase-verification`).
 
-The test starts its own static server and uses installed Chrome through Playwright.
-Set `CHROME_PATH` for another Chromium executable. Set `SHOWCASE_ARTIFACTS` to
-choose the screenshot directory (default `/tmp/arc-showcase-verification`).
-
-Coverage includes real class/style inheritance, signal reactions, live endpoint
-positions, pause/resume, reassembly, CSS validation, source inspection, interrupted
-actions, reset, bounded replay storage, mobile/tablet, reduced motion and remount
-cleanup. Chrome is verified; Safari/Firefox require separate browser verification.
+Checks cover native registration/inheritance, real signals, animation, shared
+Z-depth/reset, style editing, actual source inspection, interruption, mobile/tablet,
+reduced motion, and editor Run with HTML/CSS/JavaScript changes while preserving
+the landing page. Additional checks cover editor line-break preservation,
+inspector-to-source synchronization, failed-run recovery, and added namespace
+imports. Safari/Firefox need separate verification.

@@ -32,8 +32,13 @@
           <button class="text-button" id="reset-style">Reset shared styles ↺</button>
         </aside>
       </div>
+      <div class="editor-workspace" hidden>
+        <div class="editor-heading"><div><strong>Edit the component family</strong><p>HTML, CSS and JavaScript. Your changes run right here.</p></div><div class="editor-actions"><button id="close-editor">Back</button><button id="reset-example">Reset example</button><button id="run-example" class="primary">Run ↗</button></div></div>
+        <code-explorer id="example-editor" editor-only></code-explorer>
+        <p id="editor-status" role="status"></p>
+      </div>
       <div class="control-bar">
-        <div class="modes" role="group" aria-label="Presentation mode"><button data-mode="interface" aria-pressed="false"><span aria-hidden="true">▤</span> Interface</button><button data-mode="explore" aria-pressed="true"><span aria-hidden="true">◇</span> Explore 3D</button><button data-mode="inspect" aria-pressed="false"><span aria-hidden="true">⌖</span> Inspect</button></div>
+        <div class="modes" role="group" aria-label="Presentation mode"><button data-mode="interface" aria-pressed="false"><span aria-hidden="true">▤</span> Interface</button><button data-mode="explore" aria-pressed="true"><span aria-hidden="true">◇</span> Explore 3D</button><button data-mode="inspect" aria-pressed="false"><span aria-hidden="true">⌖</span> Inspect</button><button id="edit-example" aria-pressed="false"><span aria-hidden="true">✎</span> Edit</button></div>
         <div class="rotation-controls" hidden><label for="rotation">Rotate</label><span>−25°</span><input id="rotation" type="range" min="-25" max="25" value="-17" aria-label="Rotate the exploded component"><output id="rotation-value" for="rotation">−17°</output><label for="depth">Z depth</label><input id="depth" type="range" min="0" max="200" value="100" aria-label="Shared component Z depth"><output id="depth-value" for="depth">100%</output><button id="reset-view" title="Reset viewing angle">↺ <span>Reset view</span></button></div>
         <div class="playback-controls"><button id="pause" hidden>Ⅱ Pause</button><button id="replay" title="Replay the last interaction">↻ <span>Replay</span></button><button id="reset-demo" title="Reset the entire demo">↺ <span>Reset</span></button></div>
       </div>

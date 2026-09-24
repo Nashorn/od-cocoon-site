@@ -19,27 +19,31 @@ const artifacts = process.env.SHOWCASE_ARTIFACTS || '/tmp/arc-showcase-verificat
 await mkdir(artifacts, { recursive: true });
 const browser = await chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : { channel: 'chrome' });
 const context = await browser.newContext({ viewport: { width: 1440, height: 1100 } });
-const page = await context.newPage();
+const host = await context.newPage();
+let page;
 const errors = [];
-page.on('pageerror', error => errors.push(error.message));
-page.on('response', response => { if (response.url().startsWith(base) && response.status() >= 400) errors.push(`${response.status()} ${response.url()}`); });
+host.on('pageerror', error => errors.push(error.message));
+host.on('response', response => { if (response.url().startsWith(base) && response.status() >= 400) errors.push(`${response.status()} ${response.url()}`); });
 const state = name => page.waitForFunction(name => document.querySelector('arc-showcase')?.presentation?.state === name, name);
 const inspect = fn => page.locator('arc-showcase').evaluate(fn);
-const shot = async name => { await page.locator('#showcase').scrollIntoViewIfNeeded(); await page.screenshot({ path: `${artifacts}/${name}.png` }); };
+const shot = async name => { await host.locator('#showcase').scrollIntoViewIfNeeded(); await host.screenshot({ path: `${artifacts}/${name}.png` }); };
 try {
-  await page.goto(base, { waitUntil: 'networkidle' });
+  await host.goto(base, { waitUntil: 'networkidle' });
+  await host.locator('#showcase-frame').contentFrame().locator('arc-showcase[ready]').waitFor();
+  page = host.frames().find(frame => frame.url().includes('/showcase/'));
+  await page.waitForFunction(() => window.showcaseFrame?.isReady);
   await page.locator('arc-showcase[ready]').waitFor();
   const initialRadius = await inspect(s => getComputedStyle(s.team.parts.member).borderRadius);
   assert.equal(await inspect(s => s.team.parts.member.constructor.ancestors.map(c => c.name).includes('ProfileCard')), true);
   assert.equal(await inspect(s => s.team.parts.member.root.adoptedStyleSheets.includes(s.skin.sheet) && s.team.parts.admin.root.adoptedStyleSheets.includes(s.skin.sheet)), true);
-  assert.deepEqual(await page.locator('code-explorer').evaluate(e => Object.keys(e.getFiles())), ['constraint.js', 'cloth.js', 'point.js']);
+  assert.deepEqual(await host.locator('code-explorer').evaluate(e => Object.keys(e.getFiles())), ['constraint.js', 'cloth.js', 'point.js']);
   assert.equal(await inspect(s => s.presentation.mode), 'explore');
   assert.equal(await page.locator('arc-team-access').getAttribute('exploded'), null);
   await page.locator('.viewport').scrollIntoViewIfNeeded();
   await state('explore');
   assert.equal(await page.locator('arc-team-access').getAttribute('exploded'), '');
   await page.locator('button[data-mode=interface]').click(); await state('interface');
-  await page.evaluate(() => scrollTo(0, 0));
+  await host.evaluate(() => scrollTo(0, 0));
   await page.locator('.viewport').scrollIntoViewIfNeeded();
   await page.waitForTimeout(1000);
   assert.equal(await inspect(s => s.presentation.state), 'interface');
@@ -48,7 +52,7 @@ try {
   console.log('PASS: real Cocoon classes, shared ancestral CSS, hero preserved');
   assert.equal(await inspect(async s => {
     const team = s.team;
-    const assembly = team.$('.assembly');
+    const assembly = team.querySelector('.assembly');
     const toolbar = team.parts.toolbar;
     const before = assembly.getBoundingClientRect().height;
     const originalHeight = toolbar.style.minHeight;
@@ -60,7 +64,7 @@ try {
     slot.innerHTML = '<div class="part"><arc-member-card></arc-member-card></div>';
     assembly.append(slot);
     const extra = slot.querySelector('arc-member-card');
-    await extra.ready;
+    await new Promise(resolve => { const poll = () => extra.hasAttribute('ready') ? resolve() : setTimeout(poll, 10); poll(); });
     const grown = assembly.getBoundingClientRect().height > before + 150;
     const separate = extra.getBoundingClientRect().top >= team.parts.member.getBoundingClientRect().bottom;
     slot.remove();
@@ -126,7 +130,7 @@ try {
   await page.waitForFunction(() => document.querySelector('arc-showcase').$('#source-code code').textContent.includes('<template>'));
   assert.equal(await page.locator('arc-member-card').getAttribute('xray'), 'html');
   await page.locator('[data-tab=js]').click();
-  await page.waitForFunction(() => document.querySelector('arc-showcase').$('#source-code code').textContent.includes('extends ProfileCard'));
+  await page.waitForFunction(() => document.querySelector('arc-showcase').$('#source-code code').textContent.includes('extends examples.team.ProfileCard'));
   await page.locator('[data-tab=css]').click();
   await shot('inspector');
   console.log('PASS: live CSS inheritance, validated editor, actual HTML/JS source and x-ray');
@@ -145,14 +149,14 @@ try {
   assert.equal(await inspect(s => s.presentation.state), 'interface');
   assert.equal(await inspect(s => getComputedStyle(s.team.parts.member).borderRadius), initialRadius);
   assert.equal(await page.locator('.connections path').count(), 0);
-  // Repeated input cancels old timelines; Cocoon replay storage stays bounded.
+  // Repeated native signals cancel old presentation timelines.
   await inspect(s => { for (let i = 0; i < 15; i++) s.presentation.play('approve', s.team.parts.toolbar.person); s.presentation.setMode('explore'); });
   await state('explore');
-  assert.equal(await inspect(s => [...s.session.topics].every(topic => (globalThis._eventObjects.get(topic)?.size || 0) <= 1)), true);
-  console.log('PASS: interrupted actions, reset cancellation, repeated playback, bounded replay');
+  assert.equal(await inspect(s => s.presentation.state), 'explore');
+  console.log('PASS: interrupted actions, reset cancellation, repeated playback, native event delivery');
 
   for (const width of [390, 768]) {
-    await page.setViewportSize({ width, height: 1000 });
+    await host.setViewportSize({ width, height: 1000 });
     await page.locator('button[data-mode=interface]').click(); await state('interface');
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
     await shot(`assembled-${width}`);
@@ -161,31 +165,85 @@ try {
     await page.locator('[data-color="#282041"]').click();
     await shot(`inspector-${width}`);
   }
-  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await host.emulateMedia({ reducedMotion: 'reduce' });
   await page.locator('#reset-demo').click(); await state('interface');
   await page.locator('arc-access-toolbar button').click(); await state('interface');
   assert.match(await page.locator('arc-member-card .status-label').textContent(), /Alex approved/);
   console.log('PASS: mobile/tablet layouts, inspector controls and reduced motion');
 
-  const oldPrefix = await inspect(s => s.session.prefix);
-  await inspect(s => { const parent = s.parentElement; s.remove(); parent.append(s); });
-  await page.waitForFunction(oldPrefix => { const s = document.querySelector('arc-showcase'); return s.session?.prefix !== oldPrefix && !!s.presentation && s.team?.parts?.member?.session === s.session; }, oldPrefix);
-  await inspect(s => s.ready);
-  assert.equal(await page.evaluate(prefix => [...globalThis._eventObjects.keys()].some(key => key.startsWith(prefix)), oldPrefix), false);
-  // A second instance has independent signals and its own editable base skin.
-  await page.evaluate(async () => {
-    const second = document.createElement('arc-showcase');
-    second.id = 'second-stage';
-    document.querySelector('#showcase').append(second);
-    await second.ready;
-    const first = document.querySelector('arc-showcase');
-    first.skin.set('border-radius', '35px');
-    first.presentation.play('approve', first.team.parts.toolbar.person);
+  // Editor changes rebuild only the iframe, preserving the landing document.
+  await host.setViewportSize({ width: 1440, height: 1100 });
+  await host.evaluate(() => { window.landingIdentity = 'unchanged'; });
+  await page.locator('#edit-example').click();
+  await page.locator('.editor-workspace').waitFor({ state: 'visible' });
+  await page.locator('#example-editor .code').waitFor();
+  const fileCount = await page.locator('#example-editor').evaluate(e => Object.keys(e.getFiles()).length);
+  assert.ok(fileCount >= 13);
+  assert.equal(await page.locator('#example-editor .mode').getByText('Preview', { exact: true }).count(), 0);
+  await page.locator('#example-editor').evaluate(e => {
+    const files = e.getFiles();
+    const root = 'src/examples/team/';
+    files[root + 'TeamAccess/index.html'] = files[root + 'TeamAccess/index.html'].replace('Team access', 'Edited team');
+    files[root + 'ProfileCard/index.css'] = files[root + 'ProfileCard/index.css'].replace('border-radius: 12px', 'border-radius: 27px');
+    files[root + 'MemberCard/index.js'] = files[root + 'MemberCard/index.js'].replaceAll('Alex Lee', 'Alex Edited');
+    e.setFiles(files);
   });
-  assert.equal(await page.locator('#second-stage').evaluate(s => getComputedStyle(s.team.parts.member).borderRadius), initialRadius);
-  assert.equal(await page.locator('#second-stage').evaluate(s => s.team.parts.member.$('.status-label').textContent), 'Pending');
-  await page.locator('#second-stage').evaluate(s => s.remove());
+  await page.locator('#run-example').click();
+  await page.waitForURL('**/showcase/runs/**');
+  await page.waitForFunction(() => window.showcaseFrame?.isReady);
+  assert.equal(await host.evaluate(() => window.landingIdentity), 'unchanged');
+  assert.equal(await page.locator('arc-team-access .shell-header h3').textContent(), 'Edited team');
+  assert.equal(await page.locator('arc-member-card .name').textContent(), 'Alex Edited');
+  assert.deepEqual(await inspect(s => [getComputedStyle(s.team.parts.member).borderRadius, getComputedStyle(s.team.parts.admin).borderRadius]), ['27px', '27px']);
+  assert.equal(await page.locator('.editor-workspace').isVisible(), false);
+  await page.locator('#edit-example').click();
+  await page.locator('.editor-workspace').waitFor({ state: 'visible' });
+  assert.match(await page.locator('#example-editor').evaluate(e => e.getFiles()['src/examples/team/MemberCard/index.js']), /Alex Edited/);
+  await shot('editor');
+  await page.locator('#reset-example').click();
+  await page.waitForURL('**/showcase/index.html?*');
+  await page.waitForFunction(() => window.showcaseFrame?.isReady);
+  assert.equal(await page.locator('arc-member-card .name').textContent(), 'Alex Lee');
+  console.log('PASS: Edit/Run HTML, CSS, JS; fresh iframe registry, preserved landing page, drafts and reset');
+  await page.locator('button[data-mode=explore]').click(); await state('explore');
+  await page.locator('arc-admin-card .name').click();
+  assert.equal(await page.locator('#component-select').inputValue(), 'admin');
+  await page.locator('#radius').evaluate(input => { input.value = '31'; input.dispatchEvent(new Event('input', { bubbles: true })); });
+  await page.locator('#edit-example').click();
+  await page.locator('.editor-workspace').waitFor({ state: 'visible' });
+  assert.match(await page.locator('#example-editor').evaluate(e => e.getFiles()['src/examples/team/ProfileCard/index.css']), /31px/);
+  await host.setViewportSize({ width: 390, height: 1000 });
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+  await shot('editor-390');
+  await host.setViewportSize({ width: 1440, height: 1100 });
+  await page.locator('#example-editor').evaluate(e => e.openFile('src/examples/team/MemberCard/index.js'));
+  const code = page.locator('#example-editor .code');
+  const validSource = await code.textContent();
+  assert.equal(await code.evaluate(e => getComputedStyle(e).userSelect), 'text');
+  await code.fill(validSource + '\nconst = deliberatelyBroken;');
+  assert.equal(await page.locator('#example-editor').evaluate(e => e.getFiles()[e.active]), validSource + '\nconst = deliberatelyBroken;');
   assert.deepEqual(errors, []);
-  console.log(`PASS: remount cleanup, multiple-instance isolation; no browser errors or failed local requests\nScreenshots: ${artifacts}`);
-} catch (error) { await page.screenshot({ path: `${artifacts}/failure.png`, fullPage: true }); console.error('Browser errors:', errors); throw error; }
+  await page.locator('#run-example').click(); await page.waitForURL('**/runs/**');
+  await page.locator('#boot-error').waitFor({ state: 'visible' });
+  assert.ok(errors.length > 0 && errors.every(error => /Unexpected token/.test(error)));
+  errors.length = 0; // The deliberate syntax failure was checked above.
+  await page.locator('#boot-error button').click();
+  await page.waitForURL('**/showcase/index.html?*edit=1');
+  await page.waitForFunction(() => window.showcaseFrame?.isReady);
+  assert.equal(await page.locator('.editor-workspace').isVisible(), true);
+  assert.match(await page.locator('#example-editor').evaluate(e => e.getFiles()['src/examples/team/MemberCard/index.js']), /deliberatelyBroken/);
+  await page.locator('#example-editor').evaluate((e, source) => e.setFiles({
+    'src/examples/team/MemberCard/index.js': "import { displayName } from 'examples.team.copy';\n" + source.replaceAll("name: 'Alex Lee'", "name: displayName('Alex Lee')"),
+    'src/examples/team/copy.js': 'export const displayName = name => name + " Updated";',
+  }), validSource);
+  await page.locator('#run-example').click(); await page.waitForURL('**/runs/**');
+  await page.waitForFunction(() => window.showcaseFrame?.isReady);
+  assert.equal(await page.locator('arc-member-card .name').textContent(), 'Alex Lee Updated');
+  assert.equal(await host.evaluate(() => window.landingIdentity), 'unchanged');
+  assert.equal(await page.locator('#boot-error').isVisible(), false);
+  console.log('PASS: surface selection, inspector-source sync, mobile editor, actual typing, broken-run recovery and new namespace imports');
+
+  assert.deepEqual(errors, []);
+  console.log(`PASS: iframe application integration; no browser errors or failed local requests\nScreenshots: ${artifacts}`);
+} catch (error) { await host.screenshot({ path: `${artifacts}/failure.png`, fullPage: true }); console.error('Browser errors:', errors); throw error; }
 finally { await browser.close(); await new Promise(resolve => server.close(resolve)); }

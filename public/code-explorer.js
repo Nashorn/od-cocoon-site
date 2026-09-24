@@ -173,7 +173,7 @@ function readEntryTree(entry, prefix, out) {
 const CSS = `
 :host{display:block;height:100%;min-height:320px;--ce-bg:#191b1f;--ce-panel:#1f2227;--ce-panel2:#24272d;--ce-border:#2e3238;--ce-text:#c9ced6;--ce-dim:#828a95;--ce-accent:#7c9fdd;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;font-size:12px;color:var(--ce-text)}
 *{box-sizing:border-box;margin:0;-webkit-user-select:none;user-select:none}
-input,textarea,[contenteditable="true"]{-webkit-user-select:text;user-select:text}
+input,textarea,[contenteditable="true"],[contenteditable="plaintext-only"]{-webkit-user-select:text;user-select:text}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;border-radius:4px}
 button:hover{background:rgba(255,255,255,.07)}
 button:focus-visible,.row:focus-visible{outline:2px solid var(--ce-accent);outline-offset:-2px}
@@ -335,7 +335,8 @@ class CodeExplorer extends HTMLElement {
     code.addEventListener('keydown', e => { if (e.key === 'Tab') { e.preventDefault(); document.execCommand('insertText', false, '\t'); } });
     code.addEventListener('input', () => {
       const p = this.active; if (!p || this._truncated) return;
-      const text = code.textContent;
+      // Pasted/typed line breaks can be BR nodes in a plaintext editor.
+      const text = code.innerText;
       this.fs.set(p, TE.encode(text)); this.textCache.set(p, text);
       const n = text.split('\n').length;
       if (n !== this._lineCount) { this._lineCount = n; this.$('.gutter').textContent = Array.from({ length: n }, (_, i) => i + 1).join('\n'); }
@@ -397,6 +398,7 @@ class CodeExplorer extends HTMLElement {
     this._merge(files);
   }
   // ---- public API ----
+  openFile(path) { if (this.fs.has(path)) this._openFile(path); }
   setFiles(obj) {
     const files = {};
     for (const [p, v] of Object.entries(obj)) files[p] = typeof v === 'string' ? TE.encode(v) : v instanceof Uint8Array ? v : new Uint8Array(v);
@@ -604,7 +606,7 @@ class CodeExplorer extends HTMLElement {
       tabs.appendChild(t);
     }
     const m = document.createElement('div'); m.className = 'mode';
-    if (this.active && /\.html?$/i.test(this.active)) {
+    if (!this.hasAttribute('editor-only') && this.active && /\.html?$/i.test(this.active)) {
       for (const md of ['code', 'preview']) {
         const b = document.createElement('button');
         b.textContent = md === 'code' ? 'Code' : 'Preview';
@@ -613,7 +615,7 @@ class CodeExplorer extends HTMLElement {
         m.appendChild(b);
       }
     }
-    if (this.fs.size) {
+    if (this.fs.size && !this.hasAttribute('editor-only')) {
       const s = document.createElement('button');
       s.className = 'share'; s.title = 'Copy an embeddable share of these files'; s.setAttribute('aria-label', 'Share');
       s.innerHTML = '<svg viewBox="0 0 16 16"><path d="M8 10V1.8"></path><path d="M5 4.6L8 1.6l3 3"></path><path d="M3 8v6h10V8"></path></svg><span>Share</span>';
@@ -631,7 +633,7 @@ class CodeExplorer extends HTMLElement {
     const p = this.active;
     if (!p) return;
     const e = ext(p);
-    if (/\.html?$/i.test(p) && this.modes.get(p) === 'preview') { this._showPreview(p); pv.classList.add('on'); return; }
+    if (!this.hasAttribute('editor-only') && /\.html?$/i.test(p) && this.modes.get(p) === 'preview') { this._showPreview(p); pv.classList.add('on'); return; }
     if (IMG_EXT[e] || (e === 'svg' && this.modes.get(p) === 'preview')) {
       const img = document.createElement('img');
       img.src = `data:${MIME[e]};base64,${b64(this.fs.get(p))}`;

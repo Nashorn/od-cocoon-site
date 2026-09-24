@@ -1,17 +1,24 @@
 /** Edits the actual ancestral sheet, shared by the two Cocoon shadow roots. */
 export class InheritedSkin {
-  constructor(parts) {
+  static async create(parts) {
+    const url = new URL('src/examples/team/ProfileCard/index.css', document.baseURI);
+    let inherited;
+    try { inherited = (await import(url.href, { with: { type: 'css' } })).default; }
+    catch {
+      const source = await (await fetch(url)).text();
+      inherited = new CSSStyleSheet(); inherited.replaceSync(source);
+    }
+    return new InheritedSkin(parts, inherited);
+  }
+  constructor(parts, inherited) {
     this.parts = parts;
-    const inherited = parts[0].profileStyleSheet;
-    if (!inherited) throw new Error('ProfileCard inherited stylesheet did not load.');
-    // A stage owns its editable copy, so a second embedded stage cannot change
-    // its neighbors. Both subclasses adopt this same ancestral stylesheet.
-    this.sheet = new CSSStyleSheet();
-    this.sheet.replaceSync([...inherited.cssRules].map(rule => rule.cssText).join('\n'));
-    // CSS module imports share the sheet. Cocoon's fetch fallback may create
-    // one per root: normalize those to the same inherited sheet as well.
+    this.sheet = inherited;
+    // Native CSS modules already share one sheet. Normalize only the kernel's
+    // fetch fallback, which creates separate sheets from the same source.
+    const text = [...inherited.cssRules].map(rule => rule.cssText).join('\n');
     for (const part of parts) {
-      part.root.adoptedStyleSheets = [...new Set(part.root.adoptedStyleSheets.map(sheet => sheet === part.profileStyleSheet ? this.sheet : sheet))];
+      part.root.adoptedStyleSheets = [...new Set(part.root.adoptedStyleSheets.map(sheet =>
+        [...sheet.cssRules].map(rule => rule.cssText).join('\n') === text ? inherited : sheet))];
     }
     this.rule = [...this.sheet.cssRules].find(rule => rule.selectorText === ':host');
     this.original = this.rule.style.cssText;

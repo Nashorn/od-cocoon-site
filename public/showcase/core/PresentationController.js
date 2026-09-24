@@ -62,14 +62,14 @@ export class PresentationController {
     if (!await this.wait(860, signal)) return;
     this.setState(mode === 'interface' ? 'interface' : mode === 'inspect' ? 'inspecting' : 'explore');
   }
-  async play(flow, person) {
+  async play(flow, person, emit = true) {
+    if (emit) { this.team.parts.toolbar.emit(flow, person); return; }
     const signal = this.begin();
     this.lastFlow = { flow, person };
     this.mode = 'explore';
     this.view.closeInspector();
     // Business state is synchronous and independent of presentation. Interrupting
     // the animation must never drop a requested user action.
-    this.team.parts.toolbar.emit(flow, person);
     this.team.explode(true);
     this.setState('exploding');
     if (!await this.wait(860, signal)) return;
@@ -98,7 +98,7 @@ export class PresentationController {
   }
   resetView() { this.rotate(-17, 19); this.setDepth(100); }
   reset() {
-    this.begin(); this.view.closeInspector(); this.team.reset(); this.view.skin.reset(); this.view.syncEditor();
+    this.begin(); this.view.closeInspector(); this.team.reset(); this.view.skin.reset(); this.view.syncEditor(); this.view.workspace?.syncSkin();
     this.resetView(); this.lastFlow = { flow: 'approve', person: this.team.parts.toolbar.person };
     this.setMode('interface');
   }

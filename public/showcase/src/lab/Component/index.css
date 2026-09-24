@@ -1,0 +1,11 @@
+
+  :host { font-family: 'Instrument Sans', system-ui, sans-serif; color: #eef2fa; }
+  *, *::before, *::after { box-sizing: border-box; -webkit-user-select: none; user-select: none; }
+  input, textarea, [contenteditable="true"] { -webkit-user-select: text; user-select: text; }
+  button, select, input, textarea { font: inherit; }
+  button, select { cursor: pointer; }
+  button { color: inherit; }
+  button:disabled { cursor: default; opacity: .5; }
+  :host(:focus-visible), :focus-visible { outline: 2px solid #a9c8ff; outline-offset: 4px; }
+  [hidden] { display: none !important; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0s !important; animation: none !important; } }

@@ -1,9 +1,9 @@
-import { DemoComponent } from '../DemoComponent/index.js';
-import '../TeamAccess/index.js';
-import { SignalSession } from '../../core/SignalSession.js';
-import { ConnectionOverlay } from '../../core/ConnectionOverlay.js';
-import { PresentationController } from '../../core/PresentationController.js';
-import { InheritedSkin } from '../../core/InheritedSkin.js';
+import 'lab.Component';
+import 'examples.team.TeamAccess';
+import { ConnectionOverlay } from '/showcase/core/ConnectionOverlay.js';
+import { PresentationController } from '/showcase/core/PresentationController.js';
+import { InheritedSkin } from '/showcase/core/InheritedSkin.js';
+import { ProjectWorkspace } from '/showcase/core/ProjectWorkspace.js';
 
 const modeCopy = {
   interface: ['01 / ASSEMBLED', 'Modular parts.\nAssembled as a unit.', 'Craft isolated ShadowDOM component-parts that assemble together and communicate over the native W3C event-bus. No virtual dom, no overhead. Just raw HTML you learned in school.', 'Click \'Approve Access\' and watch the signal update any subscribers. The event-bus is late-bound and delivers the message to all listeners whether they registered early or late.'],
@@ -11,17 +11,16 @@ const modeCopy = {
   inspect: ['03 / INSPECT & INHERIT', 'React & Vue share css files. \nCocoon shares traits.', 'There are no build tools or css load order to manage. Cocoon rides the prototype-chain. Components inherit its ancestor\'s look-n-feel naturally. Its automatic. Visual traits cascade to children live, in real-time. Built for enterprise-grade applications.', 'Try editing the ProfileCard skin and watch the change ripple down to its descendants. Switch to HTML or JavaScript to explore their structure and behavior.'],
 };
 
-export class ArcShowcase extends DemoComponent {
-  static skin = undefined;
+namespace `lab` (
+class Showcase extends lab.Component {
   static tag = 'arc-showcase';
-  static { this.define(); }
-  async mount() {
+  async onConnected() {
+    this.lifetime = new AbortController();
+    await super.onConnected();
     this.team = this.$('arc-team-access');
-    await this.team.ready;
+    await this.find('arc-team-access[ready]');
     if (this.lifetime.signal.aborted) return;
-    this.session = new SignalSession();
-    this.team.bind(this.session);
-    this.skin = new InheritedSkin([this.team.parts.member, this.team.parts.admin]);
+    this.skin = await InheritedSkin.create([this.team.parts.member, this.team.parts.admin]);
     const targets = [() => this.team.endpoint('member', 'received'), () => this.team.endpoint('admin', 'received')];
     this.overlay = new ConnectionOverlay(this.$('.connections'), {
       approve: { name: 'access:approved', source: () => this.team.endpoint('toolbar', 'approve'), targets },
@@ -29,14 +28,18 @@ export class ArcShowcase extends DemoComponent {
     });
     this.presentation = new PresentationController(this, this.team, this.overlay);
     this.selected = 'member'; this.tab = 'css'; this.sourceCache = new Map(); this.sourceVersion = 0;
-    this.session.subscribe(this, 'flow:requested', event => this.presentation.play(event.detail.flow, event.detail.person));
-    this.session.subscribe(this, 'inspect:requested', event => this.inspect(event.detail.component));
+    this.unsubscribe = [
+      this.subscribe('access:approved', event => this.presentation.play('approve', event.detail, false)),
+      this.subscribe('member:selected', event => this.presentation.play('select', event.detail, false)),
+    ];
+    this.bindSelection();
     this.listen(this.$('#try-flow'), 'click', () => {
       if (this.presentation.mode === 'inspect') { this.closeInspector(); this.presentation.setMode('interface'); }
       else this.presentation.play('approve', this.team.parts.toolbar.person);
     });
     this.listen(this.$('#explore-link'), 'click', () => { this.closeInspector(); this.presentation.setMode('explore'); });
-    this.root.querySelectorAll('[data-mode]').forEach(button => this.listen(button, 'click', () => {
+    this.root.querySelectorAll('.modes [data-mode]').forEach(button => this.listen(button, 'click', () => {
+      if (this.workspace?.editing) this.workspace.close();
       const mode = button.dataset.mode;
       if (mode === 'inspect') this.inspect(this.selected);
       else { this.closeInspector(); this.presentation.setMode(mode); }
@@ -87,7 +90,10 @@ export class ArcShowcase extends DemoComponent {
     this.syncEditor(); this.updateState(this.presentation);
     this.setAttribute('ready', '');
     this.root.querySelectorAll('.modes button').forEach(button => button.disabled = false);
-    this.presentation.armIntro(this.$('.viewport'));
+    this.workspace = new ProjectWorkspace(this);
+    await this.workspace.restore();
+    if (!this.workspace.restored) this.presentation.armIntro(this.$('.viewport'));
+    this.fire('showcase:ready');
   }
   bindRotation() {
     const viewport = this.$('.viewport');
@@ -117,7 +123,7 @@ export class ArcShowcase extends DemoComponent {
       this.$('#state-copy').textContent = description;
       this.$('#state-note').textContent = note;
     }
-    this.root.querySelectorAll('[data-mode]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.mode === controller.mode)));
+    this.root.querySelectorAll('.modes [data-mode]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.mode === controller.mode)));
     this.root.querySelectorAll('[data-step]').forEach(step => step.classList.toggle('active', step.dataset.step === controller.mode));
     this.$('#try-flow').textContent = controller.mode === 'inspect' ? 'Return to interface ↙' : `Approve ${this.team.parts.toolbar.person.name.split(' ')[0]} ↗`;
     this.$('.rotation-controls').hidden = controller.mode === 'interface';
@@ -150,7 +156,7 @@ export class ArcShowcase extends DemoComponent {
     });
     const inherited = ['member', 'admin'].includes(this.selected);
     const name = { member: 'MemberCard', admin: 'AdminCard', toolbar: 'AccessToolbar', parent: 'TeamAccess' }[this.selected];
-    this.$('#ancestry').textContent = inherited ? 'extends ProfileCard · inherits its skin' : this.selected === 'parent' ? 'composes three child components' : 'extends DemoComponent';
+    this.$('#ancestry').textContent = inherited ? 'extends ProfileCard · inherits its skin' : this.selected === 'parent' ? 'composes three child components' : 'extends lab.Component';
     this.root.querySelectorAll('[data-tab]').forEach(button => { const active = button.dataset.tab === tab; button.setAttribute('aria-selected', String(active)); button.tabIndex = active ? 0 : -1; });
     this.$('#source-panel').setAttribute('aria-labelledby', `tab-${tab}`);
     const editable = tab === 'css' && inherited;
@@ -162,8 +168,8 @@ export class ArcShowcase extends DemoComponent {
     if (editable) { this.syncEditor(); return; }
     this.$('#source-code code').textContent = 'Loading source…';
     try {
-      const path = `../${owner}/index.${tab}`;
-      if (!this.sourceCache.has(path)) this.sourceCache.set(path, fetch(new URL(path, import.meta.url)).then(response => { if (!response.ok) throw new Error('Source could not be loaded.'); return response.text(); }));
+      const path = `src/examples/team/${owner}/index.${tab}`;
+      if (!this.sourceCache.has(path)) this.sourceCache.set(path, this.workspace.read(path));
       const source = await this.sourceCache.get(path);
       if (version === this.sourceVersion && this.isConnected) this.$('#source-code code').textContent = source.trim();
     } catch (error) { if (version === this.sourceVersion) this.$('#source-code code').textContent = error.message; }
@@ -182,9 +188,32 @@ export class ArcShowcase extends DemoComponent {
     try { this.skin.apply(this.$('#host-css').value); this.syncEditor(); this.styleResult(); }
     catch (error) { this.$('#inspector-result').textContent = error.message; this.$('#inspector-result').classList.add('error'); }
   }
-  styleResult() { this.$('#inspector-result').classList.remove('error'); this.$('#inspector-result').textContent = 'Updated ProfileCard → MemberCard + AdminCard. Both use the same inherited stylesheet.'; }
-  dispose() {
-    this.presentation?.dispose(); this.session?.dispose();
+  styleResult() { this.workspace?.syncSkin(); this.$('#inspector-result').classList.remove('error'); this.$('#inspector-result').textContent = 'Updated ProfileCard → MemberCard + AdminCard. Both use the same inherited stylesheet.'; }
+  $(selector) { return this.querySelector(selector); }
+  listen(target, event, listener, options = {}) {
+    target.addEventListener(event, listener, { ...options, signal: this.lifetime.signal });
+  }
+  bindSelection() {
+    for (const [key, part] of Object.entries(this.team.parts)) {
+      part.tabIndex = 0;
+      part.setAttribute('role', 'group');
+      part.setAttribute('aria-label', `Inspect ${part.constructor.name}`);
+      part.style.cursor = 'pointer';
+      this.listen(part, 'click', event => {
+        if (event.composedPath().some(el => el !== part && el.matches?.('select, input, textarea, a, label, button:not(.card-action)'))) return;
+        this.inspect(key);
+      });
+      this.listen(part, 'keydown', event => {
+        if (event.composedPath()[0] !== part || !['Enter', ' '].includes(event.key)) return;
+        event.preventDefault(); this.inspect(key);
+      });
+    }
+  }
+  onDisconnected() {
+    this.lifetime?.abort(); this.unsubscribe?.forEach(stop => stop());
+    this.presentation?.dispose();
     this.skin?.reset(); this.sourceVersion++;
   }
 }
+
+);
