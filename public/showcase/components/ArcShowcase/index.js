@@ -6,9 +6,9 @@ import { PresentationController } from '../../core/PresentationController.js';
 import { InheritedSkin } from '../../core/InheritedSkin.js';
 
 const modeCopy = {
-  interface: ['01 / ASSEMBLED', 'Modular parts.\nAssembled as a unit.', 'Build isolated ShadowDOM component-parts that communicate over native W3C events & signals.', 'Each piece is a real, interactive Cocoon component.'],
-  explore: ['02 / EXPLORE THE PARTS', 'Pull it apart.\nLook a little closer.', 'Here, the ProfileCard is an example of a base, parent component. Child-classes will inherit traits,its skin and behavior, from all of its ancestors.', 'Rotation is bounded. Your place in the scene is preserved.'],
-  inspect: ['03 / INSPECT & INHERIT', 'React & Vue share css files. \nCocoon shares traits.', 'There are no build tools or css load order to manage. Cocoon rides the prototype-chain. Components inherit its ancestor\'s look-n-feel naturally. Its automatic. Visual traits cascade down within class families live, in real-time. Built for the enterprise.', 'HTML for structure. CSS for style. JavaScript for behavior.'],
+  interface: ['01 / ASSEMBLED', 'Modular parts.\nAssembled as a unit.', 'Craft isolated ShadowDOM component-parts that assemble together and communicate over the native W3C event-bus. No virtual dom, no overhead. Just raw HTML you learned in school.', 'Each piece is a real, interactive Cocoon component.'],
+  explore: ['02 / EXPLORE THE PARTS', 'Pull it apart.\nLook a little closer.', 'Here, the ProfileCard is an example parent class. Changes made to it ripple down within the family. Child components inherit all traits, behavior and visual appearance from all of its ancestors.', 'Rotation is bounded. Your place in the scene is preserved.'],
+  inspect: ['03 / INSPECT & INHERIT', 'React & Vue share css files. \nCocoon shares traits.', 'There are no build tools or css load order to manage. Cocoon rides the prototype-chain. Components inherit its ancestor\'s look-n-feel naturally. Its automatic. Visual traits cascade to children live, in real-time. Built for enterprise-grade applications.', 'HTML for structure. CSS for style. JavaScript for behavior.'],
 };
 
 export class ArcShowcase extends DemoComponent {
