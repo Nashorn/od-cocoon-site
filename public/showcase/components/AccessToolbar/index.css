@@ -1,0 +1,105 @@
+:host {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    min-inline-size: 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px;
+    border: 1px solid #334363;
+    border-radius: 12px;
+    background: #152139;
+    box-shadow: 0 8px 20px #0002;
+}
+
+.member-select {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #a9bce0;
+    background: #ffffff06;
+    border: 1px solid #ffffff07;
+    border-radius: 7px;
+    padding: 0 10px;
+}
+
+select {
+    color: #e0eaff;
+    background: transparent;
+    border: 0;
+    min-height: 34px;
+    width: 124px;
+    font-size: 12px;
+}
+
+option {
+    background: #152139;
+}
+
+.toolbar-caption {
+    font-size: 11px;
+    color: #8c9fbe;
+}
+
+button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 17px;
+    border-radius: 8px;
+    background: linear-gradient(125deg, #418bff, #6558f5);
+    border: 1px solid #769cff;
+    box-shadow: 0 3px 16px #487eff20;
+    font-size: 12px;
+    font-weight: 650;
+    white-space: nowrap;
+}
+
+button:hover {
+    filter: brightness(1.15);
+}
+
+i {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0;
+    height: 0;
+}
+
+:host([xray="html"]) .member-select,
+:host([xray="html"]) button {
+    outline: 1px dashed #a991eb;
+    outline-offset: 4px;
+}
+
+:host([xray="js"]) button,
+:host([xray="js"]) select {
+    outline: 1px solid #60d6b2;
+    outline-offset: 4px;
+}
+
+@container team-access (max-width: 36rem) {
+    .toolbar-caption {
+        display: none;
+    }
+}
+
+@container team-access (max-width: 20rem) {
+
+    .member-select,
+    button {
+        flex: 1 1 100%;
+    }
+
+    select {
+        flex: 1;
+    }
+
+    button {
+        justify-content: center;
+    }
+}

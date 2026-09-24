@@ -1,0 +1,13 @@
+{
+  "name": "arc-landing-page",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "docs": "node scripts/build-docs.mjs",
+    "test:showcase": "node tests/showcase.mjs"
+  },
+  "devDependencies": {
+    "marked": "18.0.14",
+    "playwright": "1.63.0"
+  }
+}

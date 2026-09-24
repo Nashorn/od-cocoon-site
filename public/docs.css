@@ -1,0 +1,32 @@
+:root { color-scheme: dark; font-family: system-ui, sans-serif; background: #04060c; color: #d7e1f5; }
+* { box-sizing: border-box; }
+body { margin: 0; line-height: 1.75; }
+a { color: #91baff; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+a:hover { color: #d5e5ff; }
+:focus-visible { outline: 2px solid #aecdff; outline-offset: 5px; }
+nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; max-width: 1120px; margin: auto; padding: 24px; border-bottom: 1px solid #20283a; }
+nav a { text-decoration: none; }
+nav div { display: flex; gap: 24px; font-size: 14px; }
+nav [aria-current] { color: #fff; text-decoration: underline; }
+.brand { display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: 700; color: white; }
+.brand span { width: 26px; height: 26px; border-radius: 8px; background: linear-gradient(135deg, #4d8dff, #8b5cf6); box-shadow: 0 0 24px #4d8dff40; }
+main { max-width: 880px; padding: 72px 24px; margin: auto; }
+.eyebrow { color: #91baff; font: 12px ui-monospace, monospace; letter-spacing: .15em; }
+h1, h2, h3, h4 { color: #fff; line-height: 1.2; scroll-margin-top: 24px; }
+h1 { font-size: clamp(2.5rem, 6vw, 4rem); letter-spacing: -.045em; margin: 24px 0; }
+h2 { margin-top: 64px; font-size: 28px; letter-spacing: -.025em; }
+h3 { margin-top: 36px; font-size: 20px; overflow-wrap: anywhere; }
+h4 { margin-top: 28px; }
+p, li { overflow-wrap: anywhere; }
+.intro { padding: 16px 20px; border-left: 2px solid #7c5cff; background: #0c1020; }
+code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: .85em; }
+:not(pre) > code { background: #111a2c; border-radius: 4px; padding: 2px 5px; color: #bfd5ff; }
+pre { overflow: auto; padding: 22px; border: 1px solid #24304a; border-radius: 12px; background: #090f1c; color: #d7e1f5; line-height: 1.65; }
+blockquote { margin: 24px 0; padding: 1px 20px; border-left: 2px solid #617caf; color: #b7c4de; }
+table { display: block; max-width: 100%; overflow: auto; border-collapse: collapse; font-size: 14px; }
+th, td { text-align: left; padding: 12px; border: 1px solid #24304a; min-width: 120px; }
+hr { border: 0; border-top: 1px solid #24304a; margin: 40px 0; }
+footer { max-width: 1120px; margin: auto; padding: 24px; border-top: 1px solid #20283a; display: flex; justify-content: space-between; gap: 24px; color: #95a4c1; font-size: 14px; }
+.skip { position: absolute; left: 24px; top: -100px; background: #0c1020; padding: 10px; }
+.skip:focus { top: 12px; }
+@media (max-width: 600px) { nav { gap: 16px; } nav div { gap: 14px; font-size: 12px; } main { padding-top: 40px; } pre { padding: 16px; } footer { flex-direction: column; } }

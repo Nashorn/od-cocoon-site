@@ -1,0 +1,123 @@
+:host {
+  display: block;
+  min-inline-size: 0;
+  container-type: inline-size; container-name: team-access;
+  --yaw: -17deg;
+  --pitch: 19deg;
+}
+
+/* Layout is intrinsic. Only the presentation transforms leave the grid plane. */
+.perspective {
+  display: grid;
+  place-items: center;
+  perspective: 1300px;
+  padding: 4.5rem clamp(.75rem, 4cqi, 3rem);
+}
+
+.assembly {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  inline-size: 100%;
+  max-inline-size: 46rem;
+  padding: 1.25rem;
+  transform-style: flat;
+  transform: rotateX(0deg) rotateY(0deg);
+  transition: transform 850ms cubic-bezier(.22, .75, .18, 1);
+  --depth: clamp(2rem, 8cqi, 6rem);
+}
+
+/* Decorative planes fill their layout owners; they never place UI children. */
+.backplate {
+  position: absolute;
+  inset: 0;
+  border: 1px solid #3b4b6a;
+  border-radius: 20px;
+  background: linear-gradient(125deg, #101a2d, #0a111e);
+  box-shadow: 0 20px 70px #0006;
+  pointer-events: none;
+}
+
+.shell-header {
+  position: relative;
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .75rem 1rem;
+  padding-block-end: .5rem;
+  margin-bottom: 20px;
+}
+
+h3 { font-size: 20px; letter-spacing: -.025em; margin: 0 0 5px; font-weight: 650; }
+.shell-header p { margin: 0; color: #8e9fbd; font-size: 12px; }
+.member-count { color: #a3b3cf; font-size: 11px; white-space: nowrap; }
+.parent-dot { display: inline-block; width: 6px; height: 6px; margin: 0 0 3px 10px; border-radius: 50%; background: #6987b0; }
+
+.component-slot {
+  position: relative;
+  display: grid;
+  min-inline-size: 0;
+  transform-style: flat;
+}
+
+.toolbar-slot { 
+  grid-column: 1 / -1; 
+  margin-bottom: 20px;
+}
+
+.component-slot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px dashed #536485;
+  border-radius: 12px;
+  background: #0a101a;
+  opacity: 0;
+  transition: opacity .5s;
+  pointer-events: none;
+}
+
+.part {
+  position: relative;
+  display: grid;
+  min-inline-size: 0;
+  transform-style: flat;
+  transition: transform 850ms cubic-bezier(.22, .75, .18, 1);
+}
+
+
+arc-member-card, arc-admin-card { position: relative; min-inline-size: 0; transition: outline-color .2s; }
+[inspected] { outline: 2px solid #b190ff; outline-offset: 4px; }
+
+.plane-label {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-end: calc(100% + .5rem);
+  font: 10px 'JetBrains Mono', monospace;
+  letter-spacing: .02em;
+  color: #b8cef2;
+  /* opacity: 0; */
+  /* margin-bottom: 20px; */
+  pointer-events: none;
+  max-inline-size: 100%;
+  transition: opacity .25s;
+}
+.plane-label span { color: #8a9cb9; font-size: 9px; }
+.parent-label { inset-inline-start: 1.25rem; inset-block-end: auto; inset-block-start: calc(100% + .75rem); }
+
+:host([exploded]) .assembly, :host([exploded]) .component-slot, :host([exploded]) .part { transform-style: preserve-3d; }
+:host([exploded]) .assembly { transform: scale(.9) rotateX(var(--pitch)) rotateY(var(--yaw)); }
+:host([exploded]) .part { transform: translateZ(calc(var(--depth) * var(--depth-scale, 1))); }
+:host([exploded]) .plane-label, :host([exploded]) .component-slot::before { opacity: 1; }
+:host([dragging]) .assembly, :host([dragging]) .part { transition: none; }
+
+@container (max-width: 36rem) {
+  .assembly { grid-template-columns: minmax(0, 1fr); padding: 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .assembly, .part, .plane-label, .component-slot::before { transition: none; }
+}

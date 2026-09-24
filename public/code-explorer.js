@@ -172,7 +172,8 @@ function readEntryTree(entry, prefix, out) {
 
 const CSS = `
 :host{display:block;height:100%;min-height:320px;--ce-bg:#191b1f;--ce-panel:#1f2227;--ce-panel2:#24272d;--ce-border:#2e3238;--ce-text:#c9ced6;--ce-dim:#828a95;--ce-accent:#7c9fdd;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;font-size:12px;color:var(--ce-text)}
-*{box-sizing:border-box;margin:0}
+*{box-sizing:border-box;margin:0;-webkit-user-select:none;user-select:none}
+input,textarea,[contenteditable="true"]{-webkit-user-select:text;user-select:text}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;border-radius:4px}
 button:hover{background:rgba(255,255,255,.07)}
 button:focus-visible,.row:focus-visible{outline:2px solid var(--ce-accent);outline-offset:-2px}
