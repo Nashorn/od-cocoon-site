@@ -18,22 +18,20 @@ export class PresentationController {
   }
   armIntro(viewport) {
     this.introObserver = new IntersectionObserver(entries => {
-      if (!entries.some(entry => entry.isIntersecting && entry.intersectionRatio >= .3)) return;
+      if (!entries.some(entry => entry.isIntersecting)) return;
       this.introObserver.disconnect();
-      // Give the assembled surfaces a painted frame before moving them into 3D.
-      this.introFrame = requestAnimationFrame(() => {
-        this.introFrame = requestAnimationFrame(() => {
-          this.introFrame = null;
-          this.setMode('explore');
-        });
-      });
-    }, { threshold: .3, rootMargin: '-68px 0px -10% 0px' });
+      // A brief beat lets the assembled surface register before it opens.
+      this.introTimer = setTimeout(() => {
+        this.introTimer = null;
+        this.setMode('explore');
+      }, 100);
+    }, { threshold: 0 });
     this.introObserver.observe(viewport);
   }
   cancelIntro() {
     this.introObserver?.disconnect();
-    if (this.introFrame != null) cancelAnimationFrame(this.introFrame);
-    this.introFrame = null;
+    if (this.introTimer != null) clearTimeout(this.introTimer);
+    this.introTimer = null;
   }
   setState(state) { this.state = state; this.view.updateState(this); }
   async wait(duration, signal, draw) {
