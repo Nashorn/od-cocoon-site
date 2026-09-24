@@ -1,5 +1,10 @@
 <template>
-  <label class="member-select"><span aria-hidden="true">♙</span><select aria-label="Choose a team member"><option value="alex">Alex Lee</option><option value="jordan">Jordan Park</option></select><i data-endpoint="select"></i></label>
+  <label class="member-select"><span aria-hidden="true">♙</span>
+    <select id="choose-member" aria-label="Choose a team member">
+      <option value="alex">Alex Lee</option>
+      <option value="jordan">Jordan Park</option>
+    </select><i data-endpoint="select"></i>
+  </label>
   <span class="toolbar-caption">Invite a little possibility.</span>
-  <button type="button">Approve access <span aria-hidden="true">↗</span><i data-endpoint="approve"></i></button>
+  <button type="button" id="approve">Approve access <span aria-hidden="true">↗</span><i data-endpoint="approve"></i></button>
 </template>

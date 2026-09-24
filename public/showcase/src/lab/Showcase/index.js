@@ -18,7 +18,13 @@ class Showcase extends lab.Component {
     this.lifetime = new AbortController();
     await super.onConnected();
     this.team = this.$('arc-team-access');
-    await this.find('arc-team-access[ready]');
+    // Only the lab needs to wait for the surfaces it inspects and animates.
+    await Promise.all([
+      this.find('arc-team-access >>> arc-access-toolbar >>> button'),
+      this.find('arc-team-access >>> arc-member-card >>> .card-bottom'),
+      this.find('arc-team-access >>> arc-admin-card >>> .card-bottom'),
+    ]);
+    await new Promise(requestAnimationFrame);
     if (this.lifetime.signal.aborted) return;
     this.skin = await InheritedSkin.create([this.team.parts.member, this.team.parts.admin]);
     const targets = [() => this.team.endpoint('member', 'received'), () => this.team.endpoint('admin', 'received')];

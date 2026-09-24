@@ -33,6 +33,7 @@ try {
   page = host.frames().find(frame => frame.url().includes('/showcase/'));
   await page.waitForFunction(() => window.showcaseFrame?.isReady);
   await page.locator('arc-showcase[ready]').waitFor();
+  const selectedFirstName = await inspect(s => s.team.parts.toolbar.person.name.split(' ')[0]);
   const initialRadius = await inspect(s => getComputedStyle(s.team.parts.member).borderRadius);
   assert.equal(await inspect(s => s.team.parts.member.constructor.ancestors.map(c => c.name).includes('ProfileCard')), true);
   assert.equal(await inspect(s => s.team.parts.member.root.adoptedStyleSheets.includes(s.skin.sheet) && s.team.parts.admin.root.adoptedStyleSheets.includes(s.skin.sheet)), true);
@@ -64,7 +65,8 @@ try {
     slot.innerHTML = '<div class="part"><arc-member-card></arc-member-card></div>';
     assembly.append(slot);
     const extra = slot.querySelector('arc-member-card');
-    await new Promise(resolve => { const poll = () => extra.hasAttribute('ready') ? resolve() : setTimeout(poll, 10); poll(); });
+    await extra.find('.card-bottom');
+    await new Promise(requestAnimationFrame);
     const grown = assembly.getBoundingClientRect().height > before + 150;
     const separate = extra.getBoundingClientRect().top >= team.parts.member.getBoundingClientRect().bottom;
     slot.remove();
@@ -76,8 +78,8 @@ try {
 
   await page.locator('arc-access-toolbar button').click();
   await state('playing');
-  assert.match(await page.locator('arc-member-card .status-label').textContent(), /Alex approved/);
-  assert.match(await page.locator('arc-admin-card .status-label').textContent(), /Alex added/);
+  assert.equal(await page.locator('arc-member-card .status-label').textContent(), `${selectedFirstName} approved`);
+  assert.equal(await page.locator('arc-admin-card .status-label').textContent(), `${selectedFirstName} added to team`);
   assert.equal(await page.locator('.connections path').count(), 2);
   // Live endpoint geometry, not fixed screen coordinates.
   assert.equal(await inspect(s => {
@@ -168,7 +170,7 @@ try {
   await host.emulateMedia({ reducedMotion: 'reduce' });
   await page.locator('#reset-demo').click(); await state('interface');
   await page.locator('arc-access-toolbar button').click(); await state('interface');
-  assert.match(await page.locator('arc-member-card .status-label').textContent(), /Alex approved/);
+  assert.equal(await page.locator('arc-member-card .status-label').textContent(), `${selectedFirstName} approved`);
   console.log('PASS: mobile/tablet layouts, inspector controls and reduced motion');
 
   // Editor changes rebuild only the iframe, preserving the landing document.
