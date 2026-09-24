@@ -6,7 +6,7 @@ const common = `
   button, select { cursor: pointer; }
   button { color: inherit; }
   button:disabled { cursor: default; opacity: .5; }
-  :focus-visible { outline: 2px solid #a9c8ff; outline-offset: 4px; }
+  :host(:focus-visible), :focus-visible { outline: 2px solid #a9c8ff; outline-offset: 4px; }
   [hidden] { display: none !important; }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0s !important; animation: none !important; } }
 `;
@@ -44,6 +44,21 @@ export class DemoComponent extends WebComponent {
   }
   listen(target, event, listener, options = {}) {
     target.addEventListener(event, listener, { ...options, signal: this.lifetime.signal });
+  }
+  enableSurfaceSelection(component) {
+    this.tabIndex = 0;
+    this.setAttribute('role', 'group');
+    this.setAttribute('aria-label', `Inspect ${this.constructor.name}`);
+    this.style.cursor = 'pointer';
+    const select = () => this.session?.publish(this, 'inspect:requested', { component });
+    this.listen(this, 'click', event => {
+      if (event.composedPath().some(el => el !== this && el.matches?.('button, select, input, textarea, a, label'))) return;
+      select();
+    });
+    this.listen(this, 'keydown', event => {
+      if (event.composedPath()[0] !== this || !['Enter', ' '].includes(event.key)) return;
+      event.preventDefault(); select();
+    });
   }
   $(selector) { return this.root.querySelector(selector); }
 }

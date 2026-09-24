@@ -13,7 +13,7 @@ export class ProfileCard extends DemoComponent {
   }
   mount() {
     this.paint();
-    this.listen(this.$('.inspect'), 'click', () => this.session?.publish(this, 'inspect:requested', { component: this.componentKey }));
+    this.enableSurfaceSelection(this.componentKey);
     this.listen(this.$('.card-action'), 'click', () => this.session?.publish(this, 'inspect:requested', { component: this.componentKey }));
   }
   bind(session) {
@@ -29,7 +29,6 @@ export class ProfileCard extends DemoComponent {
     this.$('.avatar').dataset.person = this.componentKey;
     this.$('.badge').hidden = this.componentKey !== 'admin';
     this.$('.card-action-label').textContent = this.componentKey === 'admin' ? 'Manage permissions' : 'View profile';
-    this.$('.inspect').setAttribute('aria-label', `Inspect ${this.constructor.name}`);
     this.setStatus(this.componentKey === 'admin' ? 'Active' : 'Pending', this.componentKey === 'admin');
   }
   setStatus(text, approved) {

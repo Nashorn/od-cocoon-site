@@ -175,6 +175,7 @@ h2>span {
 }
 
 .state-note {
+    opacity: .3;
     display: flex;
     gap: 11px;
     align-items: flex-start;
@@ -182,9 +183,8 @@ h2>span {
     max-width: 185px;
 }
 
-.state-note>span {
-    color: #8da1c4;
-    font-size: 21px;
+.state-note:hover {
+    opacity: 1;
 }
 
 .state-note p {

@@ -9,6 +9,7 @@ export class AccessToolbar extends DemoComponent {
   static tag = 'arc-access-toolbar';
   static { this.define(); }
   mount() {
+    this.enableSurfaceSelection('toolbar');
     this.listen(this.$('button'), 'click', () => this.session?.publish(this, 'flow:requested', { flow: 'approve', person: this.person }));
     this.listen(this.$('select'), 'change', () => this.session?.publish(this, 'flow:requested', { flow: 'select', person: this.person }));
   }

@@ -14,8 +14,6 @@ h3 { margin:0 0 5px; font-size:17px; font-weight:650; letter-spacing:-.02em; }
 .person { min-inline-size:0; overflow-wrap:anywhere; }
 .role { margin:0; color:#9baac6; font-size:13px; }
 .badge { color:#d6b9ff; font-size:18px; }
-.inspect { position:absolute; right:11px; top:9px; width:28px; height:28px; border:0; background:none; color:#9aaccc; font-size:21px; border-radius:6px; }
-.inspect:hover { background:#ffffff12; color:#fff; }
 .status { position:relative; display:inline-flex; align-items:center; gap:7px; padding:6px 10px; margin-top:19px; font-size:11px; border-radius:30px; color:#f0cb7a; background:#e8b3520b; border:1px solid #e8b35225; }
 .status-dot { width:6px; height:6px; border-radius:50%; background:currentColor; }
 .status[data-active="true"] { color:#6de8c2; background:#2be3aa09; border-color:#2be3aa25; }

@@ -29,6 +29,7 @@ const shot = async name => { await page.locator('#showcase').scrollIntoViewIfNee
 try {
   await page.goto(base, { waitUntil: 'networkidle' });
   await page.locator('arc-showcase[ready]').waitFor();
+  const initialRadius = await inspect(s => getComputedStyle(s.team.parts.member).borderRadius);
   assert.equal(await inspect(s => s.team.parts.member.constructor.ancestors.map(c => c.name).includes('ProfileCard')), true);
   assert.equal(await inspect(s => s.team.parts.member.root.adoptedStyleSheets.includes(s.skin.sheet) && s.team.parts.admin.root.adoptedStyleSheets.includes(s.skin.sheet)), true);
   assert.deepEqual(await page.locator('code-explorer').evaluate(e => Object.keys(e.getFiles())), ['constraint.js', 'cloth.js', 'point.js']);
@@ -37,7 +38,7 @@ try {
   await page.locator('.viewport').scrollIntoViewIfNeeded();
   await state('explore');
   assert.equal(await page.locator('arc-team-access').getAttribute('exploded'), '');
-  await page.locator('[data-mode=interface]').click(); await state('interface');
+  await page.locator('button[data-mode=interface]').click(); await state('interface');
   await page.evaluate(() => scrollTo(0, 0));
   await page.locator('.viewport').scrollIntoViewIfNeeded();
   await page.waitForTimeout(1000);
@@ -91,7 +92,7 @@ try {
   assert.match(await page.locator('arc-member-card .status-label').textContent(), /approved/);
   console.log('PASS: real signal, two listeners, moving anchors, pause/resume and reassembly');
 
-  await page.locator('[data-mode=explore]').click(); await state('explore');
+  await page.locator('button[data-mode=explore]').click(); await state('explore');
   await inspect(s => s.presentation.rotate(100, -100));
   assert.deepEqual(await inspect(s => [s.presentation.yaw, s.presentation.pitch]), [25, 6]);
   await page.locator('#reset-view').click();
@@ -109,7 +110,7 @@ try {
   assert.ok(Math.abs((await depths())[0] - initialDepth) < .01);
   console.log('PASS: shared Z depth slider and reset');
   await shot('exploded');
-  await page.locator('[data-mode=inspect]').click(); await state('inspecting');
+  await page.locator('button[data-mode=inspect]').click(); await state('inspecting');
   await page.locator('#radius').evaluate(input => { input.value = '30'; input.dispatchEvent(new Event('input', { bubbles: true })); });
   assert.deepEqual(await inspect(s => [getComputedStyle(s.team.parts.member).borderRadius, getComputedStyle(s.team.parts.admin).borderRadius]), ['30px', '30px']);
   await page.locator('[data-color="#282041"]').click();
@@ -130,19 +131,19 @@ try {
   await shot('inspector');
   console.log('PASS: live CSS inheritance, validated editor, actual HTML/JS source and x-ray');
 
-  await page.locator('[data-mode=interface]').click(); await state('interface');
+  await page.locator('button[data-mode=interface]').click(); await state('interface');
   await page.locator('arc-access-toolbar select').selectOption('jordan');
   // Interrupt before the visual transition finishes: actual action must survive.
-  await page.locator('[data-mode=inspect]').click(); await state('inspecting');
+  await page.locator('button[data-mode=inspect]').click(); await state('inspecting');
   assert.equal(await page.locator('arc-member-card .name').textContent(), 'Jordan Park');
-  await page.locator('[data-mode=interface]').click(); await state('interface');
+  await page.locator('button[data-mode=interface]').click(); await state('interface');
   await page.locator('arc-access-toolbar button').click();
   await page.locator('#reset-demo').click(); await state('interface');
   await page.waitForTimeout(2000);
   assert.equal(await page.locator('arc-member-card .name').textContent(), 'Alex Lee');
   assert.equal(await page.locator('arc-member-card .status-label').textContent(), 'Pending');
   assert.equal(await inspect(s => s.presentation.state), 'interface');
-  assert.equal(await inspect(s => getComputedStyle(s.team.parts.member).borderRadius), '18px');
+  assert.equal(await inspect(s => getComputedStyle(s.team.parts.member).borderRadius), initialRadius);
   assert.equal(await page.locator('.connections path').count(), 0);
   // Repeated input cancels old timelines; Cocoon replay storage stays bounded.
   await inspect(s => { for (let i = 0; i < 15; i++) s.presentation.play('approve', s.team.parts.toolbar.person); s.presentation.setMode('explore'); });
@@ -152,10 +153,10 @@ try {
 
   for (const width of [390, 768]) {
     await page.setViewportSize({ width, height: 1000 });
-    await page.locator('[data-mode=interface]').click(); await state('interface');
+    await page.locator('button[data-mode=interface]').click(); await state('interface');
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
     await shot(`assembled-${width}`);
-    await page.locator('[data-mode=inspect]').click(); await state('inspecting');
+    await page.locator('button[data-mode=inspect]').click(); await state('inspecting');
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
     await page.locator('[data-color="#282041"]').click();
     await shot(`inspector-${width}`);
@@ -181,7 +182,7 @@ try {
     first.skin.set('border-radius', '35px');
     first.presentation.play('approve', first.team.parts.toolbar.person);
   });
-  assert.equal(await page.locator('#second-stage').evaluate(s => getComputedStyle(s.team.parts.member).borderRadius), '18px');
+  assert.equal(await page.locator('#second-stage').evaluate(s => getComputedStyle(s.team.parts.member).borderRadius), initialRadius);
   assert.equal(await page.locator('#second-stage').evaluate(s => s.team.parts.member.$('.status-label').textContent), 'Pending');
   await page.locator('#second-stage').evaluate(s => s.remove());
   assert.deepEqual(errors, []);
