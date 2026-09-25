@@ -137,13 +137,15 @@
     justify-self: start;
     display: flex;
     background: var(--arc-tabs-background);
-    padding: 4px;
+    padding: var(--arc-tabs-padding);
     border: 1px solid var(--arc-tabs-border);
     border-radius: var(--arc-control-radius);
-    gap: 2px;
+    gap: var(--arc-tabs-gap);
 }
 
 .modes button {
+    height: var(--arc-tab-height);
+    line-height: var(--arc-tab-line-height);
     border: 0;
     border-radius: var(--arc-tab-radius);
     background: none;

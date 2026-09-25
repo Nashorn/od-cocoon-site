@@ -11,6 +11,9 @@
 }
 .example-picker {
   display: flex;
+  padding: var(--arc-tabs-padding);
+  gap: var(--arc-tabs-gap);
+  background: var(--arc-tabs-background);
   width: max-content;
   max-width: 100%;
   margin: 20px 20px 28px auto;
@@ -23,15 +26,14 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  padding: 14px 22px;
+  height: var(--arc-tab-height);
+  line-height: var(--arc-tab-line-height);
+  padding: var(--arc-tab-padding);
   border: 0;
   background: var(--arc-tabs-background);
-  font-size: var(--arc-button-size);
+  font-size: var(--arc-tab-size);
   color: var(--arc-tab-text);
   white-space: nowrap;
-}
-.example-picker button + button {
-  border-left: 1px solid var(--arc-tabs-border);
 }
 .example-picker button[aria-current] {
   color: var(--arc-tab-active-text);
@@ -184,7 +186,6 @@ input[type="range"] {
     grid-column: 2;
   }
   .example-picker button {
-    padding: 14px;
     gap: 8px;
   }
 }
@@ -202,7 +203,8 @@ input[type="range"] {
   }
   .example-picker button {
     flex-shrink: 0;
-    padding: 12px 16px;
+    padding: var(--arc-tab-padding-mobile);
+    font-size: var(--arc-label-size);
   }
   .experience {
     grid-template-columns: 1fr;

@@ -27,6 +27,10 @@
   --arc-primary-padding: 12px 16px;
   --arc-primary-min-width: 172px;
   --arc-primary-width: 172px;
+  --arc-tabs-padding: 4px;
+  --arc-tabs-gap: 2px;
+  --arc-tab-height: 36px;
+  --arc-tab-line-height: 18px;
   --arc-tab-padding: 9px 17px;
   --arc-tab-padding-mobile: 9px 8px;
   --arc-story-title-size: 27px;

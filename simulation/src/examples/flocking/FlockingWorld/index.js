@@ -1,6 +1,8 @@
 import 'examples.flocking.FlockingField';
 
-export default namespace `examples.flocking` (
+export default namespace 
+
+`examples.flocking` (
   class FlockingWorld extends World {
     async onConnected() {
       await super.onConnected();
