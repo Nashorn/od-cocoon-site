@@ -46,3 +46,16 @@ The kernel is vendored with its MIT license; Render still serves a static site.
 ## Deployment
 
 Render is configured to publish the repository root as a static site, with automatic deployment on commits to `main`. The service configuration lives in `render.yaml`.
+
+## Analytics consent
+
+The landing page's bottom banner is managed by `cookie-consent.js`. Set the GA4
+measurement ID in `analytics-config.js` when ready; leave it blank to keep
+Analytics inactive. Do not add a second Google tag or Tag Manager loader.
+
+The tag loads only after acceptance. Accept/reject choices are remembered locally
+for 180 days. The footer's Cookie settings button reopens the banner. Withdrawing
+consent disables Analytics, clears matching first-party GA cookies and reloads the
+page to unload the tag. Demo/editor storage remains independent of this choice.
+
+Run `node tests/cookie-consent.mjs` to check the consent flow with a mocked tag.

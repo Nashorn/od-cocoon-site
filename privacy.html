@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Privacy &amp; cookies — Cocoon</title>
+  <meta name="description" content="How the Cocoon website uses browser storage and optional analytics, and how to contact its operator.">
+  <style>
+    :root{color-scheme:dark;font-family:system-ui,sans-serif;background:#04070c;color:#edf2fc}
+    *{box-sizing:border-box}body{margin:0}main,footer{width:min(760px,calc(100% - 40px));margin:auto}
+    main{padding:48px 0 64px}a{color:#a9c8ff;text-underline-offset:4px}a:hover{color:white}
+    h1{font-size:clamp(32px,5vw,48px);letter-spacing:-.04em;margin:36px 0 12px}
+    h2{font-size:21px;margin:36px 0 12px}p,li{color:#a8b7cd;line-height:1.75}li+li{margin-top:12px}
+    code{overflow-wrap:anywhere;color:#c9d4e8}strong{color:#edf2fc}ul{padding-left:22px}
+    .date{font-size:13px}.status{padding:16px 20px;border:1px solid #344762;border-radius:10px;background:#0d1522}
+    footer{padding:24px 0 40px;border-top:1px solid #263248;display:flex;gap:24px;flex-wrap:wrap}
+    button{font:inherit;color:#a9c8ff;border:0;background:none;padding:0;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+    :focus-visible{outline:2px solid #a9c8ff;outline-offset:5px}
+  </style>
+</head>
+<body>
+<main>
+  <a href="index.html">← Back to Cocoon</a>
+  <h1>Privacy &amp; cookies</h1>
+  <p class="date">Last updated: September 25, 2026</p>
+  <p>This website presents Cocoon, an open-source project for developers, engineers and companies worldwide. It is operated by <strong>Jason Smith, an individual based in Florida, United States</strong>, not a separate business. For privacy questions or requests, email <a href="mailto:jaysmith024@gmail.com">jaysmith024@gmail.com</a>.</p>
+  <p class="status"><strong>Analytics status:</strong> Google Analytics is not currently configured. Accepting analytics currently records your preference only. The site does not load the Google Analytics tag while it remains unconfigured.</p>
+
+  <h2>Visiting the website</h2>
+  <p>Render hosts this website. Your browser sends network information, including your IP address and requested resources, to the hosting infrastructure to retrieve pages. The landing page and showcase also request fonts from Google Fonts. These font requests are separate from Google Analytics and occur regardless of your analytics choice.</p>
+  <p>These services may process information outside your country, including in the United States. Their handling of service information is described in <a href="https://render.com/privacy">Render’s privacy policy</a> and <a href="https://policies.google.com/privacy">Google’s privacy policy</a>. Rejecting analytics does not stop the network requests needed to retrieve the website or its fonts.</p>
+
+  <h2>Optional Google Analytics</h2>
+  <p>If activated, Google Analytics will be used to understand how visitors use the site. The site loads its tag only after an affirmative analytics choice. Analytics may process cookie identifiers, page visits, referrers, and browser and device information. The site’s integration disables Google signals and advertising personalization.</p>
+  <p>Analytics is optional. <strong>Reject analytics</strong> and <strong>Accept analytics</strong> are equally available, and rejecting does not affect access to the demo or editor. You can reopen <button type="button" data-cookie-settings>Cookie settings</button> to change your choice or withdraw consent. Withdrawal stops future Analytics loading and clears accessible first-party Google Analytics cookies; it does not automatically erase data already received by Google or affect the lawfulness of processing before withdrawal.</p>
+  <p>Before Analytics is activated, this notice will be updated with the selected cookie lifetimes, data retention and sharing settings. Read <a href="https://policies.google.com/technologies/partner-sites">how Google uses information from sites that use its services</a>.</p>
+
+  <h2>Storage on your device</h2>
+  <ul>
+    <li><strong>Consent preference:</strong> <code>cocoon.analytics-consent.v1</code> in local storage records your analytics choice and expiry. The site honors it for 180 days, then asks again on a later visit. The stored record itself can remain until overwritten or you clear site data.</li>
+    <li><strong>Editor session:</strong> <code>cocoon-lab:&lt;session&gt;</code> in session storage preserves example drafts and scene state. It normally lasts for the tab’s session, although browser session restoration can preserve it. The editor’s Reset action removes that session’s saved draft.</li>
+    <li><strong>Run examples:</strong> <code>cocoon-showcase-runs-v1</code> in Cache Storage holds edited example files after you select Run. A service worker serves these files locally. This cache has no automatic expiry; it remains until removed by you or your browser. Editor Reset does not clear this cache.</li>
+  </ul>
+  <p>Editor storage supports the functions you choose to use and is separate from analytics consent. Clear this website’s data in your browser to remove saved choices and examples. Download builds the example ZIP in your browser; that export operation does not upload the example files to a server.</p>
+
+  <h2>Contact and your choices</h2>
+  <p>If you email a privacy request, your address and the information you provide will be received through Gmail and used to respond. Avoid sending sensitive information that is unnecessary for your request.</p>
+  <p>Depending on the laws that apply to you, you may have rights to access, correct or delete personal information, restrict or object to processing, receive a portable copy, or withdraw consent. Contact <a href="mailto:jaysmith024@gmail.com">jaysmith024@gmail.com</a> to make a request. Verification may be needed to protect your information, and some rights are subject to legal exceptions. You may also complain to your local data protection authority, including an EU supervisory authority or the <a href="https://ico.org.uk/make-a-complaint/">UK Information Commissioner’s Office</a>, where applicable.</p>
+  <p>This notice concerns this website. Applications built independently with the open-source framework have their own operators and privacy practices. Updates to this notice will appear here with a revised date.</p>
+</main>
+<footer><button type="button" data-cookie-settings>Cookie settings</button><a href="mailto:jaysmith024@gmail.com">Privacy contact</a><a href="index.html">Cocoon</a></footer>
+<script type="module" src="cookie-consent.js"></script>
+</body>
+</html>
