@@ -4,7 +4,7 @@ import { readFile, mkdir } from 'node:fs/promises';
 import { resolve, extname } from 'node:path';
 import { chromium } from 'playwright';
 
-const root = resolve('public');
+const root = resolve('.');
 const mime = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.woff2': 'font/woff2', '.ico': 'image/x-icon' };
 const server = createServer(async (req, res) => {
   const pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
@@ -35,7 +35,7 @@ try {
   await page.locator('arc-showcase[ready]').waitFor();
   const selectedFirstName = await inspect(s => s.team.parts.toolbar.person.name.split(' ')[0]);
   const initialRadius = await inspect(s => getComputedStyle(s.team.parts.member).borderRadius);
-  assert.equal(await inspect(s => s.team.parts.member.constructor.ancestors.map(c => c.name).includes('ProfileCard')), true);
+  assert.equal(await inspect(s => s.team.parts.member.constructor.ancestors.map(c => c.name).includes('BaseProfileCard')), true);
   assert.equal(await inspect(s => s.team.parts.member.root.adoptedStyleSheets.includes(s.skin.sheet) && s.team.parts.admin.root.adoptedStyleSheets.includes(s.skin.sheet)), true);
   assert.deepEqual(await host.locator('code-explorer').evaluate(e => Object.keys(e.getFiles())), ['constraint.js', 'cloth.js', 'point.js']);
   assert.equal(await inspect(s => s.presentation.mode), 'explore');
@@ -132,10 +132,22 @@ try {
   await page.waitForFunction(() => document.querySelector('arc-showcase').$('#source-code code').textContent.includes('<template>'));
   assert.equal(await page.locator('arc-member-card').getAttribute('xray'), 'html');
   await page.locator('[data-tab=js]').click();
-  await page.waitForFunction(() => document.querySelector('arc-showcase').$('#source-code code').textContent.includes('extends examples.team.ProfileCard'));
+  await page.waitForFunction(() => document.querySelector('arc-showcase').$('#source-code code').textContent.includes('extends examples.team.BaseProfileCard'));
   await page.locator('[data-tab=css]').click();
   await shot('inspector');
-  console.log('PASS: live CSS inheritance, validated editor, actual HTML/JS source and x-ray');
+  await page.locator('#component-select').selectOption('profile');
+  for (const tab of ['html', 'js', 'css']) {
+    await page.locator(`[data-tab=${tab}]`).click();
+    assert.equal(await page.locator('#source-owner').textContent(), `BaseProfileCard/index.${tab}`);
+    if (tab === 'css') assert.equal(await page.locator('#css-editor').isVisible(), true);
+    else await page.waitForFunction(() => {
+      const s = document.querySelector('arc-showcase');
+      const text = s.querySelector('#source-code code').textContent;
+      return s.tab === 'js' ? text.includes('class BaseProfileCard') : text.includes('class="identity"');
+    });
+  }
+  await page.locator('#component-select').selectOption('member');
+  console.log('PASS: live CSS inheritance, BaseProfileCard inspection, actual HTML/JS source and x-ray');
 
   await page.locator('button[data-mode=interface]').click(); await state('interface');
   await page.locator('arc-access-toolbar select').selectOption('jordan');
@@ -176,7 +188,9 @@ try {
   // Editor changes rebuild only the iframe, preserving the landing document.
   await host.setViewportSize({ width: 1440, height: 1100 });
   await host.evaluate(() => { window.landingIdentity = 'unchanged'; });
-  await page.locator('#edit-example').click();
+  assert.match(await page.locator('#try-flow').textContent(), /View Source/);
+  assert.equal(await page.locator('#explore-link').count(), 0);
+  await page.locator('#try-flow').click();
   await page.locator('.editor-workspace').waitFor({ state: 'visible' });
   await page.locator('#example-editor .code').waitFor();
   const fileCount = await page.locator('#example-editor').evaluate(e => Object.keys(e.getFiles()).length);
@@ -186,7 +200,7 @@ try {
     const files = e.getFiles();
     const root = 'src/examples/team/';
     files[root + 'TeamAccess/index.html'] = files[root + 'TeamAccess/index.html'].replace('Team access', 'Edited team');
-    files[root + 'ProfileCard/index.css'] = files[root + 'ProfileCard/index.css'].replace('border-radius: 12px', 'border-radius: 27px');
+    files[root + 'BaseProfileCard/index.css'] = files[root + 'BaseProfileCard/index.css'].replace('border-radius: 12px', 'border-radius: 27px');
     files[root + 'MemberCard/index.js'] = files[root + 'MemberCard/index.js'].replaceAll('Alex Lee', 'Alex Edited');
     e.setFiles(files);
   });
@@ -213,7 +227,7 @@ try {
   await page.locator('#radius').evaluate(input => { input.value = '31'; input.dispatchEvent(new Event('input', { bubbles: true })); });
   await page.locator('#edit-example').click();
   await page.locator('.editor-workspace').waitFor({ state: 'visible' });
-  assert.match(await page.locator('#example-editor').evaluate(e => e.getFiles()['src/examples/team/ProfileCard/index.css']), /31px/);
+  assert.match(await page.locator('#example-editor').evaluate(e => e.getFiles()['src/examples/team/BaseProfileCard/index.css']), /31px/);
   await host.setViewportSize({ width: 390, height: 1000 });
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
   await shot('editor-390');

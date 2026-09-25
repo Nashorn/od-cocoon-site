@@ -5,7 +5,7 @@ Marketing website for [Cocoon](https://github.com/Nashorn/od-cocoon/tree/8.6.0),
 ## Local preview
 
 ```sh
-python3 -m http.server 4173 --directory public
+npm start
 ```
 
 Then open <http://localhost:4173>.
@@ -24,9 +24,9 @@ npm ci
 npm run docs
 ```
 
-The generated `public/get-started.html` and `public/docs.html` need no browser-side
+The generated `get-started.html` and `docs.html` need no browser-side
 Markdown parser or deployment build. Landing-page clipboard behavior lives in
-`public/site.js`.
+`site.js`.
 
 The displayed v8.6.0 size is rounded from the public release's `framework.min.js`:
 42,777 bytes minified and 12,929 bytes gzipped (gzip level 9, September 23, 2026).
@@ -45,4 +45,4 @@ The kernel is vendored with its MIT license; Render still serves a static site.
 
 ## Deployment
 
-Render deploys the contents of `public/` as a static site whenever a commit is pushed to `main`. The service configuration lives in `render.yaml`.
+Render is configured to publish the repository root as a static site, with automatic deployment on commits to `main`. The service configuration lives in `render.yaml`.

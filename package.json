@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "start": "http-server ./ -o index.html",
     "docs": "node scripts/build-docs.mjs",
     "test:showcase": "node tests/showcase.mjs"
   },

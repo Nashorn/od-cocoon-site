@@ -1,0 +1,16 @@
+<template>
+  <section aria-label="Cocoon at a glance" aria-roledescription="carousel">
+    <div class="rail">
+    <div class="navigation" role="group" aria-label="Stats navigation">
+      <button class="previous" type="button" aria-label="Previous statistic" aria-controls="stats-track" disabled>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg>
+      </button>
+      <button class="next" type="button" aria-label="Next statistic" aria-controls="stats-track" disabled>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6"/></svg>
+      </button>
+    </div>
+    <ul class="track" id="stats-track" tabindex="0" aria-label="Key statistics; use arrow keys to scroll"></ul>
+    </div>
+    <div class="indicators" role="group" aria-label="Choose stats position"></div>
+  </section>
+</template>

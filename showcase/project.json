@@ -1,0 +1,17 @@
+{
+  "files": [
+    "src/examples/team/AccessToolbar/index.css",
+    "src/examples/team/AccessToolbar/index.html",
+    "src/examples/team/AccessToolbar/index.js",
+    "src/examples/team/AdminCard/index.css",
+    "src/examples/team/AdminCard/index.js",
+    "src/examples/team/MemberCard/index.css",
+    "src/examples/team/MemberCard/index.js",
+    "src/examples/team/BaseProfileCard/index.css",
+    "src/examples/team/BaseProfileCard/index.html",
+    "src/examples/team/BaseProfileCard/index.js",
+    "src/examples/team/TeamAccess/index.css",
+    "src/examples/team/TeamAccess/index.html",
+    "src/examples/team/TeamAccess/index.js"
+  ]
+}

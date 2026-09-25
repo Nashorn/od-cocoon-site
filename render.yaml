@@ -5,5 +5,5 @@ services:
     name: od-cocoon-site
     runtime: static
     buildCommand: echo "No build required"
-    staticPublishPath: ./public
+    staticPublishPath: .
     autoDeployTrigger: commit

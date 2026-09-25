@@ -20,7 +20,7 @@ for (const [source, output, title, label] of [
     },
   } });
   const body = await markdown.parse(await readFile(new URL(`../docs/${source}.md`, import.meta.url), 'utf8'));
-  await writeFile(new URL(`../public/${output}.html`, import.meta.url), `<!doctype html>
+  await writeFile(new URL(`../${output}.html`, import.meta.url), `<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">

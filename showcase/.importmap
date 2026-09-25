@@ -1,0 +1,12 @@
+{
+  "imports": {
+    "lab.Showcase": "./src/lab/Showcase/index.js",
+    "lab.ShowcaseApplication": "./src/lab/ShowcaseApplication/index.js",
+    "examples.team.TeamAccess": "./src/examples/team/TeamAccess/index.js",
+    "examples.team.AccessToolbar": "./src/examples/team/AccessToolbar/index.js",
+    "examples.team.BaseProfileCard": "./src/examples/team/BaseProfileCard/index.js",
+    "examples.team.MemberCard": "./src/examples/team/MemberCard/index.js",
+    "examples.team.AdminCard": "./src/examples/team/AdminCard/index.js",
+    "lab.StatsCarousel": "./src/lab/StatsCarousel/index.js"
+  }
+}
