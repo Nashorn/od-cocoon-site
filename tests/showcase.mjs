@@ -28,6 +28,7 @@ const state = name => page.waitForFunction(name => document.querySelector('arc-s
 const inspect = fn => page.locator('arc-showcase').evaluate(fn);
 const shot = async name => { await host.locator('#showcase').scrollIntoViewIfNeeded(); await host.screenshot({ path: `${artifacts}/${name}.png` }); };
 try {
+  await context.addInitScript(() => { try { localStorage.setItem('cocoon.analytics-consent.v1', JSON.stringify({choice:'denied',expires:Date.now()+86400000})); } catch {} });
   await host.goto(base, { waitUntil: 'networkidle' });
   await host.locator('#showcase-frame').contentFrame().locator('arc-showcase[ready]').waitFor();
   page = host.frames().find(frame => frame.url().includes('/showcase/'));
@@ -37,7 +38,10 @@ try {
   const initialRadius = await inspect(s => getComputedStyle(s.team.parts.member).borderRadius);
   assert.equal(await inspect(s => s.team.parts.member.constructor.ancestors.map(c => c.name).includes('BaseProfileCard')), true);
   assert.equal(await inspect(s => s.team.parts.member.root.adoptedStyleSheets.includes(s.skin.sheet) && s.team.parts.admin.root.adoptedStyleSheets.includes(s.skin.sheet)), true);
-  assert.deepEqual(await host.locator('code-explorer').evaluate(e => Object.keys(e.getFiles())), ['constraint.js', 'cloth.js', 'point.js']);
+  // The landing page may omit the separate hero editor.
+  if (await host.locator('code-explorer').count()) {
+    assert.deepEqual(await host.locator('code-explorer').evaluate(e => Object.keys(e.getFiles())), ['constraint.js', 'cloth.js', 'point.js']);
+  }
   assert.equal(await inspect(s => s.presentation.mode), 'explore');
   assert.equal(await page.locator('arc-team-access').getAttribute('exploded'), null);
   await page.locator('.viewport').scrollIntoViewIfNeeded();

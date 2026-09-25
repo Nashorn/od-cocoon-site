@@ -1,0 +1,8 @@
+{
+  "imports": {
+    "lab.SimulationApplication": "./src/lab/SimulationApplication/index.js",
+    "lab.SimulationShell": "./src/lab/SimulationShell/index.js",
+    "examples.flocking.FlockingWorld": "./src/examples/flocking/FlockingWorld/index.js",
+    "examples.flocking.FlockingField": "./src/examples/flocking/FlockingField/index.js"
+  }
+}

@@ -1,0 +1,307 @@
+:host {
+  display: block;
+}
+.simulation {
+  width: min(
+    var(--arc-section-max-width),
+    calc(100% - var(--arc-section-gutter))
+  );
+  margin: auto;
+  padding: var(--arc-section-padding);
+}
+.example-picker {
+  display: flex;
+  width: max-content;
+  max-width: 100%;
+  margin: 20px 20px 28px auto;
+  border: 1px solid var(--arc-tabs-border);
+  border-radius: var(--arc-control-radius);
+  overflow-x: auto;
+}
+.example-picker button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 22px;
+  border: 0;
+  background: var(--arc-tabs-background);
+  font-size: var(--arc-button-size);
+  color: var(--arc-tab-text);
+  white-space: nowrap;
+}
+.example-picker button + button {
+  border-left: 1px solid var(--arc-tabs-border);
+}
+.example-picker button[aria-current] {
+  color: var(--arc-tab-active-text);
+  background: var(--arc-tab-active-background);
+  box-shadow: inset 0 0 0 1px var(--arc-tab-active-border);
+  border-radius: var(--arc-tab-radius);
+}
+.example-picker button:disabled {
+  opacity: 0.65;
+}
+.example-picker small {
+  font-size: 9px;
+  border: 1px solid var(--arc-tabs-border);
+  border-radius: 20px;
+  padding: 3px 8px;
+}
+.example-picker svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+}
+.example-picker [aria-current] svg {
+  fill: #788dff;
+  stroke: none;
+}
+.experience {
+  display: grid;
+  grid-template-columns: 225px minmax(0, 1fr);
+  gap: 28px;
+  padding: 0 22px 28px;
+}
+.story {
+  padding: 24px 0 0 5px;
+}
+.story .instruction {
+  margin: 24px 0 30px;
+  font-size: var(--arc-button-size);
+}
+#action-status {
+  font-size: var(--arc-label-size);
+  margin-top: 12px;
+}
+#action-status:empty {
+  display: none;
+}
+.world-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  color: var(--arc-text-control);
+  font: var(--arc-meta-size) var(--arc-font-mono);
+}
+.world-controls label {
+  white-space: nowrap;
+}
+.world-controls output {
+  display: inline-block;
+  min-width: 24px;
+  color: var(--arc-text-label);
+  margin-left: 5px;
+}
+input[type="range"] {
+  width: 100px;
+  accent-color: var(--arc-control-accent);
+  cursor: pointer;
+}
+.event-light {
+  background: var(--arc-live);
+}
+#fps {
+  margin-left: 16px;
+  color: var(--arc-live);
+}
+.lifecycle {
+  margin: 22px 24px 0;
+  color: var(--arc-text-note);
+  font-size: var(--arc-tab-size);
+  line-height: 1.7;
+}
+.lifecycle summary {
+  cursor: pointer;
+}
+.lifecycle summary span {
+  margin-left: 16px;
+  color: var(--arc-text-link);
+}
+.lifecycle div {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.lifecycle code {
+  display: block;
+  color: var(--arc-text-label);
+  font-family: var(--arc-font-mono);
+  margin-bottom: 6px;
+}
+.source-view {
+  padding: 0 24px 24px;
+}
+.source-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+.source-heading h3 {
+  font: 600 22px var(--arc-font-heading);
+  margin: 0 0 8px;
+}
+.source-heading p {
+  color: var(--arc-text-body);
+  font-size: var(--arc-button-size);
+  margin: 0;
+}
+.source-heading button {
+  margin: 0;
+}
+@media (max-width: 1100px) {
+  .simulation {
+    width: calc(100% - var(--arc-section-gutter-tablet));
+  }
+  .experience {
+    grid-template-columns: 185px minmax(0, 1fr);
+    gap: 18px;
+    padding: 0 14px 24px;
+  }
+  .story h3 {
+    font-size: var(--arc-story-title-size-compact);
+  }
+  .control-bar {
+    grid-template-columns: 1fr auto;
+  }
+  .world-controls {
+    grid-row: 2;
+    grid-column: 1/-1;
+  }
+  .playback-controls {
+    grid-column: 2;
+  }
+  .example-picker button {
+    padding: 14px;
+    gap: 8px;
+  }
+}
+@media (max-width: 720px) {
+  .simulation {
+    width: calc(100% - var(--arc-section-gutter-mobile));
+    padding: var(--arc-section-padding-mobile);
+  }
+  .demo-heading {
+    padding: var(--arc-heading-padding-mobile);
+  }
+  .example-picker {
+    width: 100%;
+    margin: 16px 0 24px;
+  }
+  .example-picker button {
+    flex-shrink: 0;
+    padding: 12px 16px;
+  }
+  .experience {
+    grid-template-columns: 1fr;
+    padding: 0 12px 20px;
+    gap: 20px;
+  }
+  .story {
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .story .state-label,
+  .story h3,
+  .story > p:not(.state-label) {
+    grid-column: 1/-1;
+    margin: 0;
+    max-width: none;
+  }
+  .story h3 {
+    font-size: var(--arc-story-title-size-mobile);
+  }
+  .story h3 br {
+    display: none;
+  }
+  .story .instruction {
+    display: none;
+  }
+  .story .primary {
+    width: 100%;
+    min-width: 0;
+    padding: 10px 12px;
+  }
+  .download-button {
+    margin-top: 0;
+  }
+  .control-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: var(--arc-control-padding-mobile);
+    gap: 16px;
+  }
+  .modes {
+    width: 100%;
+  }
+  .modes button {
+    flex: 1;
+    padding: var(--arc-tab-padding-mobile);
+    font-size: var(--arc-label-size);
+  }
+  .world-controls {
+    width: 100%;
+    justify-content: space-between;
+    gap: 6px;
+  }
+  input[type="range"] {
+    width: 70px;
+    min-width: 0;
+  }
+  .playback-controls {
+    margin-left: auto;
+  }
+  .event-strip {
+    padding: 12px;
+    flex-wrap: wrap;
+    font-size: 8px;
+  }
+  .event-caption {
+    margin-left: auto;
+  }
+  #fps {
+    margin-left: 6px;
+  }
+  .lifecycle {
+    margin: 18px 12px 0;
+  }
+  .lifecycle div {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .lifecycle summary span {
+    display: none;
+  }
+  .source-view {
+    padding: 0 12px 20px;
+  }
+  .source-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+#source-explorer {
+  display: block;
+  height: 500px;
+  --ce-bg: var(--arc-tabs-background);
+  --ce-panel: var(--arc-page-bg);
+  --ce-border: var(--arc-tabs-border);
+  --ce-text: var(--arc-text);
+  --ce-dim: var(--arc-text-body);
+  --ce-accent: var(--arc-accent-blue);
+}
+@media (max-width: 720px) {
+  #source-explorer {
+    height: 480px;
+    --side-w: 140px;
+  }
+}

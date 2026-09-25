@@ -1,3 +1,5 @@
+@layer interactive-reset, interactive-shell;
+@layer interactive-reset {
 
   :host { font-family: var(--arc-font-body, 'Instrument Sans', system-ui, sans-serif); color: var(--arc-text, #eef2fa); }
   *, *::before, *::after { box-sizing: border-box; -webkit-user-select: none; user-select: none; }
@@ -9,3 +11,5 @@
   :host(:focus-visible), :focus-visible { outline: 2px solid var(--arc-focus, #a9c8ff); outline-offset: 4px; }
   [hidden] { display: none !important; }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0s !important; animation: none !important; } }
+
+}

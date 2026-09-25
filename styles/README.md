@@ -2,7 +2,7 @@
 
 `interactive-tokens.css` is the shared visual source for the landing page's
 interactive sections. Values come from the existing showcase, not the simulation
-mockup. The showcase and stats carousel consume them now.
+mockup. The showcase, stats carousel and simulation section consume them now.
 
 Load it in **each iframe document**, before the application starts:
 
@@ -35,6 +35,9 @@ The editable team-access skins, 3D geometry, animation timings and future flocki
 behavior remain component-owned. The shared reset uses font, text and focus
 fallbacks so standalone ZIP examples don't depend on this landing-page stylesheet.
 
-For the simulation section, reuse these values and the showcase's layout/control
-patterns. Extract shared CSS recipes when implementing the second consumer rather
-than making a separate set of nearly identical defaults.
+`interactive-shell.css` shares the actual header, story typography, button,
+segmented control and status-strip recipes between Showcase and SimulationShell.
+Each loads it through its Cocoon `styles` list. It uses the `interactive-shell`
+cascade layer above `interactive-reset`; unlayered component rules retain control
+of layout and responsive overrides regardless of stylesheet fetch/adoption order.
+The stylesheet is for component shadow roots, not the outer landing document.

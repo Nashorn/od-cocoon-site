@@ -65,12 +65,12 @@ Fonts fall back to locally available system fonts; there are no CDN font request
   }
 
   // ZIP packaging uses the standard STORE method, without dependencies.
-  static zip(files) {
+  static zip(files, folder = 'team-access') {
     const encoder = new TextEncoder();
     const chunks = [], directory = [];
     let offset = 0;
     for (const [path, content] of Object.entries(files)) {
-      const name = encoder.encode('team-access/' + path);
+      const name = encoder.encode(folder + '/' + path);
       const data = typeof content === 'string' ? encoder.encode(content) : content;
       let crc = 0xffffffff;
       for (const byte of data) {

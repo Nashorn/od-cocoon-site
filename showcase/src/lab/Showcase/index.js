@@ -12,7 +12,7 @@ const modeCopy = {
 
 namespace `lab` (
 class Showcase extends Component {
-    styles = ['./src/lab/shared.css'];
+    styles = ['./src/lab/shared.css', '/styles/interactive-shell.css'];
 
     inShadow() { return true; }
 

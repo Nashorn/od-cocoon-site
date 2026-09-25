@@ -15,6 +15,9 @@ snippet from whatever is currently loaded — el.getEmbedHTML() / el.getFiles() 
 Attributes:
   src="…"            URL of a .zip or payload .json to load on connect
   open="path"        file to open once loaded
+  readonly           browse/select/copy source; disables user editing and file operations
+                     (setFiles/loadURL APIs remain available to the embedding application)
+  editor-only        hide preview and sharing controls
   templates-src="…"  URL of a JSON map {"Template name": {path: content|{b64}}} — extra
                      scaffolds for the "new" (new project) dialog; or call
                      CodeExplorer.registerTemplate(name, files) in JS
@@ -171,6 +174,9 @@ function readEntryTree(entry, prefix, out) {
 }
 
 const CSS = `
+:host([readonly]) .side-head button,:host([readonly]) .drop-hint .btns,:host([readonly]) .ctx,:host([readonly]) .dropov,:host([readonly]) .npp,:host([readonly]) .delp{display:none!important}
+:host([readonly]) .code{-webkit-user-select:text;user-select:text}
+
 :host{display:block;height:100%;min-height:320px;--ce-bg:#191b1f;--ce-panel:#1f2227;--ce-panel2:#24272d;--ce-border:#2e3238;--ce-text:#c9ced6;--ce-dim:#828a95;--ce-accent:#7c9fdd;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;font-size:12px;color:var(--ce-text)}
 *{box-sizing:border-box;margin:0;-webkit-user-select:none;user-select:none}
 input,textarea,[contenteditable="true"],[contenteditable="plaintext-only"]{-webkit-user-select:text;user-select:text}
@@ -273,6 +279,16 @@ class CodeExplorer extends HTMLElement {
     const u8 = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
     return JSON.parse(TD.decode(await inflate(u8)));
   }
+  static get observedAttributes() { return ['readonly']; }
+  get readOnly() { return this.hasAttribute('readonly'); }
+  attributeChangedCallback() {
+    if (!this.fs) return;
+    this.$('.ctx').classList.remove('on');
+    this.$('.npp').classList.remove('on');
+    this.$('.delp').classList.remove('on');
+    this.$('.tree-in')?.remove();
+    this._renderAll();
+  }
   constructor() {
     super();
     this.fs = new Map(); this.textCache = new Map();
@@ -302,13 +318,13 @@ class CodeExplorer extends HTMLElement {
   }
   _wire() {
     const root = this.$('.root');
-    this.shadowRoot.addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 's') { e.preventDefault(); this._save(); } });
+    this.shadowRoot.addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 's') { e.preventDefault(); if (!this.readOnly) this._save(); } });
     let dragDepth = 0;
     root.addEventListener('dragover', e => { e.preventDefault(); });
-    root.addEventListener('dragenter', e => { e.preventDefault(); if (++dragDepth === 1) this.$('.dropov').classList.add('on'); });
+    root.addEventListener('dragenter', e => { e.preventDefault(); if (this.readOnly) return; if (++dragDepth === 1) this.$('.dropov').classList.add('on'); });
     root.addEventListener('dragleave', () => { if (--dragDepth <= 0) { dragDepth = 0; this.$('.dropov').classList.remove('on'); } });
-    root.addEventListener('drop', e => { e.preventDefault(); dragDepth = 0; this.$('.dropov').classList.remove('on'); this._handleDrop(e.dataTransfer); });
-    this.$('.clear').onclick = () => this.clear();
+    root.addEventListener('drop', e => { e.preventDefault(); dragDepth = 0; this.$('.dropov').classList.remove('on'); if (!this.readOnly) this._handleDrop(e.dataTransfer); });
+    this.$('.clear').onclick = () => { if (!this.readOnly) this.clear(); };
     this.$('.new').onclick = () => this._newProjectDialog();
     this.$('.np-cancel').onclick = () => this.$('.npp').classList.remove('on');
     this.$('.np-go').onclick = () => { this.$('.npp').classList.remove('on'); this.newProject(this.$('.tpl').value); };
@@ -318,6 +334,7 @@ class CodeExplorer extends HTMLElement {
     const ctx = this.$('.ctx');
     this.$('.tree').addEventListener('contextmenu', e => {
       e.preventDefault();
+      if (this.readOnly) return;
       const row = e.target.closest('.row'), items = [];
       if (row && row.dataset.path) { const p = row.dataset.path; items.push(['Rename', () => this._renameInline(p)], ['Delete', () => this._confirmDelete(p, false)]); }
       else if (row && row.dataset.dir) { const d = row.dataset.dir; items.push(['New file', () => this._newEntry('file', d + '/')], ['New folder', () => this._newEntry('folder', d + '/')], ['Rename', () => this._renameInline(d)], ['Delete', () => this._confirmDelete(d, true)]); }
@@ -332,9 +349,10 @@ class CodeExplorer extends HTMLElement {
     this.shadowRoot.addEventListener('pointerdown', e => { if (!e.composedPath().includes(ctx)) ctx.classList.remove('on'); });
     const code = this.$('.code');
     code.spellcheck = false;
-    code.addEventListener('keydown', e => { if (e.key === 'Tab') { e.preventDefault(); document.execCommand('insertText', false, '\t'); } });
+    code.addEventListener('beforeinput', e => { if (this.readOnly) e.preventDefault(); });
+    code.addEventListener('keydown', e => { if (!this.readOnly && e.key === 'Tab') { e.preventDefault(); document.execCommand('insertText', false, '\t'); } });
     code.addEventListener('input', () => {
-      const p = this.active; if (!p || this._truncated) return;
+      const p = this.active; if (this.readOnly || !p || this._truncated) return;
       // Pasted/typed line breaks can be BR nodes in a plaintext editor.
       const text = code.innerText;
       this.fs.set(p, TE.encode(text)); this.textCache.set(p, text);
@@ -365,8 +383,9 @@ class CodeExplorer extends HTMLElement {
     };
     this.$('.pick-zip').onclick = () => this.$('.in-zip').click();
     this.$('.pick-dir').onclick = () => this.$('.in-dir').click();
-    this.$('.in-zip').onchange = async e => { const f = e.target.files[0]; if (f) await this.loadZip(f); e.target.value = ''; };
+    this.$('.in-zip').onchange = async e => { const f = e.target.files[0]; if (f && !this.readOnly) await this.loadZip(f); e.target.value = ''; };
     this.$('.in-dir').onchange = e => {
+      if (this.readOnly) { e.target.value = ''; return; }
       const files = {};
       const jobs = [...e.target.files].map(f => f.arrayBuffer().then(b => { files[(f.webkitRelativePath || f.name).replace(/\\/g, '/')] = new Uint8Array(b); }));
       Promise.all(jobs).then(() => this._merge(files));
@@ -474,11 +493,13 @@ class CodeExplorer extends HTMLElement {
   }
   newProject(name) { const t = CodeExplorer.templates[name]; if (!t) return; this.clear(); this._payload(t); }
   _newProjectDialog() {
+    if (this.readOnly) return;
     const sel = this.$('.tpl'); sel.textContent = '';
     for (const n of Object.keys(CodeExplorer.templates)) { const o = document.createElement('option'); o.value = o.textContent = n; sel.appendChild(o); }
     this.$('.npp').classList.add('on');
   }
   _treeInput(value, selStart, onCommit) {
+    if (this.readOnly) return;
     const inp = document.createElement('input');
     inp.className = 'tree-in'; inp.value = value; inp.spellcheck = false;
     this.$('.tree').prepend(inp); inp.focus(); inp.setSelectionRange(selStart, value.length);
@@ -488,6 +509,7 @@ class CodeExplorer extends HTMLElement {
     inp.onblur = () => done(false);
   }
   _newEntry(kind, prefix = '') {
+    if (this.readOnly) return;
     this._treeInput(prefix, prefix.length, v => {
       if (kind === 'file') this.createFile(v, '');
       else { this.emptyDirs.add(v); this._renderAll(); }
@@ -495,6 +517,7 @@ class CodeExplorer extends HTMLElement {
   }
   _renameInline(p) { this._treeInput(p, p.lastIndexOf('/') + 1, v => v !== p && this.renamePath(p, v)); }
   _confirmDelete(p, isDir) {
+    if (this.readOnly) return;
     const n = isDir ? [...this.fs.keys()].filter(q => q === p || q.startsWith(p + '/')).length : 1;
     this.$('.del-msg').textContent = `Delete ${p}${isDir && n ? ` (${n} file${n === 1 ? '' : 's'})` : ''}?`;
     this.$('.del-go').onclick = () => { this.$('.delp').classList.remove('on'); this.deletePath(p); };
@@ -651,7 +674,13 @@ class CodeExplorer extends HTMLElement {
     this.$('.code').textContent = lines.join('\n') + (truncated ? '\n… (truncated)' : '');
     this._truncated = truncated; this._lineCount = lines.length;
     const codeEl = this.$('.code');
-    try { codeEl.contentEditable = truncated ? 'false' : 'plaintext-only'; } catch (e) { codeEl.contentEditable = truncated ? 'false' : 'true'; }
+    const editable = !this.readOnly && !truncated;
+    try { codeEl.contentEditable = editable ? 'plaintext-only' : 'false'; } catch (e) { codeEl.contentEditable = editable ? 'true' : 'false'; }
+    codeEl.tabIndex = 0;
+    codeEl.setAttribute('role', 'textbox');
+    codeEl.setAttribute('aria-multiline', 'true');
+    codeEl.setAttribute('aria-readonly', String(!editable));
+    codeEl.setAttribute('aria-label', p);
     ed.classList.add('on');
     ed.scrollTop = 0; ed.scrollLeft = 0;
   }
@@ -659,6 +688,7 @@ class CodeExplorer extends HTMLElement {
     const st = this.$('.status'); st.textContent = '';
     const add = t => { const s = document.createElement('span'); s.textContent = t; st.appendChild(s); };
     add(`${this.fs.size} file${this.fs.size === 1 ? '' : 's'}`);
+    if (this.readOnly) add('Read only');
     const sp = document.createElement('span'); sp.className = 'sp'; st.appendChild(sp);
     if (this.active && this.fs.has(this.active)) {
       add(this.active);

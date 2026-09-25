@@ -1,0 +1,43 @@
+<template>
+  <section class="simulation">
+    <div class="demo-heading">
+      <span class="demo-title"><i class="arc-mark" aria-hidden="true"></i> GAMES &amp; SIMULATION</span>
+      <span class="live-label"><i class="live-dot" aria-hidden="true"></i><span id="live-label">LIVE</span></span>
+    </div>
+    <nav class="example-picker" aria-label="Simulation examples">
+      <button aria-current="page" data-example="flocking"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 3 7 4-7 4zm11 5 7 4-7 4zM3 13l7 4-7 4z"/></svg>Flocking Worlds</button>
+      <button disabled><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><circle cx="12" cy="13" r="2"/><path d="M12 2v3m4-3 2 3"/></svg>Gravity Playground <small>Coming soon</small></button>
+      <button disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 6h10l4 12h-4l-3-3h-4l-3 3H3zM6 10h5m-2-2v5m6-3h1m2 2h1"/></svg>Side Scroller <small>Coming soon</small></button>
+    </nav>
+    <div class="experience">
+      <aside class="story">
+        <p class="state-label">01 / FLOCKING WORLDS</p>
+        <h3>Small behaviors. <br>Living worlds.</h3>
+        <p>Games, physics, and interactive simulations—powered by a component lifecycle built for motion.</p>
+        <p class="instruction">Move your pointer.<br>Watch the world respond.</p>
+        <button class="primary" id="view-source">View Source <span aria-hidden="true">↗</span></button>
+        <button class="primary download-button" id="download">Download <span aria-hidden="true">↓</span></button>
+        <p id="action-status" role="status"></p>
+      </aside>
+      <arc-flocking-field></arc-flocking-field>
+    </div>
+    <section class="source-view" aria-label="Example source" hidden>
+      <div class="source-heading"><div><h3>Inside Flocking Worlds</h3><p>The actual files running this example. Download to make them yours.</p></div><button class="primary download-button" id="close-source">Back to world <span aria-hidden="true">↙</span></button></div>
+      <code-explorer id="source-explorer" editor-only readonly font-src="/FontWithASyntaxHighlighter-Regular.woff2" aria-label="Flocking Worlds source files"></code-explorer>
+    </section>
+    <div class="control-bar">
+      <div class="modes" aria-label="Pointer behavior">
+        <button data-mode="attract" aria-pressed="true"><span aria-hidden="true">◎</span>Attract</button>
+        <button data-mode="repel" aria-pressed="false"><span aria-hidden="true">⊖</span>Repel</button>
+        <button id="obstacles" aria-pressed="true"><span aria-hidden="true">◌</span>Obstacles</button>
+      </div>
+      <div class="world-controls">
+        <label for="agents">Agents <output id="agent-count" for="agents">400</output></label><input id="agents" type="range" min="100" max="900" step="100" value="400">
+        <label for="speed">Speed <output id="speed-value" for="speed">1×</output></label><input id="speed" type="range" min="0.25" max="2" step="0.25" value="1">
+      </div>
+      <div class="playback-controls"><button id="pause" aria-pressed="false"><span aria-hidden="true">Ⅱ</span> Pause</button><button id="reset"><span aria-hidden="true">↻</span> Reset</button></div>
+    </div>
+    <div class="event-strip"><i class="event-light" aria-hidden="true"></i><span id="world-status">400 agents · Autonomous steering</span><span class="event-caption">LIVE METRICS <span id="fps">— FPS</span></span></div>
+    <details class="lifecycle"><summary>Built on Cocoon’s World lifecycle <span>Explore the loop ↗</span></summary><div><p><code>onUpdate</code>Frame input and telemetry.</p><p><code>onFixedUpdate</code>Steering advances in fixed steps.</p><p><code>onDraw</code>Canvas draws interpolated positions.</p></div><p>The simulation uses 60 fixed steps per second. Rendering follows your display and device; the FPS readout is measured live.</p></details>
+  </section>
+</template>
