@@ -16,7 +16,10 @@ application is required to boot the landing page or the team-access showcase.
   fetches the same on-disk sample files used by the running world.
 
 Cocoon's loop advances steering at 60 fixed steps per second. Drawing interpolates
-positions at the display's available frame cadence. FPS is measured, not promised.
+positions at the display's available frame cadence. FPS is measured, not promised. The FPS cap slider uses Cocoon’s
+`MainLoop.setMaxAllowedFPS()` to cap rendering from 15–120 FPS, with Max restoring
+uncapped rendering. The simulation timestep remains 60 fixed steps per second;
+Speed controls simulation time independently. Reset restores Max.
 The loop stops when the field leaves view, the browser tab is hidden, Pause is
 selected, or the source viewer opens. Reduced-motion users start paused.
 

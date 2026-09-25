@@ -35,21 +35,44 @@ try {
   page=host.frames().find(f=>f.url().includes('/simulation/index.html'));
   await page.waitForFunction(()=>document.querySelector('arc-simulation')?.field?.fps>0);
   const shell=page.locator('arc-simulation');
+  await shell.locator('#fps-limit').fill('15');
+  assert.equal(await page.evaluate(()=>Math.round(MainLoop.getMaxAllowedFPS())),15);
+  assert.equal(await page.evaluate(()=>MainLoop.getSimulationTimestep()),1000/60);
+  // Observe actual World draws, not just the slider label or loop setting.
+  const draws=await shell.evaluate(async el=>{
+    const field=el.field, original=field.onDraw;
+    const times=[];
+    field.onDraw=function(...args){times.push(performance.now());return original.apply(this,args);};
+    await new Promise(resolve=>setTimeout(resolve,1200));
+    field.onDraw=original;
+    return times.length;
+  });
+  assert.ok(draws>0 && draws<=19, `15 FPS cap rendered ${draws} frames in 1.2s`);
+  await shell.locator('#fps-limit').fill('30');
+  assert.equal(await page.evaluate(()=>Math.round(MainLoop.getMaxAllowedFPS())),30);
   await shell.locator('#pause').click();
   assert.equal(await page.evaluate(()=>MainLoop.isRunning()),false);
+  const firstSample=await shell.evaluate(el=>{
+    const field=el.field;field.frames=0;field.lastMeter=0;
+    for(let i=0;i<=42;i++)field.onUpdate(1000+i*(1000/60));
+    return field.fps;
+  });
+  assert.equal(firstSample,60,'first reading counts elapsed frame intervals');
   const positions=await shell.evaluate(el=>el.field.model.birds.map(b=>[b.x,b.y]));
   await host.waitForTimeout(150);
   assert.deepEqual(await shell.evaluate(el=>el.field.model.birds.map(b=>[b.x,b.y])),positions);
   await shell.locator('#agents').fill('700');
   assert.equal(await shell.evaluate(el=>el.field.model.birds.length),700);
-  await shell.locator('#speed').fill('0.5');
-  assert.equal(await shell.evaluate(el=>el.field.model.speed),.5);
+  assert.equal(await shell.locator('#speed').isVisible(),false);
+  assert.equal(await shell.evaluate(el=>el.field.model.speed),1);
   await shell.locator('[data-mode="repel"]').click();
   assert.equal(await shell.evaluate(el=>el.field.mode),'repel');
   await shell.locator('#obstacles').click();
   assert.equal(await shell.evaluate(el=>el.field.model.obstaclesEnabled),false);
   await shell.locator('#reset').click();
   assert.equal(await shell.evaluate(el=>el.field.model.birds.length),400);
+  assert.equal(await page.evaluate(()=>MainLoop.getMaxAllowedFPS()),Infinity);
+  assert.equal(await shell.locator('#fps-limit-value').textContent(),'Max');
   await shell.locator('#pause').click();
   await page.waitForFunction(()=>MainLoop.isRunning());
   await shell.locator('#view-source').click();

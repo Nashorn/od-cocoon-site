@@ -14,6 +14,12 @@ export default namespace `examples.flocking` (
         this.observer.observe(this.field);
       });
       this.subscribe('flocking:playback', () => this.updateRunning());
+      this.subscribe('flocking:fps-limit', event => {
+        const fps = event.detail.fps;
+        if (fps !== Infinity && (!Number.isFinite(fps) || fps < 15 || fps > 120)) return;
+        MainLoop.setMaxAllowedFPS(fps);
+        if (this.field) { this.field.frames = 0; this.field.lastMeter = 0; }
+      });
       this.visibilityChanged = () => this.updateRunning();
       document.addEventListener('visibilitychange', this.visibilityChanged);
     }

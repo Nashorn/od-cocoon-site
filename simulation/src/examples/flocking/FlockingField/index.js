@@ -91,7 +91,7 @@ namespace `examples.flocking` (
     }
 
     onUpdate(timestamp) {
-      if (!this.lastMeter) this.lastMeter = timestamp;
+      if (!this.lastMeter) { this.lastMeter = timestamp; return; }
       this.frames++;
       if (timestamp - this.lastMeter >= 700) {
         this.fps = Math.round(this.frames * 1000 / (timestamp - this.lastMeter));

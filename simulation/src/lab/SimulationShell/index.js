@@ -42,11 +42,20 @@ namespace `lab` (
         this.field.model.speed = Number(event.target.value);
         this.querySelector('#speed-value').textContent = `${event.target.value}×`;
       }, false, this.querySelector('#speed'));
+      this.on('input', event => this.setFPSLimit(Number(event.target.value)), false, this.querySelector('#fps-limit'));
       this.on('click', () => { this.field.setPaused(!this.field.paused); this.syncPlayback(); }, false, this.querySelector('#pause'));
       this.on('click', () => this.reset(), false, this.querySelector('#reset'));
       this.on('click', () => this.showSource(), false, this.querySelector('#view-source'));
       this.on('click', () => this.closeSource(), false, this.querySelector('#close-source'));
       this.on('click', () => this.download(), false, this.querySelector('#download'));
+    }
+
+    setFPSLimit(value) {
+      const fps = value === 135 ? Infinity : value;
+      this.querySelector('#fps-limit-value').textContent = Number.isFinite(fps) ? fps : 'Max';
+      this.querySelector('#fps-limit').setAttribute('aria-valuetext', Number.isFinite(fps) ? `${fps} FPS` : 'Uncapped');
+      this.fire('flocking:fps-limit', { fps });
+      this.querySelector('#fps').textContent = this.field.paused ? 'PAUSED' : '— FPS';
     }
 
     syncPlayback() {
@@ -70,6 +79,8 @@ namespace `lab` (
       this.querySelector('#agent-count').textContent = '400';
       this.querySelector('#speed').value = 1;
       this.querySelector('#speed-value').textContent = '1×';
+      this.querySelector('#fps-limit').value = 135;
+      this.setFPSLimit(135);
       this.querySelector('#world-status').textContent = '400 agents · Autonomous steering';
       this.querySelector('#obstacles').setAttribute('aria-pressed','true');
       this.root.querySelectorAll('[data-mode]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.mode === 'attract')));
