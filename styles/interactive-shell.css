@@ -1,6 +1,38 @@
 @layer interactive-reset, interactive-shell;
 @layer interactive-shell {
 /* Shared shadow-root UI recipes. Load after the component reset and before local styles. */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 32px;
+    padding: 0 12px 44px;
+}
+
+
+.section-header h2 {
+    margin: 0;
+    font-family: var(--arc-font-heading);
+    font-size: clamp(42px, 4.8vw, 68px);
+    line-height: 1.02;
+    letter-spacing: -.05em;
+    font-weight: 650;
+}
+
+.section-header h2>span {
+    background: var(--arc-heading-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+@media(max-width:720px) {
+    .section-header {
+        display: block;
+        padding: 0 5px 30px;
+    }
+}
+
 .live-dot {
     display: inline-block;
     flex-shrink: 0;

@@ -8,31 +8,6 @@
     padding: var(--arc-section-padding);
 }
 
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 32px;
-    padding: 0 12px 44px;
-}
-
-
-h2 {
-    margin: 0;
-    font-family: var(--arc-font-heading);
-    font-size: clamp(42px, 4.8vw, 68px);
-    line-height: 1.02;
-    letter-spacing: -.05em;
-    font-weight: 650;
-}
-
-h2>span {
-    background: var(--arc-heading-gradient);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-}
-
 .demo {
     /* border: 1px solid #26334a; */
     border-radius: var(--arc-shell-radius);
@@ -514,10 +489,6 @@ pre {
         padding: var(--arc-section-padding-mobile);
     }
 
-    .section-header {
-        display: block;
-        padding: 0 5px 30px;
-    }
 
     .demo-heading {
         padding: var(--arc-heading-padding-mobile);
