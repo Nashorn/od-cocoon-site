@@ -132,7 +132,7 @@ try {
   await page.waitForFunction(() => document.querySelector('arc-showcase').$('#source-code code').textContent.includes('<template>'));
   assert.equal(await page.locator('arc-member-card').getAttribute('xray'), 'html');
   await page.locator('[data-tab=js]').click();
-  await page.waitForFunction(() => document.querySelector('arc-showcase').$('#source-code code').textContent.includes('extends examples.team.BaseProfileCard'));
+  await page.waitForFunction(() => document.querySelector('arc-showcase').$('#source-code code').textContent.includes('class MemberCard extends'));
   await page.locator('[data-tab=css]').click();
   await shot('inspector');
   await page.locator('#component-select').selectOption('profile');

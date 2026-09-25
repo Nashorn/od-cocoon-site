@@ -808,3 +808,12 @@ pre {
 .editor-actions .primary { min-width:0; background:linear-gradient(125deg,#418bff,#6558f5); }
 #example-editor { display:block; height:550px; --ce-bg:#080d18; --ce-panel:#0b1220; }
 @media(max-width:600px) { .editor-workspace { padding:16px; } .editor-heading { align-items:flex-start; flex-direction:column; } #example-editor { height:500px; --side-w:140px; } }
+
+.download-button {
+  margin-top: 12px; border-color: #35445e;
+  background: #101827; color: #dbe6f8; box-shadow: none;
+}
+.download-button:hover:enabled { background: #1b2940; filter: none; }
+#download-status { font-size: 12px; line-height: 1.5; color: #9daac4; }
+#download-status:empty { display: none; }
+@media (max-width:720px) { .download-button, #download-status { grid-column: 1 / -1; } }

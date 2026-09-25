@@ -1,3 +1,4 @@
+import { ExampleDownload } from './ExampleDownload.js';
 const PREFIX = 'src/examples/team/';
 const MIME = { js: 'text/javascript', html: 'text/html', css: 'text/css', json: 'application/json' };
 
@@ -9,6 +10,7 @@ export class ProjectWorkspace {
     this.session = new URLSearchParams(location.search).get('session') || 'standalone';
     this.key = `cocoon-lab:${this.session}`;
     this.editing = false;
+    view.listen(view.$('#download-example'), 'click', () => this.download());
     view.listen(view.$('#edit-example'), 'click', () => this.open());
     view.listen(view.$('#close-editor'), 'click', () => this.close());
     view.listen(view.$('#run-example'), 'click', () => this.run());
@@ -17,6 +19,34 @@ export class ProjectWorkspace {
     view.listen(this.editor, 'files-changed', () => { if (this.loaded) this.saveDraft(); });
     view.listen(this.editor, 'files-saved', () => this.run());
   }
+  async download() {
+    const button = this.view.$('#download-example');
+    if (button.disabled) return;
+    button.disabled = true;
+    button.querySelector('.download-label').textContent = 'Preparing ZIP…';
+    button.setAttribute('aria-busy', 'true');
+    const status = this.view.$('#download-status');
+    status.textContent = '';
+    try {
+      const blob = await ExampleDownload.create(this);
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'cocoon-team-access.zip';
+      document.body.append(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
+      status.textContent = 'ZIP ready. Extract and serve locally; instructions included.';
+    } catch (error) {
+      status.textContent = 'Download failed: ' + error.message;
+    } finally {
+      button.disabled = false;
+      button.querySelector('.download-label').textContent = 'Download';
+      button.removeAttribute('aria-busy');
+    }
+  }
+
   async restore() {
     try { this.saved = JSON.parse(sessionStorage.getItem(this.key)) || {}; } catch { this.saved = {}; }
     if (this.saved.view) {

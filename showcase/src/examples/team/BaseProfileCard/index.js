@@ -1,5 +1,7 @@
 
-namespace `examples.team` (
+export default namespace
+
+`examples.team` (
   class BaseProfileCard extends Component {
     styles = ['./src/lab/shared.css'];
 

@@ -1,7 +1,8 @@
-import 'examples.team.BaseProfileCard';
+import BaseProfileCard from 'examples.team.BaseProfileCard';
+export default namespace
 
-namespace `examples.team` (
-  class AdminCard extends examples.team.BaseProfileCard {
+`examples.team` (
+  class AdminCard extends BaseProfileCard {
     static tag = 'arc-admin-card';
 
     constructor() {
