@@ -8,28 +8,25 @@ namespace `examples.flocking` (
 
     async onConnected() {
       await super.onConnected();
-      this.canvas = this.querySelector('canvas');
-      this.context = this.canvas.getContext('2d', { alpha: false });
-      this.model = new Steering(400);
-      this.paused = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      this.canvas     = this.querySelector('canvas');
+      this.context    = this.canvas.getContext('2d', { alpha: false });
+      this.model      = new Steering(400);
+      this.paused     = matchMedia('(prefers-reduced-motion: reduce)').matches;
       this.sourceOpen = false;
-      this.mode = 'attract';
-      this.frames = 0;
-      this.lastMeter = 0;
-      this.fps = 0;
-      this.on('pointermove', event => this.movePointer(event), false, this.canvas);
-      this.on('pointerdown', event => {
-        this.canvas.setPointerCapture(event.pointerId);
-        this.movePointer(event);
-        this.model.pointer.repel = event.pointerType === 'mouse' || this.mode === 'repel';
-      }, false, this.canvas);
-      this.on('pointerup', event => this.releasePointer(event), false, this.canvas);
-      this.on('pointercancel', event => this.releasePointer(event), false, this.canvas);
-      this.on('pointerleave', () => { this.model.pointer.active = false; }, false, this.canvas);
-      this.on('keydown', event => this.keyInput(event), false, this.canvas);
-      this.on('keyup', event => { if (event.code === 'Space') this.model.pointer.repel = this.mode === 'repel'; }, false, this.canvas);
-      this.on('blur', () => { this.model.pointer.active = false; }, true, this.canvas);
-      this.resizeObserver = new ResizeObserver(() => this.resize());
+      this.mode       = 'attract';
+      this.frames     = 0;
+      this.lastMeter  = 0;
+      this.fps        = 0;
+
+      this.on('pointermove',   e => this.onPointerMove(e),    false, this.canvas);
+      this.on('pointerdown',   e => this.onPointerDown(e),    false, this.canvas);
+      this.on('pointerup',     e => this.onPointerRelease(e), false, this.canvas);
+      this.on('pointercancel', e => this.onPointerRelease(e), false, this.canvas);
+      this.on('pointerleave',  e => this.onPointerLeave(e),   false, this.canvas);
+      this.on('keydown',       e => this.onKeyDown(e),        false, this.canvas);
+      this.on('keyup',         e => this.onKeyUp(e),          false, this.canvas);
+      this.on('blur',          e => this.onBlur(e),            true, this.canvas);
+      this.resizeObserver = new ResizeObserver(e => this.onResize(e));
       this.resizeObserver.observe(this);
       this.resize();
       this.fire('flocking:ready', { field: this });
@@ -47,7 +44,7 @@ namespace `examples.flocking` (
       this.onDraw(1);
     }
 
-    movePointer(event) {
+    onPointerMove(event) {
       const rect = this.canvas.getBoundingClientRect();
       Object.assign(this.model.pointer, {
         x: event.clientX - rect.left, y: event.clientY - rect.top,
@@ -56,13 +53,21 @@ namespace `examples.flocking` (
       if (!this.running) this.onDraw(1);
     }
 
-    releasePointer(event) {
+    onPointerDown(event) {
+      this.canvas.setPointerCapture(event.pointerId);
+      this.onPointerMove(event);
+      this.model.pointer.repel = event.pointerType === 'mouse' || this.mode === 'repel';
+    }
+
+    onPointerRelease(event) {
       this.model.pointer.repel = this.mode === 'repel';
       if (event.pointerType !== 'mouse') this.model.pointer.active = false;
       if (this.canvas.hasPointerCapture(event.pointerId)) this.canvas.releasePointerCapture(event.pointerId);
     }
 
-    keyInput(event) {
+    onPointerLeave() { this.model.pointer.active = false; }
+
+    onKeyDown(event) {
       if (!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Space','Escape'].includes(event.code)) return;
       event.preventDefault();
       const pointer = this.model.pointer;
@@ -77,6 +82,14 @@ namespace `examples.flocking` (
       pointer.y = Math.max(0,Math.min(this.model.height,pointer.y));
       if (!this.running) this.onDraw(1);
     }
+
+    onKeyUp(event) {
+      if (event.code === 'Space') this.model.pointer.repel = this.mode === 'repel';
+    }
+
+    onBlur() { this.model.pointer.active = false; }
+
+    onResize() { this.resize(); }
 
     setMode(mode) {
       this.mode = mode;

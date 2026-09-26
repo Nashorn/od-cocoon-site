@@ -206,7 +206,7 @@ window.classof = function(ns){ return NSRegistry[ns] }
 
 async function initImportMap() {
   window.importmap = {};
-  if (!Config.IMPORT_MAPS || Config.IMPORT_MAPS === "false") { return }
+  if (!Config.IMPORT_MAPS) { return }
 
   try {
     var script = document.head.querySelector("script[type='importmap']");
@@ -1537,6 +1537,22 @@ namespace `core.ui` (
             if (panic) { var discardedTime = Math.round(MainLoop.resetFrameDelta()) }
         }
         getSimulationTimestep(){ return 1000/120 }
+
+        onStart() {
+            MainLoop.start();
+        }
+
+        onStop() {
+            MainLoop.stop();
+        }
+
+        setMaxAllowedFPS(fps) {
+            MainLoop.setMaxAllowedFPS(fps);
+        }
+
+        isRunning() {
+            return MainLoop.isRunning();
+        }
     }
 );
 global.World = global.World||core.ui.World;
@@ -1647,10 +1663,10 @@ document.addEventListener("DOMContentLoaded", async e => {
           if (typeof World == "function" && app instanceof World) {
             window.world = app;
             let loop = MainLoop;
-            app.onUpdate      && loop.setBegin(app.onUpdate);
-            app.onFixedUpdate && loop.setUpdate(app.onFixedUpdate);
-            app.onDraw        && loop.setDraw(app.onDraw);
-            app.onUpdateEnd   && loop.setEnd(app.onUpdateEnd);
+            app.onUpdate      && loop.setBegin(app.onUpdate.bind(app));
+            app.onFixedUpdate && loop.setUpdate(app.onFixedUpdate.bind(app));
+            app.onDraw        && loop.setDraw(app.onDraw.bind(app));
+            app.onUpdateEnd   && loop.setEnd(app.onUpdateEnd.bind(app));
             loop.setSimulationTimestep(app.getSimulationTimestep());
           }
         });
