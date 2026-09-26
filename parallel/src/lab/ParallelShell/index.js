@@ -78,6 +78,12 @@ namespace `lab` (
       const pool = startup ? ` · pool ready in ${ms(startup)}` : '';
       this.querySelector('#world-status').textContent = `${this.describe(threads)} · ${tiles} tiles · ${this.field.iterations} iterations${pool}`;
       this.querySelector('#live-label').textContent = 'LIVE';
+      this.fire('analytics:track', { name: 'benchmark_run', params: {
+        label: this.describe(threads),
+        threads,
+        render_ms: Math.round(time),
+        speedup: speedup ? Math.round(speedup * 10) / 10 : undefined,
+      } });
     }
 
     reset() {

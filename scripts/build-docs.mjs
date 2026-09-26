@@ -32,7 +32,7 @@ for (const [source, output, title, label] of [
 </head>
 <body>
   <a class="skip" href="#content">Skip to content</a>
-  <nav aria-label="Main navigation"><a class="brand" href="index.html"><span aria-hidden="true"></span>arc</a><div><a href="get-started.html"${source === 'get-started' ? ' aria-current="page"' : ''}>Get started</a><a href="docs.html"${source === 'reference' ? ' aria-current="page"' : ''}>Reference</a><a href="https://github.com/Nashorn/od-cocoon/tree/8.6.0">GitHub ↗</a></div></nav>
+  <nav aria-label="Main navigation"><a class="brand" href="index.html"><span aria-hidden="true"></span>arc</a><div><a href="get-started.html"${source === 'get-started' ? ' aria-current="page"' : ''}>Get started</a><span class="soon">Reference<span class="soon-pill">Soon</span></span><a href="https://github.com/Nashorn/od-cocoon/tree/8.6.0">GitHub ↗</a></div></nav>
   <main id="content"><p class="eyebrow">ARC / ${label.toUpperCase()}</p>
   ${source === 'reference' ? '<p class="intro">Arc’s kernel is distributed as <strong>od-cocoon</strong>, also called Cocoon in this reference. <a href="get-started.html">Start with the runnable quickstart →</a></p>' : ''}
   ${body}</main>

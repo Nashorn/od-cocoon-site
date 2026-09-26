@@ -226,6 +226,22 @@
     .h4:hover {
       border-color: rgba(52, 211, 153, 0.5)
     }
+
+    /* Marks a destination that isn't published yet; the label is plain text, not a link. */
+    .soon-pill {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 2px 8px;
+      border: 1px solid rgba(126, 168, 255, 0.3);
+      border-radius: 999px;
+      background: rgba(77, 141, 255, 0.08);
+      color: #aecdff;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      line-height: 1.5;
+      vertical-align: middle;
+    }
   </style>
 </head>
 
@@ -234,21 +250,20 @@
     style="position:sticky; top:0; z-index:60; background:rgb(4 6 12 / 30%); backdrop-filter:blur(18px); border-bottom:1px solid rgba(255,255,255,0.07)">
     <div class="site-nav-inner"
       style="width:min(1240px, calc(100% - 48px)); margin:0 auto; display:flex; align-items:center; gap:32px; min-height:68px">
-      <a href="#top"
+      <a data-track="nav_click" data-track-label="Logo" href="#top"
         style="display:flex; align-items:center; gap:10px; color:#fff; font-family:'Space Grotesk',sans-serif; font-size:21px; font-weight:700; letter-spacing:-0.02em"><span
           style="width:26px; height:26px; border-radius:8px; background:conic-gradient(from 210deg, #4d8dff, #8b5cf6, #4d8dff); box-shadow:0 0 18px rgba(77,141,255,0.7)"></span>arc</a>
       <div class="navlinks" style="display:flex; gap:26px; font-size:14.5px; font-weight:600; color:#97a3bd">
-        <a class="h0" href="#showcase" style="color:#97a3bd">Features</a>
-        <a class="h0" href="#showcase" data-showcase-mode="inspect" style="color:#97a3bd">Code</a>
-        <a class="h0" href="#showcase" data-showcase-mode="inspect" style="color:#97a3bd">Inspect</a>
-        <a class="h0" href="#simulation" style="color:#97a3bd;white-space:nowrap">Games &amp; Simulation</a>
-        <a class="h0" href="#parallel" style="color:#97a3bd;white-space:nowrap">Multicore Threading</a>
-        <a class="h0" href="docs.html#native-dom-integration" style="color:#97a3bd">Philosophy</a>
+        <a class="h0" data-track="nav_click" href="#showcase" style="color:#97a3bd">Features</a>
+        <a class="h0" data-track="nav_click" href="#showcase" data-showcase-mode="inspect" style="color:#97a3bd">Code</a>
+        <a class="h0" data-track="nav_click" href="#showcase" data-showcase-mode="inspect" style="color:#97a3bd">Inspect</a>
+        <a class="h0" data-track="nav_click" href="#simulation" style="color:#97a3bd;white-space:nowrap">Games &amp; Simulation</a>
+        <a class="h0" data-track="nav_click" href="#parallel" style="color:#97a3bd;white-space:nowrap">Multicore Threading</a>
       </div>
       <div style="margin-left:auto; display:flex; align-items:center; gap:14px">
-        <a class="h0" href="docs.html"
-          style="font-size:14.5px; font-weight:600; color:#97a3bd; white-space:nowrap">Docs</a>
-        <a class="h1" href="#getting-started"
+        <span style="font-size:14.5px; font-weight:600; color:#97a3bd; white-space:nowrap">Docs<span
+            class="soon-pill">Soon</span></span>
+        <a class="h1" data-track="cta_click" data-track-label="Get started (nav)" href="#getting-started"
           style="display:inline-flex; align-items:center; min-height:40px; padding:0 20px; border-radius:10px; background:linear-gradient(135deg, #4d8dff, #7c5cff); color:#fff; font-size:14.5px; font-weight:700; white-space:nowrap; box-shadow:0 0 24px rgba(77,141,255,0.45); transition:filter .15s">Get
           started</a>
       </div>
@@ -313,13 +328,13 @@
 
       </p>
       <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:36px">
-        <a class="h1" href="#getting-started"
+        <a class="h1" data-track="cta_click" data-track-label="Get started (hero)" href="#getting-started"
           style="display:inline-flex; align-items:center; min-height:54px; padding:0 30px; border-radius:12px; background:linear-gradient(135deg, #4d8dff, #7c5cff); color:#fff; font-weight:700; font-size:16.5px; box-shadow:0 0 40px rgba(77,141,255,0.5), inset 0 1px 0 rgba(255,255,255,0.25); transition:filter .15s">Get
           started</a>
-        <button class="h2 install-command" type="button" data-copy="npm install github:Nashorn/od-cocoon#8.6.0"
+        <button class="h2 install-command" data-track="install_copy" data-track-label="npm install" type="button" data-copy="npm install github:Nashorn/od-cocoon#8.6.1"
           aria-label="Copy installation command" aria-describedby="install-status">
           <span aria-hidden="true" style="color:#34d399">$</span>
-          <code>npm install github:Nashorn/od-cocoon#8.6.0</code>
+          <code>npm install github:Nashorn/od-cocoon#8.6.1</code>
           <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
             stroke-width="1.6">
             <rect x="8" y="8" width="12" height="13" rx="2" />
@@ -365,7 +380,7 @@
     </div>
   </section> -->
 
-  <section id="getting-started" aria-label="Getting started with Cocoon">
+  <section id="getting-started" data-track-view="getting_started" aria-label="Getting started with Cocoon">
     <div data-getting-started-loading role="status"><strong>Start with a component.</strong><p>Your first Hello World.</p><a href="getting-started/index.html" hidden>Open Getting Started ↗</a></div>
     <iframe id="getting-started-frame" title="Getting Started — component to application" scrolling="no"></iframe>
     <noscript><a href="get-started.html">Read the Getting Started guide</a></noscript>
@@ -404,18 +419,17 @@
     </div>
   </section>
 
-  <section id="showcase" aria-label="Interactive Cocoon component lab">
+  <section id="showcase" data-track-view="showcase" aria-label="Interactive Cocoon component lab">
     <p data-showcase-loading style="text-align:center;color:#9daac4;padding:40px">Loading the component lab… <a
         href="get-started.html">Explore the quickstart</a></p>
     <iframe id="showcase-frame" title="Interactive Cocoon component lab"
       style="display:block;width:100%;height:1100px;border:0" scrolling="no"></iframe>
     <noscript>
-      <p style="text-align:center;color:#9daac4">Enable JavaScript to explore the interactive component lab, or <a
-          href="docs.html">read the framework reference</a>.</p>
+      <p style="text-align:center;color:#9daac4">Enable JavaScript to explore the interactive component lab.</p>
     </noscript>
   </section>
 
-  <section id="simulation" aria-label="Games and simulation">
+  <section id="simulation" data-track-view="simulation" aria-label="Games and simulation">
     <div data-simulation-loading role="status">
       <svg viewBox="0 0 90 55" aria-hidden="true"><path d="m5 14 18 8-18 8 4-8zm27-9 18 8-18 8 4-8zm25 16 18 8-18 8 4-8zM30 34l18 8-18 8 4-8z"/></svg>
       <strong>Flocking Worlds</strong><p>A living world is on its way.</p>
@@ -425,7 +439,7 @@
     <noscript><p>Enable JavaScript to explore Flocking Worlds.</p></noscript>
   </section>
 
-  <section id="parallel" aria-label="Parallel compute">
+  <section id="parallel" data-track-view="multicore" aria-label="Parallel compute">
     <div data-parallel-loading role="status">
       <svg viewBox="0 0 90 55" aria-hidden="true"><path d="M18 4h16v16H18zm19 0h16v16H37zm19 0h16v16H56zM18 23h16v16H18zm19 0h16v16H37zm19 0h16v16H56zM37 42h16v9H37z"/></svg>
       <strong>Parallel Compute</strong><p>Warming up every core.</p>
@@ -447,16 +461,16 @@
       <p style="margin:0 auto 34px; max-width:52ch; color:#9daac4; font-size:18px; line-height:1.7">One script tag.
         Three files per component. The same model from your first component to your whole application.</p>
       <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap">
-        <a class="h1" href="docs.html"
-          style="display:inline-flex; align-items:center; min-height:54px; padding:0 32px; border-radius:12px; background:linear-gradient(135deg, #4d8dff, #7c5cff); color:#fff; font-weight:700; font-size:16.5px; box-shadow:0 0 44px rgba(77,141,255,0.55), inset 0 1px 0 rgba(255,255,255,0.25); transition:filter .15s">Read
-          the docs</a>
-        <a class="h2" href="https://github.com/Nashorn/od-cocoon/tree/8.6.0"
+        <a class="h1" data-track="cta_click" data-track-label="Get started (closing)" href="#getting-started"
+          style="display:inline-flex; align-items:center; min-height:54px; padding:0 32px; border-radius:12px; background:linear-gradient(135deg, #4d8dff, #7c5cff); color:#fff; font-weight:700; font-size:16.5px; box-shadow:0 0 44px rgba(77,141,255,0.55), inset 0 1px 0 rgba(255,255,255,0.25); transition:filter .15s">Get
+          started</a>
+        <a class="h2" data-track="cta_click" data-track-label="Open on GitHub" href="https://github.com/Nashorn/od-cocoon/tree/8.6.1"
           style="display:inline-flex; align-items:center; min-height:54px; padding:0 32px; border-radius:12px; border:1px solid rgba(255,255,255,0.16); background:rgba(255,255,255,0.04); color:#eef2fa; font-weight:600; font-size:16.5px; transition:background .15s">Open
           on GitHub</a>
       </div>
       <p style="margin:30px 0 0; font-family:'JetBrains Mono',monospace; font-size:13px; color:#8998b7">MIT licensed ·
-        v8.6.0 ·
-        43 kB minified · 13 kB gzipped</p>
+        v8.6.1 ·
+        45 kB minified · 14 kB gzipped</p>
     </div>
   </section>
 
@@ -464,7 +478,7 @@
     <div class="cols"
       style="width:min(1240px, calc(100% - 48px)); margin:0 auto; padding:56px 0 28px; display:grid; grid-template-columns:minmax(0,1.6fr) repeat(3, minmax(0,1fr)); gap:32px">
       <div>
-        <a href="#top"
+        <a data-track="footer_click" data-track-label="Logo" href="#top"
           style="display:flex; align-items:center; gap:10px; color:#fff; font-family:'Space Grotesk',sans-serif; font-size:20px; font-weight:700"><span
             style="width:22px; height:22px; border-radius:7px; background:conic-gradient(from 210deg, #4d8dff, #8b5cf6, #4d8dff)"></span>arc</a>
         <p style="margin:14px 0 0; max-width:36ch; color:#7d8db0; font-size:14px; line-height:1.7">A standards-first
@@ -473,24 +487,24 @@
       <div style="display:grid; gap:10px; align-content:start; font-size:14px">
         <span
           style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:#8998b7; margin-bottom:6px">Product</span>
-        <a class="h0" href="#showcase" style="color:#9daac4">Features</a>
-        <a class="h0" href="#showcase" data-showcase-mode="inspect" style="color:#9daac4">Anatomy</a>
-        <a class="h0" href="#showcase" data-showcase-mode="inspect" style="color:#9daac4">LLM-ready</a>
+        <a class="h0" data-track="footer_click" href="#showcase" style="color:#9daac4">Features</a>
+        <a class="h0" data-track="footer_click" href="#showcase" data-showcase-mode="inspect" style="color:#9daac4">Anatomy</a>
+        <a class="h0" data-track="footer_click" href="#showcase" data-showcase-mode="inspect" style="color:#9daac4">LLM-ready</a>
       </div>
       <div style="display:grid; gap:10px; align-content:start; font-size:14px">
         <span
           style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:#8998b7; margin-bottom:6px">Resources</span>
-        <a class="h0" href="docs.html" style="color:#9daac4">Reference</a>
-        <a class="h0" href="https://github.com/Nashorn/od-cocoon/tree/8.6.0" style="color:#9daac4">Source code</a>
-        <a class="h0" href="https://github.com/Nashorn/od-cocoon/blob/8.6.0/LICENSE.txt"
+        <span style="color:#9daac4">Reference<span class="soon-pill">Soon</span></span>
+        <a class="h0" data-track="footer_click" href="https://github.com/Nashorn/od-cocoon/tree/8.6.1" style="color:#9daac4">Source code</a>
+        <a class="h0" data-track="footer_click" href="https://github.com/Nashorn/od-cocoon/blob/8.6.1/LICENSE.txt"
           style="color:#9daac4">License</a>
       </div>
       <div style="display:grid; gap:10px; align-content:start; font-size:14px">
         <span
           style="font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:#8998b7; margin-bottom:6px">Principles</span>
-        <a class="h0" href="#top" style="color:#9daac4">Native by design</a>
-        <a class="h0" href="#showcase" style="color:#9daac4">Fractal by architecture</a>
-        <a class="h0" href="#showcase" data-showcase-mode="inspect" style="color:#9daac4">Readable by agents</a>
+        <a class="h0" data-track="footer_click" href="#top" style="color:#9daac4">Native by design</a>
+        <a class="h0" data-track="footer_click" href="#showcase" style="color:#9daac4">Fractal by architecture</a>
+        <a class="h0" data-track="footer_click" href="#showcase" data-showcase-mode="inspect" style="color:#9daac4">Readable by agents</a>
       </div>
     </div>
     <div style="border-top:1px solid rgba(255,255,255,0.06)">
@@ -508,6 +522,7 @@
   <script type="module" src="getting-started/bootstrap.js"></script>
   <script src="site.js"></script>
   <script type="module" src="cookie-consent.js"></script>
+  <script src="analytics-events.js" defer></script>
   <script src="code-explorer.js"></script>
 
 </body>

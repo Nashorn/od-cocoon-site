@@ -18,8 +18,8 @@
         <h3>Every core. <br>One pool.</h3>
         <p>Heavy work runs across real threads while the page stays smooth—built into Cocoon, no build step.</p>
         <p class="instruction">Click to zoom in.<br>Then try Main thread and watch the heartbeat stop.</p>
-        <button class="primary" id="view-source">View Source <span aria-hidden="true">↗</span></button>
-        <button class="primary download-button" id="download">Download <span aria-hidden="true">↓</span></button>
+        <button class="primary" id="view-source" data-track="demo_action" data-track-label="Multicore: View Source">View Source <span aria-hidden="true">↗</span></button>
+        <button class="primary download-button" id="download" data-track="demo_action" data-track-label="Multicore: Download">Download <span aria-hidden="true">↓</span></button>
         <p id="action-status" role="status"></p>
       </aside>
       <arc-mandelbrot-field></arc-mandelbrot-field>
@@ -30,15 +30,15 @@
     </section>
     <div class="control-bar">
       <div class="modes thread-modes" aria-label="Where the work runs">
-        <button data-threads="0" aria-pressed="false"><span aria-hidden="true">◌</span>Main thread</button>
-        <button data-threads="2" aria-pressed="false"><span aria-hidden="true">≡</span>2 threads</button>
-        <button data-threads="4" aria-pressed="false"><span aria-hidden="true">≡</span>4 threads</button>
-        <button data-threads="max" aria-pressed="true"><span aria-hidden="true">≣</span>All <data class="thread-count"></data> threads</button>
+        <button data-threads="0" aria-pressed="false" data-track="demo_action" data-track-label="Multicore: Main thread"><span aria-hidden="true">◌</span>Main thread</button>
+        <button data-threads="2" aria-pressed="false" data-track="demo_action" data-track-label="Multicore: 2 threads"><span aria-hidden="true">≡</span>2 threads</button>
+        <button data-threads="4" aria-pressed="false" data-track="demo_action" data-track-label="Multicore: 4 threads"><span aria-hidden="true">≡</span>4 threads</button>
+        <button data-threads="max" aria-pressed="true" data-track="demo_action" data-track-label="Multicore: All threads"><span aria-hidden="true">≣</span>All <data class="thread-count"></data> threads</button>
       </div>
       <div class="world-controls">
         <div class="world-control"><label for="iterations">Iterations</label><input id="iterations" type="range" min="250" max="3000" step="250" value="1000"><output id="iterations-value" for="iterations">1000</output></div>
       </div>
-      <div class="playback-controls"><button id="render"><span aria-hidden="true">▷</span> Render again</button><button id="reset"><span aria-hidden="true">↻</span> Reset</button></div>
+      <div class="playback-controls"><button id="render" data-track="demo_action" data-track-label="Multicore: Render again"><span aria-hidden="true">▷</span> Render again</button><button id="reset" data-track="demo_action" data-track-label="Multicore: Reset"><span aria-hidden="true">↻</span> Reset</button></div>
     </div>
     <div class="event-strip"><i class="event-light" aria-hidden="true"></i><span id="world-status">Preparing threads…</span><span class="event-caption">LAST RENDER <span id="render-time" class="live-metric">—</span></span></div>
     <details class="lifecycle"><summary>Built on Cocoon’s ThreadPool <span>See how it works ↗</span></summary><div><p><code>new core.lang.ThreadPool(fn)</code>One worker per core, made from a plain function.</p><p><code>pool.run(tile)</code>Each tile is a job. A free worker takes the next one.</p><p><code>transfer(pixels)</code>Finished pixels move back without a copy.</p></div><p>Speedup compares the same view rendered on the Main thread and on threads. Render both to see it. Worker startup is timed separately and excluded. Results depend on your device’s cores.</p></details>

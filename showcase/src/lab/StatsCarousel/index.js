@@ -11,8 +11,8 @@ namespace `lab` (
       return [
         { value: '2,000', label: 'Lines of source', detail: 'Including comments and blank lines, in the shipped source.', tone: 'blue', icon: 'file',
           note: '1,890 physical lines, including comments and blank lines, in the shipped source.' },
-        { value: '13 kB', label: 'Gzipped kernel', detail: 'A compact application kernel.\nDelivered in a single file.', tone: 'violet', icon: 'cube',
-          note: '42.78 kB minified · 69.65 kB source. Gzip level 9; decimal kB. Shipped kernel snapshot.' },
+        { value: '14 kB', label: 'Gzipped kernel', detail: 'A compact application kernel.\nDelivered in a single file.', tone: 'violet', icon: 'cube',
+          note: '45 kB minified · 69.65 kB source. Gzip level 9; decimal kB. Shipped kernel snapshot.' },
         { value: '0', label: 'Build steps', detail: 'Your source runs directly.\nNo compilation or bundling.', tone: 'amber', icon: 'bolt' },
         { value: '0', label: 'Virtual DOM', detail: 'Update native elements directly.\nNo virtual tree or reconciliation.', tone: 'teal', icon: 'layers' },
       ];

@@ -8,6 +8,9 @@ nav { display: flex; align-items: center; justify-content: space-between; gap: 2
 nav a { text-decoration: none; }
 nav div { display: flex; gap: 24px; font-size: 14px; }
 nav [aria-current] { color: #fff; text-decoration: underline; }
+.soon { color: #8998b7; white-space: nowrap; }
+/* Marks a destination that isn't published yet; the label is plain text, not a link. */
+.soon-pill { display: inline-block; margin-left: 6px; padding: 1px 8px; border: 1px solid #7ea8ff4d; border-radius: 999px; background: #4d8dff14; color: #aecdff; font-size: 10px; font-weight: 600; letter-spacing: 0.04em; line-height: 1.5; vertical-align: middle; }
 .brand { display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: 700; color: white; }
 .brand span { width: 26px; height: 26px; border-radius: 8px; background: linear-gradient(135deg, #4d8dff, #8b5cf6); box-shadow: 0 0 24px #4d8dff40; }
 main { max-width: 880px; padding: 72px 24px; margin: auto; }

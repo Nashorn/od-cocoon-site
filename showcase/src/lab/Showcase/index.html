@@ -10,8 +10,8 @@
           <p class="state-label" id="state-label">02 / EXPLORE THE PARTS</p>
           <h3 id="state-title">Pull it apart.<br>Look a little closer.</h3>
           <p id="state-copy">Drag the open space to turn the assembly. Select any card or the toolbar to see what it is made of.</p>
-          <button class="primary" id="try-flow">View Source <span aria-hidden="true">↗</span></button>
-          <button class="primary download-button" id="download-example" type="button"><span class="download-label">Download</span><span aria-hidden="true">↓</span></button>
+          <button data-track="demo_action" data-track-label="Components: View Source" class="primary" id="try-flow">View Source <span aria-hidden="true">↗</span></button>
+          <button data-track="demo_action" data-track-label="Components: Download" class="primary download-button" id="download-example" type="button"><span class="download-label">Download</span><span aria-hidden="true">↓</span></button>
           <p id="download-status" role="status"></p>
           <div class="state-note"><p id="state-note">Select any card or the toolbar to look inside. Drag the open space to rotate the assembly, and adjust Z depth to change its separation.</p></div>
         </aside>
@@ -39,9 +39,9 @@
         <p id="editor-status" role="status"></p>
       </div>
       <div class="control-bar">
-        <div class="modes" role="group" aria-label="Presentation mode"><button data-mode="interface" aria-pressed="false"><span aria-hidden="true">▤</span> Interface</button><button data-mode="explore" aria-pressed="true"><span aria-hidden="true">◇</span> Explore 3D</button><button data-mode="inspect" aria-pressed="false"><span aria-hidden="true">⌖</span> Inspect</button><button id="edit-example" aria-pressed="false"><span aria-hidden="true">✎</span> Edit</button></div>
-        <div class="rotation-controls" hidden><label for="rotation">Rotate</label><span>−25°</span><input id="rotation" type="range" min="-25" max="25" value="-17" aria-label="Rotate the exploded component"><output id="rotation-value" for="rotation">−17°</output><label for="depth">Z depth</label><input id="depth" type="range" min="0" max="200" value="100" aria-label="Shared component Z depth"><output id="depth-value" for="depth">100%</output><button id="reset-view" title="Reset viewing angle">↺ <span>Reset view</span></button></div>
-        <div class="playback-controls"><button id="pause" hidden>Ⅱ Pause</button><button id="replay" title="Replay the last interaction">↻ <span>Replay</span></button><button id="reset-demo" title="Reset the entire demo">↺ <span>Reset</span></button></div>
+        <div class="modes" role="group" aria-label="Presentation mode"><button data-track="demo_action" data-track-label="Components: Interface" data-mode="interface" aria-pressed="false"><span aria-hidden="true">▤</span> Interface</button><button data-track="demo_action" data-track-label="Components: Explore 3D" data-mode="explore" aria-pressed="true"><span aria-hidden="true">◇</span> Explore 3D</button><button data-track="demo_action" data-track-label="Components: Inspect" data-mode="inspect" aria-pressed="false"><span aria-hidden="true">⌖</span> Inspect</button><button data-track="demo_action" data-track-label="Components: Edit" id="edit-example" aria-pressed="false"><span aria-hidden="true">✎</span> Edit</button></div>
+        <div class="rotation-controls" hidden><label for="rotation">Rotate</label><span>−25°</span><input id="rotation" type="range" min="-25" max="25" value="-17" aria-label="Rotate the exploded component"><output id="rotation-value" for="rotation">−17°</output><label for="depth">Z depth</label><input id="depth" type="range" min="0" max="200" value="100" aria-label="Shared component Z depth"><output id="depth-value" for="depth">100%</output><button data-track="demo_action" data-track-label="Components: Reset view" id="reset-view" title="Reset viewing angle">↺ <span>Reset view</span></button></div>
+        <div class="playback-controls"><button id="pause" hidden>Ⅱ Pause</button><button data-track="demo_action" data-track-label="Components: Replay" id="replay" title="Replay the last interaction">↻ <span>Replay</span></button><button data-track="demo_action" data-track-label="Components: Reset" id="reset-demo" title="Reset the entire demo">↺ <span>Reset</span></button></div>
       </div>
       <div class="event-strip"><span class="event-light"></span><span id="event-status" role="status" aria-live="polite">Ready when you are. Try “Approve access”.</span><span class="event-caption">HTML · CSS · JS</span></div>
     </div>

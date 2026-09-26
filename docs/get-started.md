@@ -93,7 +93,10 @@ Open [localhost:8080](http://localhost:8080). You should see **Hello, Arc.** in 
 
 This example uses automatic component discovery for a small sandbox. For an application, define an explicit Application controller and import map to own startup and imports.
 
-- [Set up an application](docs.html#application-setup)
-- [Inherit and customize component styles](docs.html#css-loading)
-- [Connect components with signals](docs.html#event-bus-signaling-architecture)
-- [Browse the full reference](docs.html)
+**Full reference** <span class="soon-pill">Coming soon</span>
+
+It will cover:
+
+- Setting up an application
+- Inheriting and customizing component styles
+- Connecting components with signals
