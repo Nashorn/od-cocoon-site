@@ -52,7 +52,8 @@
   border-left: 1px solid #34405a;
 }
 .changes-heading { margin-bottom: 22px; color: #b1a0e7; font: var(--arc-label-size) var(--arc-font-mono); letter-spacing: .08em; }
-#change-summary { margin: 0 0 8px; color: var(--arc-text); font-size: var(--arc-body-size); font-weight: 600; line-height: 1.45; }
+#change-summary { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 0 0 10px; color: var(--arc-text); font-size: var(--arc-body-size); font-weight: 600; line-height: 1.45; }
+.step-summary-pill { display: inline-flex; align-items: center; min-height: 22px; padding: 0 8px; border: 1px solid #7765bd80; border-radius: 999px; background: #7765bd1f; color: #c3b6ff; font: 600 var(--arc-label-size) var(--arc-font-mono); letter-spacing: .07em; text-transform: uppercase; white-space: nowrap; }
 #change-explanation { margin: 0 0 18px; color: var(--arc-text-body); font-size: var(--arc-tab-size); line-height: 1.6; }
 #changed-files { display: grid; gap: 16px; }
 .file-group { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; min-width: 0; }

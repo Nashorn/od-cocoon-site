@@ -79,16 +79,23 @@ namespace `lab` (
         const count = changes.filter(change => change.kind === kind).length;
         return count ? [`${count} ${count === 1 ? 'file' : 'files'} ${kind.toLowerCase()}`] : [];
       });
-      this.querySelector('#change-summary').textContent = previous
-        ? `Step ${this.step + 1} selected — ${counts.join(' · ') || 'source unchanged'}`
-        : `Your starting project — ${changes.length} source files`;
+      const summary = this.querySelector('#change-summary');
+      const pill = document.createElement('span');
+      pill.className = 'step-summary-pill';
+      pill.textContent = `Step ${this.step + 1}`;
+      const detail = document.createElement('span');
+      detail.textContent = previous
+        ? counts.join(' · ') || 'Source unchanged'
+        : `Starting project · ${changes.length} source files`;
+      summary.replaceChildren(pill, detail);
       this.querySelector('#change-explanation').textContent = ExampleFiles.steps[this.step].change + ' Select a file to view its source.';
       const list = this.querySelector('#changed-files');
       const groups = new Map();
       for (const { path, kind } of changes) {
         const parts = path.split('/');
         const label = path.startsWith('src/components/') ? `Component · ${parts[2]}`
-          : path.startsWith('src/applications/') ? `Application · ${parts[2]}` : 'Page';
+          : path.startsWith('src/applications/') ? `Application · ${parts[2]}`
+            : kind === 'Added' && !path.includes('/') ? 'New file' : 'Page';
         if (!groups.has(label)) {
           const group = document.createElement('div');
           group.className = 'file-group';
