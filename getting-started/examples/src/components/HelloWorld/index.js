@@ -1,3 +1,4 @@
+
 namespace `components` (
   class HelloWorld extends Component {
     static tag = 'hello-world';
