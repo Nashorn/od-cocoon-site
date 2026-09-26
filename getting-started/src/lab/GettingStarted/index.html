@@ -16,15 +16,16 @@
           <iframe id="example" title="Hello World — live Cocoon example"></iframe>
           <div class="preview-loading" hidden role="status"><span class="preview-spinner" aria-hidden="true"></span><span>Updating preview…</span></div>
         </div>
+        <aside class="step-changes" aria-label="What changed in this step">
+          <div class="changes-heading"><span aria-hidden="true">⌖</span> PROJECT CHANGES</div>
+          <p id="change-summary" role="status" aria-live="polite" aria-atomic="true"></p>
+          <p id="change-explanation">The component looks the same. Its project structure grows with each step.</p>
+          <div id="changed-files" aria-label="Inspect changed source files"></div>
+        </aside>
       </div>
       <div class="source-view" hidden>
         <div class="source-heading"><div><h3>The complete example.</h3><p>Start with index.html. Every file here is included in your download.</p></div><div class="source-actions"><button class="primary download-button" data-download>Download <span aria-hidden="true">↓</span></button><button class="primary download-button" id="close-source">Back to example <span aria-hidden="true">↙</span></button></div></div>
         <code-explorer id="source-explorer" editor-only readonly font-src="/FontWithASyntaxHighlighter-Regular.woff2"></code-explorer>
-      </div>
-      <div class="step-changes" aria-label="What changed in this step">
-        <p id="change-summary" role="status" aria-live="polite" aria-atomic="true"></p>
-        <p id="change-explanation">The component looks the same. Its project structure grows with each step.</p>
-        <div id="changed-files" aria-label="Inspect changed source files"></div>
       </div>
       <div class="control-bar">
         <div class="modes" role="group" aria-label="Getting started steps">

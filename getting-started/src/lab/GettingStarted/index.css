@@ -1,7 +1,7 @@
 :host { display: block; }
 .getting-started { width: min(var(--arc-section-max-width), calc(100% - var(--arc-section-gutter))); margin: auto; padding: var(--arc-section-padding); }
 .demo { background: var(--arc-shell-background); border-radius: var(--arc-shell-radius); box-shadow: var(--arc-shell-shadow); overflow: hidden; }
-.experience { display: grid; grid-template-columns: 225px minmax(0, 1fr); gap: 42px; padding: 36px 24px; }
+.experience { display: grid; grid-template-columns: 205px minmax(0, 1fr) 285px; gap: 24px; padding: 36px 24px; }
 .story { padding: 12px 0; }
 .story .note { margin-top: 28px; font-size: var(--arc-tab-size); opacity: .6; }
 .preview { position: relative; min-width: 0; }
@@ -17,12 +17,20 @@
 #action-status { margin: 0; padding: 12px 24px; font-size: var(--arc-body-size); color: var(--arc-text-body); }
 #action-status:empty { display: none; }
 .event-strip { gap: 20px; }
-@media (max-width:1020px) { .getting-started { width: calc(100% - var(--arc-section-gutter-tablet)); } .experience { gap: 24px; } }
+@media (max-width:1020px) {
+  .getting-started { width: calc(100% - var(--arc-section-gutter-tablet)); }
+  .experience { grid-template-columns: minmax(0, 1fr) 270px; }
+  .experience > .story { display: grid; grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding-bottom: 0; }
+  .story > p, .story h3 { grid-column: 1 / -1; margin: 0; }
+  .story .primary { width: 100%; min-width: 0; }
+  .story .download-button, .story .note { margin-top: 0; }
+  .story > p:not(.state-label) { max-width: none; }
+}
 @media (max-width:720px) {
   .getting-started { width: calc(100% - var(--arc-section-gutter-mobile)); padding: var(--arc-section-padding-mobile); }
   .demo-heading { padding: var(--arc-heading-padding-mobile); }
   .experience { grid-template-columns: 1fr; padding: 20px 12px; gap: 20px; }
-  .story { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .experience > .story { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .story > p, .story h3 { grid-column: 1 / -1; margin: 0; }
   .story .primary { width: 100%; min-width: 0; }
   .story .download-button { margin-top: 0; }
@@ -39,18 +47,19 @@
 }
 
 .step-changes {
-  padding: 18px 24px;
-  border-top: 1px solid var(--arc-border-control-bar);
+  min-width: 0;
+  padding: 12px 0 12px 20px;
+  border-left: 1px solid #34405a;
 }
-#change-summary { margin: 0 0 6px; color: var(--arc-text); font-size: var(--arc-body-size); font-weight: 600; }
-#change-explanation { margin: 0 0 14px; color: var(--arc-text-body); font-size: var(--arc-button-size); line-height: 1.6; }
-#changed-files { display: flex; flex-wrap: wrap; gap: 12px 18px; }
+.changes-heading { margin-bottom: 22px; color: #b1a0e7; font: var(--arc-label-size) var(--arc-font-mono); letter-spacing: .08em; }
+#change-summary { margin: 0 0 8px; color: var(--arc-text); font-size: var(--arc-body-size); font-weight: 600; line-height: 1.45; }
+#change-explanation { margin: 0 0 18px; color: var(--arc-text-body); font-size: var(--arc-tab-size); line-height: 1.6; }
+#changed-files { display: grid; gap: 16px; }
 .file-group { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; min-width: 0; }
-.file-group + .file-group { border-left: 1px solid var(--arc-tabs-border); padding-left: 18px; }
-.file-group-label { color: var(--arc-text-body); font: var(--arc-label-size) var(--arc-font-mono); letter-spacing: .06em; text-transform: uppercase; margin-right: 4px; }
+.file-group + .file-group { border-top: 1px solid var(--arc-tabs-border); padding-top: 16px; }
+.file-group-label { width: 100%; color: var(--arc-text-body); font: var(--arc-label-size) var(--arc-font-mono); letter-spacing: .06em; text-transform: uppercase; }
 @media (max-width:720px) {
   .file-group { width: 100%; }
-  .file-group + .file-group { border-left: 0; padding-left: 0; }
 }
 .file-change {
   display: inline-flex;
@@ -70,7 +79,10 @@
 .file-change[data-kind="removed"] { color: var(--arc-text-body); }
 .file-change[data-kind="removed"] > .file-change-kind { color: var(--arc-status-removed); }
 button.file-change:hover { background: var(--arc-tab-active-background); border-color: var(--arc-tab-active-border); }
-@media (max-width:720px) { .step-changes { padding: 16px 12px; } .file-change { max-width: 100%; overflow-wrap: anywhere; } }
+@media (max-width:720px) {
+  .step-changes { padding: 20px 6px 0; border-left: 0; border-top: 1px solid #34405a; }
+  .file-change { max-width: 100%; overflow-wrap: anywhere; }
+}
 
 .preview-loading {
   position: absolute;

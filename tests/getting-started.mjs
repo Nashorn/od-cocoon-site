@@ -32,7 +32,8 @@ try {
   page.on('response', r => { if (r.url().startsWith(base) && r.status() >= 400) errors.push(`${r.status()} ${r.url()}`); });
   await page.addInitScript(() => { try { localStorage.setItem('cocoon.analytics-consent.v1', JSON.stringify({ choice: 'denied', expires: Date.now() + 86400000 })); } catch {} });
   await page.goto(base);
-  assert.equal(await page.locator('#getting-started').evaluate(e => e.nextElementSibling.id), 'showcase');
+  assert.equal(await page.locator('#getting-started').evaluate(e => e.nextElementSibling.matches('.environment-marquee')), true);
+  assert.equal(await page.locator('#getting-started').evaluate(e => e.nextElementSibling.nextElementSibling.id), 'showcase');
   await page.locator('#getting-started').scrollIntoViewIfNeeded();
   const shell = page.frameLocator('#getting-started-frame');
   await shell.locator('[data-step="0"][aria-pressed="true"]').waitFor();
