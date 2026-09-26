@@ -37,6 +37,7 @@ for (const [source, output, title, label] of [
   ${source === 'reference' ? '<p class="intro">Arc’s kernel is distributed as <strong>od-cocoon</strong>, also called Cocoon in this reference. <a href="get-started.html">Start with the runnable quickstart →</a></p>' : ''}
   ${body}</main>
   <footer><a href="index.html">← Back to Arc</a><span>Native HTML. CSS. JavaScript.</span></footer>
+  <script type="module" src="cookie-consent.js"></script>
 </body>
 </html>\n`);
 }
