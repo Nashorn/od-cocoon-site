@@ -124,8 +124,15 @@ class CookieConsent extends HTMLElement {
     else this.disableAnalytics();
   }
 
+  // Local and LAN testing (localhost, 127.x, 192.168.x, 10.x, *.local…) must never reach GA.
+  static isLocal() {
+    const host = location.hostname;
+    return host === 'localhost' || host === '0.0.0.0' || host === '[::1]' || host.endsWith('.local')
+      || /^(127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/.test(host);
+  }
+
   enableAnalytics() {
-    if (this.analyticsLoaded || !/^G-[A-Z0-9]+$/.test(measurementId)) return;
+    if (this.analyticsLoaded || !/^G-[A-Z0-9]+$/.test(measurementId) || CookieConsent.isLocal()) return;
     this.analyticsLoaded = true;
     window['ga-disable-' + measurementId] = false;
     window.dataLayer = window.dataLayer || [];
