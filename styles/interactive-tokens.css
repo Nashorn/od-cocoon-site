@@ -8,6 +8,7 @@
   --arc-page-bg: #04060c;
   --arc-text: #eef2fa;
   --arc-focus: #a9c8ff;
+  --arc-status-removed: #ff858d;
   --arc-live: #5fe9bd;
   --arc-section-max-width: 1340px;
   --arc-section-gutter: 64px;
@@ -44,6 +45,10 @@
   --arc-story-line-height: 1.75;
   --arc-story-title-line-height: 1.2;
   --arc-shell-shadow: 0 25px 90px #0003;
+  --arc-stage-grid-image: linear-gradient(rgb(120 150 255 / 10%) 1px, transparent 1px), linear-gradient(90deg, rgb(120 150 255 / 11%) 1px, transparent 1px);
+  --arc-stage-grid-size: 22px 22px;
+  --arc-stage-grid-mask: radial-gradient(ellipse, #000 20%, transparent 70%);
+  --arc-stage-grid-opacity: .6;
   --arc-shell-background: radial-gradient(rgba(77, 141, 255, 0.28), rgba(124, 92, 255, 0.07) 45%, transparent 70%);
   --arc-primary-background: linear-gradient(120deg, #477fff, #755cf3);
   --arc-primary-border: #6889fa;

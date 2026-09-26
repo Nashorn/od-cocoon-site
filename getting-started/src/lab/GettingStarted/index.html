@@ -1,0 +1,41 @@
+<template>
+  <section class="getting-started" aria-labelledby="getting-started-title">
+    <header class="section-header"><h2 id="getting-started-title">Start with a component.<br><span>Grow into an application.</span></h2></header>
+    <div class="demo">
+      <div class="demo-heading"><span class="demo-title"><span class="arc-mark" aria-hidden="true"></span> GETTING STARTED</span><span class="live-label"><span class="live-dot"></span> HELLO WORLD</span></div>
+      <div class="experience">
+        <aside class="story">
+          <p class="state-label" id="step-label"></p>
+          <h3 id="step-title"></h3>
+          <p id="step-copy"></p>
+          <button class="primary" id="view-source">View Source <span aria-hidden="true">↗</span></button>
+          <button class="primary download-button" id="download" data-download>Download <span aria-hidden="true">↓</span></button>
+          <p class="note">Start with a standalone demo. Add an import map and Application when you’re ready.</p>
+        </aside>
+        <div class="preview">
+          <iframe id="example" title="Hello World — live Cocoon example"></iframe>
+          <div class="preview-loading" hidden role="status"><span class="preview-spinner" aria-hidden="true"></span><span>Updating preview…</span></div>
+        </div>
+      </div>
+      <div class="source-view" hidden>
+        <div class="source-heading"><div><h3>The complete example.</h3><p>Start with index.html. Every file here is included in your download.</p></div><div class="source-actions"><button class="primary download-button" data-download>Download <span aria-hidden="true">↓</span></button><button class="primary download-button" id="close-source">Back to example <span aria-hidden="true">↙</span></button></div></div>
+        <code-explorer id="source-explorer" editor-only readonly font-src="/FontWithASyntaxHighlighter-Regular.woff2"></code-explorer>
+      </div>
+      <div class="step-changes" aria-label="What changed in this step">
+        <p id="change-summary" role="status" aria-live="polite" aria-atomic="true"></p>
+        <p id="change-explanation">The component looks the same. Its project structure grows with each step.</p>
+        <div id="changed-files" aria-label="Inspect changed source files"></div>
+      </div>
+      <div class="control-bar">
+        <div class="modes" role="group" aria-label="Getting started steps">
+          <button data-step="0" aria-pressed="true">1 · Component</button>
+          <button data-step="1" aria-pressed="false">2 · Add import map</button>
+          <button data-step="2" aria-pressed="false">3 · Add application</button>
+        </div>
+        <div class="playback-controls"><button id="replay">↻ Try again</button></div>
+      </div>
+      <div class="event-strip"><span id="step-detail"></span><span class="code-caption">HTML · CSS · JS</span></div>
+      <p id="action-status" role="status"></p>
+    </div>
+  </section>
+</template>

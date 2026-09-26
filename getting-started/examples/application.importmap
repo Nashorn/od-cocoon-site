@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "components.HelloWorld": "./src/components/HelloWorld/index.js",
+    "components.WelcomePanel": "./src/components/WelcomePanel/index.js"
+  }
+}

@@ -10,6 +10,7 @@
   <script type="importmap">{"imports": {}}</script>
   <link rel="icon" href="/favicon.ico">
   <link rel="stylesheet" href="simulation/embed.css">
+  <link rel="stylesheet" href="getting-started/embed.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -244,7 +245,7 @@
       <div style="margin-left:auto; display:flex; align-items:center; gap:14px">
         <a class="h0" href="docs.html"
           style="font-size:14.5px; font-weight:600; color:#97a3bd; white-space:nowrap">Docs</a>
-        <a class="h1" href="get-started.html"
+        <a class="h1" href="#getting-started"
           style="display:inline-flex; align-items:center; min-height:40px; padding:0 20px; border-radius:10px; background:linear-gradient(135deg, #4d8dff, #7c5cff); color:#fff; font-size:14.5px; font-weight:700; white-space:nowrap; box-shadow:0 0 24px rgba(77,141,255,0.45); transition:filter .15s">Get
           started</a>
       </div>
@@ -309,7 +310,7 @@
 
       </p>
       <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:36px">
-        <a class="h1" href="get-started.html"
+        <a class="h1" href="#getting-started"
           style="display:inline-flex; align-items:center; min-height:54px; padding:0 30px; border-radius:12px; background:linear-gradient(135deg, #4d8dff, #7c5cff); color:#fff; font-weight:700; font-size:16.5px; box-shadow:0 0 40px rgba(77,141,255,0.5), inset 0 1px 0 rgba(255,255,255,0.25); transition:filter .15s">Get
           started</a>
         <button class="h2 install-command" type="button" data-copy="npm install github:Nashorn/od-cocoon#8.6.0"
@@ -360,6 +361,12 @@
       </div>
     </div>
   </section> -->
+
+  <section id="getting-started" aria-label="Getting started with Cocoon">
+    <div data-getting-started-loading role="status"><strong>Start with a component.</strong><p>Your first Hello World.</p><a href="getting-started/index.html" hidden>Open Getting Started ↗</a></div>
+    <iframe id="getting-started-frame" title="Getting Started — component to application" scrolling="no"></iframe>
+    <noscript><a href="get-started.html">Read the Getting Started guide</a></noscript>
+  </section>
 
   <section id="showcase" aria-label="Interactive Cocoon component lab">
     <p data-showcase-loading style="text-align:center;color:#9daac4;padding:40px">Loading the component lab… <a
@@ -451,6 +458,7 @@
   </footer>
   <script type="module" src="showcase/bootstrap.js"></script>
   <script type="module" src="simulation/bootstrap.js"></script>
+  <script type="module" src="getting-started/bootstrap.js"></script>
   <script src="site.js"></script>
   <script type="module" src="cookie-consent.js"></script>
   <script src="code-explorer.js"></script>

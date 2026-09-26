@@ -206,7 +206,7 @@ window.classof = function(ns){ return NSRegistry[ns] }
 
 async function initImportMap() {
   window.importmap = {};
-  if (!Config.IMPORT_MAPS) { return }
+  if (!Config.IMPORT_MAPS || Config.IMPORT_MAPS === "false") { return }
 
   try {
     var script = document.head.querySelector("script[type='importmap']");

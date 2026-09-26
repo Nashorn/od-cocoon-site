@@ -9,11 +9,8 @@
 }
 
 .demo {
-    /* border: 1px solid #26334a; */
     border-radius: var(--arc-shell-radius);
-    background: linear-gradient(120deg, #0a111e, #070b14 60%);
     box-shadow: var(--arc-shell-shadow);
-    /* background: radial-gradient(closest-side, rgba(77, 141, 255, 0.28), rgba(124, 92, 255, 0.14) 45%, transparent 70%); */
     background: var(--arc-shell-background);
 }
 
@@ -110,12 +107,11 @@
 .stage-grid {
     position: absolute;
     inset: 15px 0;
-    background-image: radial-gradient(#8fa7d421 .7px, transparent .7px);
-    background-size: 22px 22px;
-    mask-image: radial-gradient(ellipse, #000 20%, transparent 70%);
+    background-image: var(--arc-stage-grid-image);
+    background-size: var(--arc-stage-grid-size);
+    mask-image: var(--arc-stage-grid-mask);
     pointer-events: none;
-    opacity: .6;
-    background-image: linear-gradient(rgb(120 150 255 / 10%) 1px, transparent 1px), linear-gradient(90deg, rgb(120 150 255 / 11%) 1px, #00000000 1px);
+    opacity: var(--arc-stage-grid-opacity);
 }
 
 arc-team-access {

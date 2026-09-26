@@ -1,0 +1,2 @@
+/* Let the shared section gradient show through the embedded example. */
+html body { background: transparent; }

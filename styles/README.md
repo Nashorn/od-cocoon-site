@@ -2,7 +2,7 @@
 
 `interactive-tokens.css` is the shared visual source for the landing page's
 interactive sections. Values come from the existing showcase, not the simulation
-mockup. The showcase, stats carousel and simulation section consume them now.
+mockup. The showcase, stats carousel, Getting Started and simulation sections consume them now.
 
 Load it in **each iframe document**, before the application starts:
 
@@ -41,3 +41,26 @@ Each loads it through its Cocoon `styles` list. It uses the `interactive-shell`
 cascade layer above `interactive-reset`; unlayered component rules retain control
 of layout and responsive overrides regardless of stylesheet fetch/adoption order.
 The stylesheet is for component shadow roots, not the outer landing document.
+
+## Open stage background
+
+Use `--arc-shell-background` for the section glow. Layer the graph-paper texture
+above it using these shared tokens:
+
+```css
+.demo { background: var(--arc-shell-background); }
+.stage-grid {
+  background-image: var(--arc-stage-grid-image);
+  background-size: var(--arc-stage-grid-size);
+  mask-image: var(--arc-stage-grid-mask);
+  opacity: var(--arc-stage-grid-opacity);
+  pointer-events: none;
+}
+```
+
+The grid uses 1px lines at 10% and 11% opacity, 22px cells, and an elliptical
+fade. Placement belongs to the section; colors, spacing, fade and opacity belong
+to these tokens. Showcase and Getting Started both consume them. The Hello World
+preview loads the same token file inside its iframe and stays transparent so the
+section glow shows through. Its downloadable page has fallback values to stay
+self-contained without the landing-page stylesheet.

@@ -1,0 +1,8 @@
+#getting-started { position: relative; scroll-margin-top: 80px; min-height: 760px; }
+#getting-started-frame { display: block; width: 100%; height: 900px; border: 0; opacity: 0; }
+#getting-started-frame.ready { opacity: 1; }
+[data-getting-started-loading] { position: absolute; inset: 0; display: grid; align-content: center; justify-items: center; gap: 12px; color: #93a4c1; }
+[data-getting-started-loading] strong { color: #eef2fa; font: 26px 'Space Grotesk', sans-serif; }
+[data-getting-started-loading] p { margin: 0; }
+[data-getting-started-loading][hidden], [data-getting-started-loading] a[hidden] { display: none; }
+[data-getting-started-loading] a { color: #a9c8ff; }
