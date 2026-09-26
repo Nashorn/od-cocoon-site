@@ -1,5 +1,5 @@
 <template>
-  <section class="simulation" aria-labelledby="simulation-title">
+  <section class="lab-section" aria-labelledby="simulation-title">
     <header class="section-header">
       <div><h2 id="simulation-title">Beyond interfaces.<br><span>Build living worlds.</span></h2></div>
     </header>
@@ -41,7 +41,7 @@
       </div>
       <div class="playback-controls"><button id="pause" aria-pressed="false"><span aria-hidden="true">Ⅱ</span> Pause</button><button id="reset"><span aria-hidden="true">↻</span> Reset</button></div>
     </div>
-    <div class="event-strip"><i class="event-light" aria-hidden="true"></i><span id="world-status">400 agents · Autonomous steering</span><span class="event-caption">LIVE METRICS <span id="fps">— FPS</span></span></div>
+    <div class="event-strip"><i class="event-light" aria-hidden="true"></i><span id="world-status">400 agents · Autonomous steering</span><span class="event-caption">LIVE METRICS <span id="fps" class="live-metric">— FPS</span></span></div>
     <details class="lifecycle"><summary>Built on Cocoon’s World lifecycle <span>Explore the loop ↗</span></summary><div><p><code>onUpdate</code>Frame input and telemetry.</p><p><code>onFixedUpdate</code>Steering advances in fixed steps.</p><p><code>onDraw</code>Canvas draws interpolated positions.</p></div><p>The simulation uses 60 fixed steps per second. FPS cap limits rendering without slowing the simulation. Max follows your display and device; the FPS readout is measured live.</p></details>
   </section>
 </template>

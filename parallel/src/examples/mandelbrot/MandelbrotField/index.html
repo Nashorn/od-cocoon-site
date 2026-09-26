@@ -1,0 +1,9 @@
+<template>
+  <canvas class="fractal" tabindex="0" aria-label="Mandelbrot set. Click to zoom in; Shift-click or right-click to zoom out. Plus and minus zoom, arrow keys pan, 0 returns home." aria-describedby="field-hint"></canvas>
+  <canvas class="overlay" aria-hidden="true"></canvas>
+  <div class="heartbeat" aria-hidden="true">
+    <span class="heartbeat-label">MAIN THREAD</span>
+    <span class="heartbeat-track"><i class="heartbeat-dot"></i></span>
+  </div>
+  <p id="field-hint">Click to zoom · Shift-click to zoom out</p>
+</template>

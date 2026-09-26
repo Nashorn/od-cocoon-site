@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Parallel Compute · Cocoon</title>
+  <link rel="stylesheet" href="../styles/interactive-tokens.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+  <style>html,body{margin:0;background:var(--arc-page-bg);color:var(--arc-text)}body{font-family:var(--arc-font-body);-webkit-font-smoothing:antialiased;text-wrap:pretty}[hidden]{display:none!important}#boot-error{padding:32px}</style>
+  <script src="./frame-bridge.js"></script>
+  <script src="../vendor/cocoon/framework.src.js" data-kernel data-namespace="lab.ParallelApplication" data-controller="index.js" data-rootpath="./" data-src-path="/src/" data-sandbox="false"></script>
+</head>
+<body namespace="lab.ParallelApplication">
+  <arc-parallel></arc-parallel>
+  <p id="boot-error" role="alert" hidden>The benchmark could not load. <a href="./index.html">Try again</a></p>
+</body>
+</html>

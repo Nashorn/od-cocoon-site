@@ -1,0 +1,8 @@
+{
+  "imports": {
+    "lab.ParallelApplication": "./src/lab/ParallelApplication/index.js",
+    "lab.ParallelShell": "./src/lab/ParallelShell/index.js",
+    "examples.mandelbrot.MandelbrotWorld": "./src/examples/mandelbrot/MandelbrotWorld/index.js",
+    "examples.mandelbrot.MandelbrotField": "./src/examples/mandelbrot/MandelbrotField/index.js"
+  }
+}

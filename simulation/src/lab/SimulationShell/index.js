@@ -3,7 +3,7 @@ import { ExampleFiles } from '../../../core/ExampleFiles.js';
 
 namespace `lab` (
   class SimulationShell extends Component {
-    styles = ['../showcase/src/lab/shared.css', '../styles/interactive-shell.css'];
+    styles = ['../showcase/src/lab/shared.css', '../styles/interactive-shell.css', '../styles/interactive-lab.css'];
 
     static tag = 'arc-simulation';
 

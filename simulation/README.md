@@ -28,9 +28,10 @@ kernel looks up the World ancestor's visual skin. No kernel modification is need
 
 ## UI and source
 
-The iframe loads `/styles/interactive-tokens.css`. Both interactive section shells
-use `/styles/interactive-shell.css` for their common UI. Simulation-specific layouts
-and flock colors live with their components.
+The iframe loads `/styles/interactive-tokens.css`. The interactive section shells
+use `/styles/interactive-shell.css` for their common UI, and SimulationShell and
+ParallelShell share `/styles/interactive-lab.css` for the lab layout. Flock colors
+live with their components.
 
 View Source lazy-loads the existing `<code-explorer>` and supplies the source
 manifest with `setFiles()`. `readonly` disables user edits, drop imports and file

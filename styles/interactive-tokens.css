@@ -49,6 +49,10 @@
   --arc-stage-grid-size: 22px 22px;
   --arc-stage-grid-mask: radial-gradient(ellipse, #000 20%, transparent 70%);
   --arc-stage-grid-opacity: .6;
+  --arc-stage-border: #233047;
+  --arc-stage-background: #070c15;
+  --arc-stage-chip: #070c15cc;
+  --arc-stage-hint: #8fa5ca;
   --arc-shell-background: radial-gradient(rgba(77, 141, 255, 0.28), rgba(124, 92, 255, 0.07) 45%, transparent 70%);
   --arc-primary-background: linear-gradient(120deg, #477fff, #755cf3);
   --arc-primary-border: #6889fa;

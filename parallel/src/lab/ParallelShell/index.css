@@ -1,0 +1,9 @@
+:host {
+    display: block;
+}
+
+/* ===== STATUS STRIP ===== */
+/* A main-thread render freezes the page; the metric says so in the stat amber. */
+.live-metric.is-blocked {
+    color: var(--arc-stat-amber);
+}

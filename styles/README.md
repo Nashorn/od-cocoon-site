@@ -35,6 +35,13 @@ The editable team-access skins, 3D geometry, animation timings and future flocki
 behavior remain component-owned. The shared reset uses font, text and focus
 fallbacks so standalone ZIP examples don't depend on this landing-page stylesheet.
 
+`interactive-lab.css` holds the lab-section layout shared by SimulationShell and
+ParallelShell: example picker, story + stage grid, controls, status metric, lifecycle
+note and source view, with their 1100px and 720px breakpoints. It sits in the
+`interactive-lab` layer, above `interactive-shell`, so unlayered component rules still
+win. Stage frame colours (`--arc-stage-border`, `-background`, `-chip`, `-hint`) are
+tokens; sample fields use them with fallbacks so exported ZIPs stay self-contained.
+
 `interactive-shell.css` shares the actual header, story typography, button,
 segmented control and status-strip recipes between Showcase and SimulationShell.
 Each loads it through its Cocoon `styles` list. It uses the `interactive-shell`

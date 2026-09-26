@@ -1,0 +1,46 @@
+<template>
+  <section class="lab-section" aria-labelledby="parallel-title">
+    <header class="section-header">
+      <div><h2 id="parallel-title">Removing bottlenecks.<br><span>Meet multi-core parallelism.</span></h2></div>
+    </header>
+    <div class="demo-heading">
+      <span class="demo-title"><i class="arc-mark" aria-hidden="true"></i> PARALLEL COMPUTE</span>
+      <span class="live-label"><i class="live-dot" aria-hidden="true"></i><span id="live-label">LIVE</span></span>
+    </div>
+    <nav class="example-picker" aria-label="Parallel benchmarks">
+      <button aria-current="page" data-example="mandelbrot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z"/></svg>Mandelbrot</button>
+      <button disabled><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="10" r="6"/><path d="m13 14 8 7M3 21h18"/></svg>Ray Tracer <small>Coming soon</small></button>
+      <button disabled><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m3 16 5-5 4 4 3-3 6 6"/></svg>Image Filters <small>Coming soon</small></button>
+    </nav>
+    <div class="experience">
+      <aside class="story">
+        <p class="state-label">01 / MANDELBROT</p>
+        <h3>Every core. <br>One pool.</h3>
+        <p>Heavy work runs across real threads while the page stays smooth—built into Cocoon, no build step.</p>
+        <p class="instruction">Click to zoom in.<br>Then try Main thread and watch the heartbeat stop.</p>
+        <button class="primary" id="view-source">View Source <span aria-hidden="true">↗</span></button>
+        <button class="primary download-button" id="download">Download <span aria-hidden="true">↓</span></button>
+        <p id="action-status" role="status"></p>
+      </aside>
+      <arc-mandelbrot-field></arc-mandelbrot-field>
+    </div>
+    <section class="source-view" aria-label="Example source" hidden>
+      <div class="source-heading"><div><h3>Inside the Mandelbrot benchmark</h3><p>The actual files running this example. Download to make them yours.</p></div><button class="primary download-button" id="close-source">Back to benchmark <span aria-hidden="true">↙</span></button></div>
+      <code-explorer id="source-explorer" editor-only readonly font-src="/FontWithASyntaxHighlighter-Regular.woff2" aria-label="Mandelbrot benchmark source files"></code-explorer>
+    </section>
+    <div class="control-bar">
+      <div class="modes thread-modes" aria-label="Where the work runs">
+        <button data-threads="0" aria-pressed="false"><span aria-hidden="true">◌</span>Main thread</button>
+        <button data-threads="2" aria-pressed="false"><span aria-hidden="true">≡</span>2 threads</button>
+        <button data-threads="4" aria-pressed="false"><span aria-hidden="true">≡</span>4 threads</button>
+        <button data-threads="max" aria-pressed="true"><span aria-hidden="true">≣</span>All <data class="thread-count"></data> threads</button>
+      </div>
+      <div class="world-controls">
+        <div class="world-control"><label for="iterations">Iterations</label><input id="iterations" type="range" min="250" max="3000" step="250" value="1000"><output id="iterations-value" for="iterations">1000</output></div>
+      </div>
+      <div class="playback-controls"><button id="render"><span aria-hidden="true">▷</span> Render again</button><button id="reset"><span aria-hidden="true">↻</span> Reset</button></div>
+    </div>
+    <div class="event-strip"><i class="event-light" aria-hidden="true"></i><span id="world-status">Preparing threads…</span><span class="event-caption">LAST RENDER <span id="render-time" class="live-metric">—</span></span></div>
+    <details class="lifecycle"><summary>Built on Cocoon’s ThreadPool <span>See how it works ↗</span></summary><div><p><code>new core.lang.ThreadPool(fn)</code>One worker per core, made from a plain function.</p><p><code>pool.run(tile)</code>Each tile is a job. A free worker takes the next one.</p><p><code>transfer(pixels)</code>Finished pixels move back without a copy.</p></div><p>Speedup compares the same view rendered on the Main thread and on threads. Render both to see it. Worker startup is timed separately and excluded. Results depend on your device’s cores.</p></details>
+  </section>
+</template>

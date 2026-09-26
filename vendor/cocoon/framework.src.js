@@ -302,6 +302,161 @@ if(!("innerText" in CSSStyleSheet.prototype)) {
         return func
     };
 })(globalThis);
+namespace `core.lang` (
+  class Thread {
+    static ENVELOPE = "$thread";
+
+    static isEnvelope(message) {
+      return message !== null && typeof message === "object" && Thread.ENVELOPE in message;
+    }
+
+    // javascript-obfuscator:disable
+    static workerRuntime(fn, envelope) {
+      const TRANSFER = Symbol("transfer");
+
+      self.transfer = (result, list) => ({ [TRANSFER]: true, result, list });
+
+      self.onmessage = async (event) => {
+        const message = event.data;
+        const isRun = message !== null && typeof message === "object" && envelope in message;
+        if (!isRun) return fn.call(self, event);
+
+        const id = message[envelope];
+        try {
+          let result = await fn.call(self, message.data);
+          let list = [];
+          if (result && result[TRANSFER]) ({ result, list } = result);
+          self.postMessage({ [envelope]: id, result }, list);
+        } catch (error) {
+          self.postMessage({
+            [envelope]: id,
+            error: { message: String(error?.message ?? error), stack: error?.stack },
+          });
+        }
+      };
+    }
+
+    // javascript-obfuscator:enable
+
+    constructor(fn) {
+      const runtime = `function ${Thread.workerRuntime}`;
+      const source = `(${runtime})(${fn}, ${JSON.stringify(Thread.ENVELOPE)});`;
+      const url = URL.createObjectURL(new Blob([source], { type: "text/javascript" }));
+      this.worker = new Worker(url);
+      URL.revokeObjectURL(url);
+
+      this.jobs = new Map();
+      this.nextId = 0;
+      this.onmessage = null;
+      this.onerror = null;
+      this.worker.onmessage = (event) => this.receive(event);
+      this.worker.onerror = (event) => this.fail(event);
+      this.worker.onmessageerror = (event) => this.fail(event);
+    }
+
+    run(data, transfer = []) {
+      if (!this.worker) return Promise.reject(new Error("Thread terminated"));
+      return new Promise((resolve, reject) => {
+        const id = this.nextId++;
+        this.jobs.set(id, { resolve, reject });
+        this.worker.postMessage({ [Thread.ENVELOPE]: id, data }, transfer);
+      });
+    }
+
+    postMessage(message, transfer) {
+      this.worker.postMessage(message, transfer);
+    }
+
+    terminate() {
+      this.worker?.terminate();
+      this.worker = null;
+      this.rejectAll(new Error("Thread terminated"));
+    }
+
+    receive(event) {
+      const reply = event.data;
+      const job = Thread.isEnvelope(reply) && this.jobs.get(reply[Thread.ENVELOPE]);
+      if (!job) return this.onmessage?.(event);
+
+      this.jobs.delete(reply[Thread.ENVELOPE]);
+      if ("error" in reply) {
+        job.reject(Object.assign(new Error(reply.error.message), { stack: reply.error.stack }));
+      } else {
+        job.resolve(reply.result);
+      }
+    }
+
+    fail(event) {
+      this.rejectAll(new Error(event.message || "Thread error"));
+      this.onerror?.(event);
+    }
+
+    rejectAll(error) {
+      this.jobs.forEach((job) => job.reject(error));
+      this.jobs.clear();
+    }
+  }
+)
+
+
+namespace `core.lang` (
+  class ThreadPool {
+    static defaultSize() {
+      return Math.max(1, (navigator.hardwareConcurrency || 2) - 1);
+    }
+
+    constructor(fn, size = ThreadPool.defaultSize()) {
+      this.threads = Array.from({ length: size }, () => new core.lang.Thread(fn));
+      this.idle = [...this.threads];
+      this.queue = [];
+      this.head = 0;
+    }
+
+    get size() {
+      return this.threads.length;
+    }
+
+    run(data, transfer = []) {
+      if (!this.threads.length) return Promise.reject(new Error("ThreadPool terminated"));
+      return new Promise((resolve, reject) => {
+        this.queue.push({ data, transfer, resolve, reject });
+        this.dispatch();
+      });
+    }
+
+    dispatch() {
+      while (this.idle.length && this.head < this.queue.length) {
+        const thread = this.idle.pop();
+        const job = this.queue[this.head];
+        this.queue[this.head++] = undefined;
+        thread.run(job.data, job.transfer)
+          .then(job.resolve, job.reject)
+          .finally(() => this.release(thread));
+      }
+      if (this.head === this.queue.length) {
+        this.queue.length = 0;
+        this.head = 0;
+      }
+    }
+
+    release(thread) {
+      if (!this.threads.includes(thread)) return;
+      this.idle.push(thread);
+      this.dispatch();
+    }
+
+    terminate() {
+      this.threads.forEach((thread) => thread.terminate());
+      this.threads = [];
+      this.idle = [];
+      const error = new Error("ThreadPool terminated");
+      for (let i = this.head; i < this.queue.length; i++) this.queue[i].reject(error);
+      this.queue = [];
+      this.head = 0;
+    }
+  }
+)
+
 // import 'src/system/traits/IEventTarget.js';
 
 namespace `domain` (
