@@ -2,77 +2,6 @@
 <html lang="en">
 
 <head>
-
-  <!-- Cocoon first-paint splash: intentionally inline so the landing page can never flash first. -->
-  <style id="cocoon-intro-critical">
-    html { background:#02050a; }
-    body { margin:0; background:#02050a; }
-    body.cocoon-intro-active { overflow:hidden; }
-    body.cocoon-intro-active > :not(#cocoon-intro) { visibility:hidden !important; }
-    #cocoon-intro {
-      position:fixed; inset:0; z-index:2147483647; display:grid; place-items:center;
-      background:#02050a; color:#f7f9ff; opacity:1; visibility:visible;
-      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-    }
-    #cocoon-intro .ci-stage { position:relative; width:min(460px,100vw); height:400px; display:grid; place-items:center; }
-    #cocoon-intro .ci-aura {
-      position:absolute; width:240px; height:240px; border-radius:50%;
-      background:radial-gradient(circle,rgba(22,119,255,.20),rgba(22,119,255,.05) 38%,transparent 70%);
-      filter:blur(12px); opacity:0; transform:scale(.45);
-    }
-    #cocoon-intro .ci-mark { width:150px; height:162px; overflow:visible; filter:drop-shadow(0 0 0 rgba(22,119,255,0)); }
-    #cocoon-intro .ci-piece { fill:#1677ff; transform-box:fill-box; transform-origin:center; opacity:0; }
-    #cocoon-intro .ci-ul { transform:translate(27px,22px) rotate(38deg) scale(.72); }
-    #cocoon-intro .ci-ur { transform:translate(-27px,22px) rotate(-38deg) scale(.72); }
-    #cocoon-intro .ci-ll { transform:translate(20px,-14px) rotate(-26deg) scale(.78); }
-    #cocoon-intro .ci-lr { transform:translate(-20px,-14px) rotate(26deg) scale(.78); }
-    #cocoon-intro .ci-chin { transform:translateY(-18px) scale(.7); }
-    #cocoon-intro .ci-name {
-      position:absolute; top:305px; font:700 25px/1 'Space Grotesk',Inter,system-ui,sans-serif;
-      letter-spacing:.32em; opacity:0; transform:translateY(8px); white-space:nowrap;
-    }
-    #cocoon-intro .ci-seam {
-      position:absolute; left:50%; top:100px; width:2px; height:130px;
-      transform:translateX(-50%) scaleY(0); transform-origin:center;
-      background:linear-gradient(transparent,#6fb1ff,#fff,#6fb1ff,transparent);
-      opacity:0; box-shadow:0 0 16px #2381ff;
-    }
-    #cocoon-intro .ci-flash {
-      position:absolute; width:10px; height:10px; border-radius:50%; background:#fff; opacity:0;
-      box-shadow:0 0 20px 8px #3b8cff,0 0 70px 25px rgba(59,140,255,.45);
-    }
-    #cocoon-intro .ci-skip {
-      position:absolute; right:26px; bottom:24px; border:0; background:none; color:#69758b;
-      font:500 12px/1 system-ui,sans-serif; letter-spacing:.15em; cursor:pointer;
-    }
-    @keyframes ciAura { 0%{opacity:0;transform:scale(.4)} 60%,100%{opacity:1;transform:scale(1)} }
-    @keyframes ciSeam { 0%{opacity:0;transform:translateX(-50%) scaleY(0)} 50%{opacity:1} 100%{opacity:.25;transform:translateX(-50%) scaleY(1)} }
-    @keyframes ciSettle { to{opacity:1;transform:none} }
-    @keyframes ciGlow { 0%{filter:drop-shadow(0 0 0 rgba(22,119,255,0))} 50%{filter:drop-shadow(0 0 22px rgba(22,119,255,.9))} 100%{filter:drop-shadow(0 0 9px rgba(22,119,255,.45))} }
-    @keyframes ciName { to{opacity:1;transform:none} }
-    @keyframes ciPulse { 0%{opacity:0;transform:scale(.2)} 35%{opacity:1} 100%{opacity:0;transform:scale(8)} }
-    @keyframes ciOut {
-      0%   { opacity:1; visibility:visible; }
-      100% { opacity:0; visibility:hidden; }
-    }
-    #cocoon-intro.ci-running .ci-aura { animation:ciAura .85s .15s ease-out forwards; }
-    #cocoon-intro.ci-running .ci-seam { animation:ciSeam .55s .42s ease-out forwards; }
-    #cocoon-intro.ci-running .ci-ul { animation:ciSettle .56s .72s cubic-bezier(.2,.85,.2,1.12) forwards; }
-    #cocoon-intro.ci-running .ci-ur { animation:ciSettle .56s .76s cubic-bezier(.2,.85,.2,1.12) forwards; }
-    #cocoon-intro.ci-running .ci-ll { animation:ciSettle .48s .88s cubic-bezier(.2,.85,.2,1.12) forwards; }
-    #cocoon-intro.ci-running .ci-lr { animation:ciSettle .48s .92s cubic-bezier(.2,.85,.2,1.12) forwards; }
-    #cocoon-intro.ci-running .ci-chin { animation:ciSettle .38s 1.02s cubic-bezier(.2,.85,.2,1.15) forwards; }
-    #cocoon-intro.ci-running .ci-mark { animation:ciGlow .65s 1.05s ease-out forwards; }
-    #cocoon-intro.ci-running .ci-flash { animation:ciPulse .48s 1.75s ease-out forwards; }
-    #cocoon-intro.ci-running .ci-name { animation:ciName .38s 1.42s ease-out forwards; }
-    #cocoon-intro.ci-running {
-      /* Fade the ENTIRE splash layer, including its opaque scrim/background. */
-      animation:ciOut 1s 2.20s cubic-bezier(.4,0,.2,1) forwards;
-      will-change:opacity;
-    }
-    @media (max-width:600px){ #cocoon-intro .ci-stage{transform:scale(.82)} }
-  </style>
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Arc — Build the application. Keep the platform.</title>
@@ -412,71 +341,7 @@
   </style>
 </head>
 
-<body class="cocoon-intro-active">
-
-  <div id="cocoon-intro" role="status" aria-label="Cocoon loading">
-    <div class="ci-stage">
-      <div class="ci-aura"></div>
-      <div class="ci-seam"></div>
-      <svg class="ci-mark" viewBox="0 0 100 108" aria-hidden="true">
-        <polygon class="ci-piece ci-ul" points="12,10 22,10 47,38 47,44 32,58 22,58 12,47"></polygon>
-        <polygon class="ci-piece ci-ur" points="88,10 78,10 53,38 53,44 68,58 78,58 88,47"></polygon>
-        <polygon class="ci-piece ci-ll" points="27,63 45,63 45,88 36,94 22,80 22,72"></polygon>
-        <polygon class="ci-piece ci-lr" points="73,63 55,63 55,88 64,94 78,80 78,72"></polygon>
-        <polygon class="ci-piece ci-chin" points="46,94 54,94 59,98 50,104 41,98"></polygon>
-      </svg>
-      <div class="ci-flash"></div>
-      <div class="ci-name">COCOON</div>
-    </div>
-    <button class="ci-skip" type="button">SKIP INTRO</button>
-  </div>
-
-  <script>
-    (() => {
-      const intro = document.getElementById('cocoon-intro');
-      const body = document.body;
-      let finished = false;
-
-      function revealSite() {
-        if (finished) return;
-        finished = true;
-        body.classList.remove('cocoon-intro-active');
-        body.style.overflowX = 'hidden';
-        intro.style.opacity = '0';
-        intro.style.visibility = 'hidden';
-        intro.style.pointerEvents = 'none';
-        window.setTimeout(() => intro.remove(), 450);
-      }
-
-      // Start synchronously: no DOMContentLoaded/load wait, so the splash is the first experience.
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        revealSite();
-      } else {
-        requestAnimationFrame(() => intro.classList.add('ci-running'));
-
-        // Make the completed landing page available UNDER the still-opaque splash
-        // exactly when the full-screen scrim begins its dissolve.
-        window.setTimeout(() => {
-          body.classList.remove('cocoon-intro-active');
-          body.style.overflowX = 'hidden';
-        }, 2200);
-
-        // Cleanup only after the full overlay fade has completed.
-        window.setTimeout(revealSite, 3250);
-      }
-
-      intro.querySelector('.ci-skip').addEventListener('click', () => {
-        body.classList.remove('cocoon-intro-active');
-        intro.style.transition = 'opacity .35s ease';
-        intro.style.opacity = '0';
-        window.setTimeout(revealSite, 350);
-      });
-      window.addEventListener('pageshow', e => {
-        if (e.persisted) revealSite();
-      });
-    })();
-  </script>
-
+<body>
   <nav
     style="position:sticky; top:0; z-index:60; background:rgb(4 6 12 / 30%); backdrop-filter:blur(18px); border-bottom:1px solid rgba(255,255,255,0.07)">
     <div class="site-nav-inner"
@@ -484,7 +349,13 @@
       <a class="cocoon-brand" data-track="nav_click" data-track-label="Logo" href="#top" aria-label="Cocoon home">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 108" role="img" aria-labelledby="title">
   <title id="title">Cocoon mark</title>
-  <polygon points="12,10 22,10 47,38 47,44 32,58 22,58 12,47" fill="#FFFFFF"/>
+  <defs>
+    <mask id="slashMask">
+      <rect x="0" y="0" width="100" height="108" fill="white"/>
+      <polygon points="9,25 47,39 47,46 9,32" fill="black"/>
+    </mask>
+  </defs>
+  <polygon points="12,10 22,10 47,38 47,44 32,58 22,58 12,47" fill="#FFFFFF" mask="url(#slashMask)"/>
   <polygon points="88,10 78,10 53,38 53,44 68,58 78,58 88,47" fill="#FFFFFF"/>
   <polygon points="27,63 45,63 45,88 36,94 22,80 22,72" fill="#FFFFFF"/>
   <polygon points="73,63 55,63 55,88 64,94 78,80 78,72" fill="#FFFFFF"/>
@@ -494,9 +365,9 @@
         COCOON
       </a>
       <div class="navlinks">
-        <a class="h0" data-track="nav_click" href="#showcase">Explore</a>
-        <!-- <a class="h0" data-track="nav_click" href="#showcase" data-showcase-mode="inspect">Code</a>
-        <a class="h0" data-track="nav_click" href="#showcase" data-showcase-mode="inspect">Inspect</a> -->
+        <a class="h0" data-track="nav_click" href="#showcase">Features</a>
+        <a class="h0" data-track="nav_click" href="#showcase" data-showcase-mode="inspect">Code</a>
+        <a class="h0" data-track="nav_click" href="#showcase" data-showcase-mode="inspect">Inspect</a>
         <a class="h0" data-track="nav_click" href="#simulation">Simulation</a>
         <a class="h0" data-track="nav_click" href="#parallel">Multicore Threading</a>
       </div>
@@ -563,7 +434,9 @@
         descendants—no LESS, Sass, PostCSS, build pipelines, or BEM naming conventions required.
       </p> -->
       <p style="margin:28px auto 0; max-width:60ch; color:#9daac4; font-size:19px; line-height:1.7">
-        Build browser managed component libraries where traits, behavior and skin cascade naturally, in real-time. No pre-built stitching of css files or load order to worry about. No LESS, Sass, PostCSS. No build pipelines, or BEM naming conventions required. 
+        Build browser managed component libraries where traits, behavior and skin cascade to descendants as a unit, in real time. No stitching of css files or load order to worry about. No LESS, Sass, PostCSS. No build pipelines, or BEM naming conventions required. 
+
+
       </p>
       <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:36px">
         <a class="h1" data-track="cta_click" data-track-label="Get started (hero)" href="#getting-started"
@@ -695,10 +568,9 @@
     <div style="position:relative; width:min(840px, calc(100% - 48px)); margin:0 auto; text-align:center">
       <h2
         style="margin:0 0 18px; font-size:clamp(2.4rem, 5vw, 4.2rem); line-height:1.02; letter-spacing:-0.035em; font-weight:700; color:#fff">
-        The browser is a framework.</h2>
-      <p style="margin:0 auto 34px; max-width:52ch; color:#9daac4; font-size:18px; line-height:1.7">
-        Beautifully simple. No overhead. Cocoon evolves native browser capabilities into application architecture.
-      </p>
+        Ship something native tonight.</h2>
+      <p style="margin:0 auto 34px; max-width:52ch; color:#9daac4; font-size:18px; line-height:1.7">One script tag.
+        Three files per component. The same model from your first component to your whole application.</p>
       <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap">
         <a class="h1" data-track="cta_click" data-track-label="Get started (closing)" href="#getting-started"
           style="display:inline-flex; align-items:center; min-height:54px; padding:0 32px; border-radius:12px; background:linear-gradient(135deg, #4d8dff, #7c5cff); color:#fff; font-weight:700; font-size:16.5px; box-shadow:0 0 44px rgba(77,141,255,0.55), inset 0 1px 0 rgba(255,255,255,0.25); transition:filter .15s">Get
@@ -709,7 +581,7 @@
       </div>
       <p style="margin:30px 0 0; font-family:'JetBrains Mono',monospace; font-size:13px; color:#8998b7">MIT licensed ·
         v8.6.1 ·
-        14 kB gzipped</p>
+        45 kB minified · 14 kB gzipped</p>
     </div>
   </section>
 

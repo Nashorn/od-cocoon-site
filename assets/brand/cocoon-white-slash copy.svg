@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 108" role="img" aria-labelledby="title">
+  <title id="title">Cocoon mark</title>
+  <defs>
+    <mask id="slashMask">
+      <rect x="0" y="0" width="100" height="108" fill="white"/>
+      <polygon points="9,25 47,39 47,46 9,32" fill="black"/>
+    </mask>
+  </defs>
+  <polygon points="12,10 22,10 47,38 47,44 32,58 22,58 12,47" fill="#FFFFFF" mask="url(#slashMask)"/>
+  <polygon points="88,10 78,10 53,38 53,44 68,58 78,58 88,47" fill="#FFFFFF"/>
+  <polygon points="27,63 45,63 45,88 36,94 22,80 22,72" fill="#FFFFFF"/>
+  <polygon points="73,63 55,63 55,88 64,94 78,80 78,72" fill="#FFFFFF"/>
+  <polygon points="46,94 54,94 59,98 50,104 41,98" fill="#FFFFFF"/>
+</svg>
