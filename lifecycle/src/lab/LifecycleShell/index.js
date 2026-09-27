@@ -11,7 +11,7 @@ namespace `lab` (
 
     async onConnected() {
       await super.onConnected();
-      this.phase = 0;
+      this.phase = 2;
       this.bootMode = 'auto';
       this.example = 'birth';
       this.querySelector('.phase-rail').innerHTML = PHASES.map((phase,index) => `<li><button data-phase="${index}"><i></i><span>${phase.label}</span><small>${String(index + 1).padStart(2,'0')}</small></button></li>`).join('');
@@ -31,7 +31,7 @@ namespace `lab` (
       this.on('click', () => this.showSource(), false, '#view-source');
       this.on('click', () => this.closeSource(), false, '#close-source');
       this.on('click', () => this.download(), false, '#download');
-      this.showPhase(0);
+      this.showPhase(2);
       this.connectorObserver = new ResizeObserver(() => this.syncConnectors());
       this.connectorObserver.observe(this.querySelector('.component-layers'));
       requestAnimationFrame(() => requestAnimationFrame(() => this.syncConnectors()));
