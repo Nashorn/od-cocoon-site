@@ -1,0 +1,88 @@
+<template>
+  <section class="lab-section" aria-labelledby="lifecycle-title">
+    <header class="section-header">
+      <div><h2 id="lifecycle-title">Lifecycle of a Cocoon component.<br><span>The nine stages of birth.</span></h2></div>
+    </header>
+
+    <div class="demo-heading">
+      <span class="demo-title"><i class="arc-mark" aria-hidden="true"></i> COMPONENT LIFE CYCLE</span>
+      <span class="live-label"><i class="live-dot" aria-hidden="true"></i><span id="live-label">LIVE</span></span>
+    </div>
+
+    <nav class="example-picker" aria-label="Lifecycle examples">
+      <button aria-current="page" data-example="birth"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 1.7 6.3L20 10l-6.3 1.7L12 18l-1.7-6.3L4 10l6.3-1.7z"/></svg>Component Birth</button>
+      <button data-example="lazy"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg>Lazy Arrival</button>
+      <button data-example="reconnect"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7H6a4 4 0 0 0 0 8h2m8-8h2a4 4 0 0 1 0 8h-2M8 12h8"/></svg>Disconnect &amp; Reconnect</button>
+    </nav>
+
+    <div class="experience">
+      <aside class="story">
+        <p class="state-label" id="story-step">01 / COMPONENT BIRTH</p>
+        <h3 id="story-title">From markup.<br>Into the world.</h3>
+        <p id="story-copy">Follow one component through discovery, definition, styling, rendering, and connection.</p>
+        <p class="instruction" id="story-instruction">Step through the runtime.<br>See what Cocoon handles for you.</p>
+        <button class="primary" id="view-source" data-track="demo_action" data-track-label="Lifecycle: View Source">View Source <span aria-hidden="true">↗</span></button>
+        <button class="primary download-button" id="download" data-track="demo_action" data-track-label="Lifecycle: Download">Download <span aria-hidden="true">↓</span></button>
+        <p id="action-status" role="status"></p>
+      </aside>
+
+      <div class="lifecycle-stage" aria-label="Animated Cocoon component lifecycle">
+        <div class="stage-grid" aria-hidden="true"></div>
+        <div class="birth-path">
+          <div class="component-layers" aria-label="Component layers">
+            <div class="stack-annotation" data-reveal="element"><code class="unresolved-tag" data-code="tag"></code><span>custom element</span></div>
+            <div class="layer-labels" aria-hidden="true"><span data-reveal="root">Root</span><span data-reveal="style">Stylesheet</span><span data-reveal="content">Hydrated HTML</span><span data-reveal="rendered">Rendered component</span></div>
+            <svg class="layer-connectors layer-connectors-back" aria-hidden="true">
+              <g data-reveal="element"><path/><circle r="2.5"/></g>
+              <g data-reveal="root"><path/><circle r="2.5"/></g>
+              <g data-reveal="style"><path/><circle r="2.5"/></g>
+              <g data-reveal="content"><path/><circle r="2.5"/></g>
+            </svg>
+            <div class="stack-perspective">
+              <div class="layer-assembly">
+                <div class="layer layer-element"><i class="connector-anchor" aria-hidden="true"></i><code data-code="element"></code></div>
+                <div class="layer layer-root"><i class="connector-anchor" aria-hidden="true"></i><code data-code="root"></code></div>
+                <div class="layer layer-style"><i class="connector-anchor" aria-hidden="true"></i><code data-code="style"></code></div>
+                <div class="layer layer-content"><i class="connector-anchor" aria-hidden="true"></i><code data-code="content"></code></div>
+                <div id="live-component" class="live-component"></div>
+              </div>
+            </div>
+            <svg class="layer-connectors layer-connectors-front" aria-hidden="true">
+              <g data-reveal="rendered"><path/><circle r="3.5"/></g>
+            </svg>
+            <p class="phase-event" aria-live="polite"><i aria-hidden="true"></i><code id="phase-event-title">DOM ready</code><span id="phase-event-detail">bootloader listening</span></p>
+          </div>
+        </div>
+
+        <aside class="trace-panel" aria-live="polite">
+          <p>LIFECYCLE TRACE</p>
+          <div class="trace-current"><i aria-hidden="true"></i><span><strong id="trace-name">BOOT</strong><code id="trace-method">DOMContentLoaded</code></span></div>
+          <ol id="trace-tasks"></ol>
+          <dl><div><dt>Element</dt><dd>hello-world</dd></div><div><dt>State</dt><dd id="trace-state">waiting</dd></div><div><dt>Owner</dt><dd id="trace-owner">Browser</dd></div></dl>
+        </aside>
+
+        <ol class="phase-rail" aria-label="Lifecycle phases"></ol>
+        <p class="stage-hint">Select a phase · Step through the runtime</p>
+      </div>
+    </div>
+
+    <section class="source-view" aria-label="Example source" hidden>
+      <div class="source-heading"><div><h3>Inside the component lifecycle</h3><p>The component, application, and two boot paths behind this lab.</p></div><button class="primary download-button" id="close-source">Back to lifecycle <span aria-hidden="true">↙</span></button></div>
+      <code-explorer id="source-explorer" editor-only readonly font-src="/FontWithASyntaxHighlighter-Regular.woff2" aria-label="Lifecycle example source files"></code-explorer>
+    </section>
+
+    <div class="control-bar">
+      <div class="modes boot-modes" aria-label="Component loading path">
+        <button data-boot="auto" aria-pressed="true"><span aria-hidden="true">●</span>Auto discovery</button>
+        <button data-boot="application" aria-pressed="false"><span aria-hidden="true">○</span>Application code-behind</button>
+      </div>
+      <div class="world-controls">
+        <div class="world-control"><label for="phase-progress">Phase <output id="phase-count" for="phase-progress">1 of 9</output></label><input id="phase-progress" type="range" min="0" max="8" step="1" value="0"></div>
+      </div>
+      <div class="playback-controls"><button id="play"><span aria-hidden="true">▷</span> Play</button><button id="step"><span aria-hidden="true">→</span> Step</button><button id="replay"><span aria-hidden="true">↻</span> Replay</button></div>
+    </div>
+
+    <div class="event-strip"><i class="event-light" aria-hidden="true"></i><span id="world-status">boot activity · document</span><span class="event-caption">CURRENT PHASE <span id="current-phase" class="live-metric">BOOT</span></span></div>
+    <details class="lifecycle"><summary>Built on Cocoon’s native component lifecycle <span>Explore the lifecycle ↗</span></summary><div><p><code>connectedCallback()</code>The browser places the component in the document.</p><p><code>onRendered()</code>The component DOM now exists.</p><p><code>onAwake()</code>The finished component begins responding.</p></div><p>Cocoon coordinates browser callbacks, inherited styles, templates, component events, and final page settlement. Detaching a component invokes <code>onDisconnected()</code> and <code>onSleep()</code>; reconnecting starts its connection pipeline again.</p></details>
+  </section>
+</template>

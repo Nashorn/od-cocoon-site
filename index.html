@@ -82,6 +82,7 @@
   <link rel="icon" href="/cocoon-favicon.svg">
   <link rel="stylesheet" href="simulation/embed.css">
   <link rel="stylesheet" href="parallel/embed.css">
+  <link rel="stylesheet" href="lifecycle/embed.css">
   <link rel="stylesheet" href="getting-started/embed.css">
   <link rel="stylesheet" href="environment-marquee.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -497,6 +498,7 @@
         <a class="h0" data-track="nav_click" href="#showcase">Explore</a>
         <!-- <a class="h0" data-track="nav_click" href="#showcase" data-showcase-mode="inspect">Code</a>
         <a class="h0" data-track="nav_click" href="#showcase" data-showcase-mode="inspect">Inspect</a> -->
+        <a class="h0" data-track="nav_click" href="#lifecycle">Life Cycle</a>
         <a class="h0" data-track="nav_click" href="#simulation">Simulation</a>
         <a class="h0" data-track="nav_click" href="#parallel">Multicore Threading</a>
       </div>
@@ -667,6 +669,16 @@
     </noscript>
   </section>
 
+  <section id="lifecycle" data-track-view="lifecycle" aria-label="Cocoon component lifecycle">
+    <div data-lifecycle-loading role="status">
+      <svg viewBox="0 0 76 62" aria-hidden="true"><path d="M8 31h13m5 0h13m5 0h13"/><circle cx="23" cy="31" r="5"/><circle cx="42" cy="31" r="5"/><path d="m58 20 10 11-10 11M34 8l4 10 10 4-10 4-4 10-4-10-10-4 10-4z"/></svg>
+      <strong>Component Life Cycle</strong><p>A component is preparing to enter the world.</p>
+      <a href="lifecycle/index.html" hidden>Open the lifecycle lab ↗</a>
+    </div>
+    <iframe id="lifecycle-frame" title="Cocoon component lifecycle lab" scrolling="no"></iframe>
+    <noscript><p>Enable JavaScript to explore the Cocoon component lifecycle.</p></noscript>
+  </section>
+
   <section id="simulation" data-track-view="simulation" aria-label="Games and simulation">
     <div data-simulation-loading role="status">
       <svg viewBox="0 0 90 55" aria-hidden="true"><path d="m5 14 18 8-18 8 4-8zm27-9 18 8-18 8 4-8zm25 16 18 8-18 8 4-8zM30 34l18 8-18 8 4-8z"/></svg>
@@ -768,6 +780,7 @@
     </div>
   </footer>
   <script type="module" src="showcase/bootstrap.js"></script>
+  <script type="module" src="lifecycle/bootstrap.js"></script>
   <script type="module" src="simulation/bootstrap.js"></script>
   <script type="module" src="parallel/bootstrap.js"></script>
   <script type="module" src="getting-started/bootstrap.js"></script>

@@ -96,4 +96,18 @@
   --arc-stat-value: #edf1f9;
   --arc-stat-label: #d9e2ee;
   --arc-stat-detail: #95a3b7;
+  --arc-stage-line: #395278;
+  --arc-stage-line-active: #72cfff;
+  --arc-stage-layer: rgb(18 31 55 / 82%);
+  --arc-stage-layer-border: #405982;
+  --arc-stage-glow: rgb(89 112 255 / 28%);
+  --arc-stage-complete: #7fcfff;
+  --arc-stage-pending: #52627d;
+  --arc-trace-background: rgb(5 10 19 / 92%);
+  --arc-trace-check: #79e7df;
+  --arc-code-keyword: #c59cff;
+  --arc-code-element: #73dfff;
+  --arc-code-property: #ff809c;
+  --arc-code-value: #ffd479;
+  --arc-code-punctuation: #eef2fa;
 }

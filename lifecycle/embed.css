@@ -1,0 +1,9 @@
+#lifecycle { position:relative; scroll-margin-top:80px; min-height:760px; }
+#lifecycle-frame { display:block; width:100%; height:960px; border:0; opacity:0; }
+#lifecycle-frame.ready { opacity:1; }
+[data-lifecycle-loading] { position:absolute; inset:0; display:grid; align-content:center; justify-items:center; gap:12px; margin:auto; max-width:1340px; color:#93a4c1; background:radial-gradient(ellipse at center,#141b36,transparent 65%); }
+[data-lifecycle-loading] svg { width:76px; height:62px; fill:none; stroke:#788dff; stroke-width:1.5; }
+[data-lifecycle-loading] strong { color:#eef2fa; font-family:'Space Grotesk',sans-serif; font-size:26px; }
+[data-lifecycle-loading] p { margin:0; font-size:13px; }
+[data-lifecycle-loading][hidden], [data-lifecycle-loading] a[hidden] { display:none; }
+[data-lifecycle-loading] a { color:#a9c8ff; }
