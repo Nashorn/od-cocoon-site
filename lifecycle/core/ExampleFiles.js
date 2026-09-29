@@ -2,12 +2,11 @@ import { ExampleDownload } from '../../showcase/core/ExampleDownload.js';
 
 export class ExampleFiles {
   static paths = [
-    'src/examples/lifecycle/LifecycleCard/index.js',
-    'src/examples/lifecycle/LifecycleCard/index.html',
-    'src/examples/lifecycle/LifecycleCard/index.css',
-    'src/examples/lifecycle/LifecycleApplication/index.js',
-    'src/examples/lifecycle/LifecycleApplication/index.css',
-    'src/lab/LifecycleShell/content.js',
+    'src/examples/HelloWorld/index.js',
+    'src/examples/HelloWorld/index.html',
+    'src/examples/HelloWorld/index.css',
+    'src/examples/HelloWorldApplication/index.js',
+    'src/examples/HelloWorldApplication/index.css',
   ];
 
   static async load() {
@@ -29,7 +28,7 @@ export class ExampleFiles {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Automatic discovery · Cocoon lifecycle</title>
-  <script src="./vendor/framework.min.js" data-kernel data-rootpath="./" data-src-path="/src/" data-sandbox="examples.lifecycle"></script>
+  <script src="./vendor/framework.min.js" data-kernel data-rootpath="./" data-src-path="/src/" data-sandbox="examples"></script>
 </head>
 <body>
   <hello-world></hello-world>
@@ -44,9 +43,9 @@ export class ExampleFiles {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Application code-behind · Cocoon lifecycle</title>
-  <script src="./vendor/framework.min.js" data-kernel data-namespace="examples.lifecycle.LifecycleApplication" data-controller="index.js" data-rootpath="./" data-src-path="/src/" data-sandbox="false"></script>
+  <script src="./vendor/framework.min.js" data-kernel data-namespace="examples.HelloWorldApplication" data-controller="index.js" data-rootpath="./" data-src-path="/src/" data-sandbox="false"></script>
 </head>
-<body namespace="examples.lifecycle.LifecycleApplication">
+<body namespace="examples.HelloWorldApplication">
   <hello-world></hello-world>
 </body>
 </html>`;
@@ -54,8 +53,8 @@ export class ExampleFiles {
 
   static importMapTemplate() {
     return JSON.stringify({ imports: {
-      'examples.lifecycle.LifecycleApplication': './src/examples/lifecycle/LifecycleApplication/index.js',
-      'examples.lifecycle.LifecycleCard': './src/examples/lifecycle/LifecycleCard/index.js',
+      'examples.HelloWorldApplication': './src/examples/HelloWorldApplication/index.js',
+      'examples.HelloWorld': './src/examples/HelloWorld/index.js',
     } }, null, 2);
   }
 

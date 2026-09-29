@@ -2,6 +2,6 @@
   "imports": {
     "lab.LifecycleApplication": "./src/lab/LifecycleApplication/index.js",
     "lab.LifecycleShell": "./src/lab/LifecycleShell/index.js",
-    "examples.lifecycle.LifecycleCard": "./src/examples/lifecycle/LifecycleCard/index.js"
+    "examples.HelloWorld": "./src/examples/HelloWorld/index.js"
   }
 }

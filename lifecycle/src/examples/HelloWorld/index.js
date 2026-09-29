@@ -1,5 +1,5 @@
-export default namespace `examples.lifecycle` (
-  class LifecycleCard extends Component {
+namespace `examples` (
+  class HelloWorld extends Component {
     static tag = 'hello-world';
 
     inShadow() { return true; }

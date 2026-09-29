@@ -1,4 +1,4 @@
-import 'examples.lifecycle.LifecycleCard';
+import 'examples.HelloWorld';
 import { ExampleFiles } from '../../../core/ExampleFiles.js';
 import { PHASES, STORIES } from './content.js';
 
@@ -15,12 +15,13 @@ namespace `lab` (
       this.bootMode = 'auto';
       this.example = 'birth';
       this.querySelector('.phase-rail').innerHTML = PHASES.map((phase,index) => `<li><button data-phase="${index}"><i>${String(index + 1).padStart(2,'0')}</i><span>${phase.label}</span></button></li>`).join('');
-      const codeLabels = { tag:'<hello-world>', element:'<hello-world>', root:'#shadow-root' };
+      const codeLabels = { tag:'<hello-world>', element:'<hello-world>' };
       this.root.querySelectorAll('[data-code]').forEach(code => {
         if (codeLabels[code.dataset.code]) code.textContent = codeLabels[code.dataset.code];
       });
+      this.querySelector('[data-code="root"]').innerHTML = '<span class="tok-punctuation">&lt;</span><span class="tok-element">hello-world</span><span class="tok-punctuation">&gt;</span><br>&nbsp;&nbsp;<span class="tok-shadow">#shadow-root (open)</span><br><span class="tok-punctuation">&lt;/</span><span class="tok-element">hello-world</span><span class="tok-punctuation">&gt;</span>';
       this.querySelector('[data-code="style"]').innerHTML = '<span class="tok-selector">:host</span> <span class="tok-punctuation">{</span><br>&nbsp;&nbsp;<span class="tok-property">display</span><span class="tok-punctuation">:</span> <span class="tok-value">block</span><span class="tok-punctuation">;</span><br>&nbsp;&nbsp;<span class="tok-property">border-radius</span><span class="tok-punctuation">:</span> <span class="tok-value">10px</span><span class="tok-punctuation">;</span><br><span class="tok-punctuation">}</span>';
-      this.querySelector('[data-code="content"]').innerHTML = '<span class="tok-punctuation">&lt;</span><span class="tok-element">dialog</span> <span class="tok-property">open</span><span class="tok-punctuation">&gt;</span><br>&nbsp;&nbsp;<span class="tok-punctuation">&lt;</span><span class="tok-element">span</span><span class="tok-punctuation">&gt;</span>◇<span class="tok-punctuation">&lt;/</span><span class="tok-element">span</span><span class="tok-punctuation">&gt;</span><br>&nbsp;&nbsp;<span class="tok-punctuation">&lt;</span><span class="tok-element">div</span><span class="tok-punctuation">&gt;</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="tok-punctuation">&lt;</span><span class="tok-element">strong</span><span class="tok-punctuation">&gt;</span>Hello World<span class="tok-punctuation">&lt;/</span><span class="tok-element">strong</span><span class="tok-punctuation">&gt;</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="tok-punctuation">&lt;</span><span class="tok-element">small</span><span class="tok-punctuation">&gt;</span>A Cocoon component in the wild.<span class="tok-punctuation">&lt;/</span><span class="tok-element">small</span><span class="tok-punctuation">&gt;</span><br>&nbsp;&nbsp;<span class="tok-punctuation">&lt;/</span><span class="tok-element">div</span><span class="tok-punctuation">&gt;</span><br>&nbsp;&nbsp;<span class="tok-punctuation">&lt;</span><span class="tok-element">button</span><span class="tok-punctuation">&gt;</span>Pulse<span class="tok-punctuation">&lt;/</span><span class="tok-element">button</span><span class="tok-punctuation">&gt;</span><br><span class="tok-punctuation">&lt;/</span><span class="tok-element">dialog</span><span class="tok-punctuation">&gt;</span>';
+      this.querySelector('[data-code="content"]').innerHTML = '<span class="tok-punctuation">&lt;</span><span class="tok-element">hello-world</span><span class="tok-punctuation">&gt;</span><br>&nbsp;&nbsp;<span class="tok-shadow">#shadow-root (open)</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="tok-punctuation">&lt;</span><span class="tok-element">dialog</span> <span class="tok-property">open</span><span class="tok-punctuation">&gt;</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tok-punctuation">&lt;</span><span class="tok-element">span</span><span class="tok-punctuation">&gt;</span>◇<span class="tok-punctuation">&lt;/</span><span class="tok-element">span</span><span class="tok-punctuation">&gt;</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tok-punctuation">&lt;</span><span class="tok-element">div</span><span class="tok-punctuation">&gt;</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tok-punctuation">&lt;</span><span class="tok-element">strong</span><span class="tok-punctuation">&gt;</span>Hello World<span class="tok-punctuation">&lt;/</span><span class="tok-element">strong</span><span class="tok-punctuation">&gt;</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tok-punctuation">&lt;</span><span class="tok-element">small</span><span class="tok-punctuation">&gt;</span>A Cocoon component in the wild.<span class="tok-punctuation">&lt;/</span><span class="tok-element">small</span><span class="tok-punctuation">&gt;</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tok-punctuation">&lt;/</span><span class="tok-element">div</span><span class="tok-punctuation">&gt;</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tok-punctuation">&lt;</span><span class="tok-element">button</span><span class="tok-punctuation">&gt;</span>Pulse<span class="tok-punctuation">&lt;/</span><span class="tok-element">button</span><span class="tok-punctuation">&gt;</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="tok-punctuation">&lt;/</span><span class="tok-element">dialog</span><span class="tok-punctuation">&gt;</span><br><span class="tok-punctuation">&lt;/</span><span class="tok-element">hello-world</span><span class="tok-punctuation">&gt;</span>';
       this.on('click', event => this.selectExample(event), false, '.example-picker');
       this.on('click', event => this.selectBootMode(event), false, '.boot-modes');
       this.on('click', event => this.selectPhase(event), false, '.phase-rail');
@@ -31,6 +32,9 @@ namespace `lab` (
       this.on('click', () => this.showSource(), false, '#view-source');
       this.on('click', () => this.closeSource(), false, '#close-source');
       this.on('click', () => this.download(), false, '#download');
+      this.querySelector('.lifecycle-stage').addEventListener('click', event => this.inspectCurrentPhase(event));
+      this.querySelector('.component-layers').addEventListener('pointermove', event => this.releaseInspectionAway(event));
+      this.querySelector('.component-layers').addEventListener('pointerleave', () => this.releaseLayerInspection());
       this.showPhase(2);
       this.connectorObserver = new ResizeObserver(() => this.syncConnectors());
       this.connectorObserver.observe(this.querySelector('.component-layers'));
@@ -56,7 +60,11 @@ namespace `lab` (
       for (const [name, sourceSelector] of Object.entries(sources)) {
         const source = this.querySelector(sourceSelector);
         const card = name === 'rendered' ? this.querySelector('hello-world') : null;
-        const target = name === 'rendered' ? card?.shadowRoot?.querySelector('.connector-target') : this.querySelector(`.layer-${name} .connector-anchor`);
+        const target = name === 'rendered'
+          ? card?.shadowRoot?.querySelector('.connector-target')
+          : name === 'element' && (this.phase === 1 || this.phase === 8)
+            ? this.querySelector(this.phase === 8 ? '.page-world-tag-anchor' : '.page-tag-anchor')
+            : this.querySelector(`.layer-${name} .connector-anchor`);
         const connector = this.querySelector(`.layer-connectors [data-reveal="${name}"]`);
         if (!source || !target || !connector) continue;
         const targetBox = target.getBoundingClientRect();
@@ -77,7 +85,7 @@ namespace `lab` (
     syncConnectorLayers() {
       const back = this.querySelector('.layer-connectors-back');
       const front = this.querySelector('.layer-connectors-front');
-      const active = [null,null,'element','root','root','style','content','rendered','rendered'][this.phase];
+      const active = [null,'element','element','root','root','style','content','rendered','element'][this.phase];
       for (const name of ['element','root','style','content','rendered']) {
         const connector = this.querySelector(`.layer-connectors [data-reveal="${name}"]`);
         if (connector) (name === active ? front : back).append(connector);
@@ -123,15 +131,17 @@ namespace `lab` (
     }
 
     showPhase(index) {
+      this.releaseLayerInspection();
       const previousPhase = this.phase;
       this.phase = Math.max(0, Math.min(PHASES.length - 1, index));
       const phase = { ...PHASES[this.phase] };
       if (this.phase === 1 && this.bootMode === 'application') {
-        phase.method = "import 'examples.lifecycle.LifecycleCard'";
+        phase.method = "import 'examples.HelloWorld'";
         phase.owner = 'Application';
         phase.state = 'importing';
         phase.status = 'application import · component';
         phase.tasks = ['Load controller','Import component','Register module'];
+        phase.event = ['Application imports component','code-behind → module registration'];
       }
       const stage = this.querySelector('.lifecycle-stage');
       stage.dataset.phase = this.phase;
@@ -159,6 +169,7 @@ namespace `lab` (
         button.toggleAttribute('aria-current', value === this.phase);
         if (value === this.phase) button.setAttribute('aria-current', 'step');
       });
+      this.syncInspectableLayer();
       const worldButton = this.querySelector('.phase-rail [data-phase="8"]');
       worldButton.classList.remove('is-emerging');
       if (this.phase === 8 && previousPhase !== 8) {
@@ -169,6 +180,48 @@ namespace `lab` (
       this.syncComponent();
       requestAnimationFrame(() => this.syncConnectors());
       this.syncPlayLabel();
+    }
+
+    currentLayer() {
+      const selector = ['.layer-page','.layer-page','.layer-element','.layer-root','.layer-root','.layer-style','.layer-content','#live-component','.layer-page'][this.phase];
+      return selector ? this.querySelector(selector) : null;
+    }
+
+    syncInspectableLayer() {
+      this.root.querySelectorAll('.layer,.live-component').forEach(layer => layer.classList.remove('is-inspectable'));
+      this.currentLayer()?.classList.add('is-inspectable');
+    }
+
+    inspectLayer(layer) {
+      if (!layer || layer !== this.currentLayer()) return;
+      this.releaseLayerInspection();
+      layer.classList.add('is-inspected-layer');
+      this.querySelector('.layer-assembly').classList.add('is-inspecting');
+      this.querySelector('.lifecycle-stage').classList.add('is-layer-inspection');
+      this.inspectionReadyAt = performance.now() + 300;
+      this.inspectionPointerEntered = false;
+    }
+
+    inspectCurrentPhase(event) {
+      if (event.target.closest('button,input')) return;
+      if (this.querySelector('.layer-assembly').classList.contains('is-inspecting')) return;
+      this.inspectLayer(this.currentLayer());
+    }
+
+    releaseInspectionAway(event) {
+      const layer = this.querySelector('.is-inspected-layer');
+      if (!layer || performance.now() < this.inspectionReadyAt) return;
+      const box = layer.getBoundingClientRect();
+      const inside = event.clientX >= box.left && event.clientX <= box.right && event.clientY >= box.top && event.clientY <= box.bottom;
+      if (inside) this.inspectionPointerEntered = true;
+      else if (this.inspectionPointerEntered) this.releaseLayerInspection();
+    }
+
+    releaseLayerInspection() {
+      this.querySelector('.layer-assembly')?.classList.remove('is-inspecting');
+      this.querySelector('.lifecycle-stage')?.classList.remove('is-layer-inspection');
+      this.root.querySelectorAll('.is-inspected-layer').forEach(layer => layer.classList.remove('is-inspected-layer'));
+      this.inspectionPointerEntered = false;
     }
 
     syncComponent() {
@@ -275,7 +328,7 @@ namespace `lab` (
         const explorer = this.querySelector('#source-explorer');
         if (!this.sourceLoaded) {
           explorer.setFiles(this.files);
-          explorer.openFile('src/examples/lifecycle/LifecycleCard/index.js');
+          explorer.openFile('src/examples/HelloWorld/index.js');
           this.sourceLoaded = true;
         }
         this.querySelector('#live-label').textContent = 'SOURCE';

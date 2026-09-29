@@ -1,7 +1,7 @@
-import 'examples.lifecycle.LifecycleCard';
+import 'examples.HelloWorld';
 
-namespace `examples.lifecycle` (
-  class LifecycleApplication extends Application {
+namespace `examples` (
+  class HelloWorldApplication extends Application {
     async onConnected() {
       await super.onConnected();
       this.subscribe('connected', event => {

@@ -30,6 +30,37 @@ try {
   const frame = page.locator('#lifecycle-frame').contentFrame();
   const shell = frame.locator('arc-lifecycle');
   await shell.locator('.lifecycle-stage').waitFor();
+  assert.equal(await shell.locator('#current-phase').textContent(), 'DEFINE', 'lifecycle opens at phase 03');
+
+  const phaseLayers = ['.layer-page','.layer-page','.layer-element','.layer-root','.layer-root','.layer-style','.layer-content','#live-component','.layer-page'];
+  for (let phase = 0; phase < phaseLayers.length; phase++) {
+    await shell.locator(`.phase-rail [data-phase="${phase}"]`).click();
+    await shell.locator('.stage-grid').click({ position:{ x:20, y:20 } });
+    await page.waitForTimeout(900);
+    const inspection = await shell.evaluate((host, selector) => {
+      const root = host.shadowRoot;
+      const active = root.querySelector(selector);
+      const others = [...root.querySelectorAll('.layer-assembly > .layer:not(.is-inspected-layer), .layer-assembly > .live-component:not(.is-inspected-layer)')];
+      return {
+        active:active?.classList.contains('is-inspected-layer'),
+        inspecting:root.querySelector('.layer-assembly').classList.contains('is-inspecting'),
+        visibleOthers:others.filter(layer => getComputedStyle(layer).visibility !== 'hidden').length,
+        overflowX:active.scrollWidth - active.clientWidth,
+        overflowY:active.scrollHeight - active.clientHeight
+      };
+    }, phaseLayers[phase]);
+    assert.deepEqual(inspection, { active:true, inspecting:true, visibleOthers:0, overflowX:0, overflowY:0 }, `phase ${phase + 1} inspects only its active layer`);
+    if (phase === 8) {
+      const worldSource = await shell.locator('.page-source-world').textContent();
+      assert.match(worldSource, /<!doctype html>/, 'world-ready page retains a valid doctype');
+      assert.match(worldSource, /<hello-world>[\s\S]*#shadow-root \(open\)[\s\S]*<\/hello-world>/, 'world-ready page shows the hydrated host in body');
+    }
+  }
+  await shell.locator('.phase-rail [data-phase="2"]').click();
+  assert.equal(await shell.locator('.layer-assembly').evaluate(node => node.classList.contains('is-inspecting')), false, 'phase change closes layer inspection');
+  await shell.locator('.stage-grid').click({ position:{ x:20, y:20 } });
+  await shell.locator('#step').click();
+  assert.equal(await shell.locator('.layer-assembly').evaluate(node => node.classList.contains('is-inspecting')), false, 'step closes layer inspection');
 
   await shell.locator('#replay').click();
   await page.waitForTimeout(7000);
@@ -49,7 +80,10 @@ try {
 
   await shell.locator('#view-source').click();
   await shell.locator('.source-view').waitFor();
-  assert.match(await shell.locator('#source-explorer .code').textContent(), /class LifecycleCard/);
+  const helloWorldSource = await shell.locator('#source-explorer .code').textContent();
+  assert.match(helloWorldSource, /^namespace `examples` \(/);
+  assert.match(helloWorldSource, /class HelloWorld extends Component/);
+  assert.doesNotMatch(helloWorldSource, /export default/);
   assert.equal(await shell.locator('#source-explorer .code').getAttribute('contenteditable'), 'false');
   await shell.locator('#close-source').click();
 
@@ -58,7 +92,7 @@ try {
   assert.ok(await shell.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'lifecycle iframe fits mobile');
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'landing page fits mobile');
   assert.deepEqual(errors, []);
-  console.log('PASS: lazy boot, lifecycle playback, lazy gate, reconnect, source explorer and mobile layout');
+  console.log('PASS: nine-phase layer inspection, lifecycle playback, lazy gate, reconnect, source explorer and mobile layout');
 } finally {
   await browser.close();
   server.close();
