@@ -123,6 +123,7 @@ namespace `lab` (
     }
 
     showPhase(index) {
+      const previousPhase = this.phase;
       this.phase = Math.max(0, Math.min(PHASES.length - 1, index));
       const phase = { ...PHASES[this.phase] };
       if (this.phase === 1 && this.bootMode === 'application') {
@@ -158,6 +159,12 @@ namespace `lab` (
         button.toggleAttribute('aria-current', value === this.phase);
         if (value === this.phase) button.setAttribute('aria-current', 'step');
       });
+      const worldButton = this.querySelector('.phase-rail [data-phase="8"]');
+      worldButton.classList.remove('is-emerging');
+      if (this.phase === 8 && previousPhase !== 8) {
+        void worldButton.offsetWidth;
+        worldButton.classList.add('is-emerging');
+      }
       this.syncConnectorLayers();
       this.syncComponent();
       requestAnimationFrame(() => this.syncConnectors());
