@@ -259,18 +259,16 @@
   list-style:none;
 }
 .phase-rail::before { content:""; position:absolute; top:9px; left:5%; right:5%; height:1px; background:var(--arc-stage-line); }
-.phase-rail::after { content:""; position:absolute; z-index:0; top:9px; left:5%; width:var(--phase-progress,0%); height:1px; background:linear-gradient(90deg,var(--arc-trace-check),var(--arc-control-accent)); box-shadow:0 0 12px var(--arc-stage-line-active); transition:width .45s cubic-bezier(.2,.75,.2,1); }
+.phase-rail::after { content:""; position:absolute; z-index:0; top:8px; left:5%; width:var(--phase-progress,0%); height:3px; border-radius:999px; background:linear-gradient(90deg,var(--arc-trace-check),var(--arc-control-accent) calc(100% - 8px),var(--arc-text-active)); box-shadow:0 0 12px var(--arc-stage-line-active),4px 0 8px var(--arc-text-active); transition:width .45s cubic-bezier(.2,.75,.2,1); }
 .phase-rail li { min-width:0; }
 .phase-rail button { position:relative; z-index:1; display:grid; justify-items:center; gap:4px; width:100%; border:0; background:none; color:var(--arc-stage-pending); font:var(--arc-meta-size) var(--arc-font-mono); cursor:pointer; }
-.phase-rail i { display:grid; place-items:center; width:17px; height:17px; border:1px solid currentColor; border-radius:50%; background:var(--arc-stage-background); transition:all .3s; }
+.phase-rail i { display:grid; place-items:center; width:17px; height:17px; border:1px solid currentColor; border-radius:50%; background:var(--arc-stage-background); font:600 6px/1 var(--arc-font-mono); font-style:normal; letter-spacing:-.04em; transition:all .3s; }
 .phase-rail span { white-space:nowrap;     margin-top: 7px;}
-.phase-rail small { font-size:8px; }
 .phase-rail button[data-state="complete"] { color:var(--arc-stage-complete); }
 .phase-rail button[data-state="complete"] i { background:linear-gradient(135deg,var(--arc-trace-check),var(--arc-accent-blue)); color:var(--arc-stage-background); border-color:var(--arc-stage-complete); box-shadow:0 0 12px var(--arc-stage-glow); }
-.phase-rail button[data-state="complete"] i::after { content:"✓"; font:8px var(--arc-font-mono); }
 .phase-rail button[aria-current="step"] { color:var(--arc-text-active); text-shadow:0 0 12px var(--arc-stage-line-active); }
 .phase-rail button[aria-current="step"] i { width:21px; height:21px; margin:-2px; border:4px solid var(--arc-control-accent); background:var(--arc-tab-active-background); box-shadow:0 0 0 4px rgb(120 141 255 / 12%),0 0 18px var(--arc-stage-line-active); }
-.phase-rail button[aria-current="step"] i::after { content:""; width:5px; height:5px; border-radius:50%; background:var(--arc-focus); }
+.phase-rail button[aria-current="step"] i { color:var(--arc-text-active); font-size:6px; }
 .phase-rail button:hover { color:var(--arc-text); }
 .stage-hint { position:absolute; right:18px; bottom:10px; margin:0; color:var(--arc-stage-hint); font:8px var(--arc-font-mono); }
 .boot-modes button span { color:var(--arc-control-accent); }
@@ -298,7 +296,6 @@
   #trace-tasks { min-height:0; margin:0; }
   .phase-rail { left:8px; right:8px; bottom:40px; }
   .phase-rail span { writing-mode:vertical-rl; transform:rotate(180deg); height:54px; }
-  .phase-rail small { display:none; }
   .stage-hint { display:none; }
   .boot-modes { overflow-x:auto; }
   .boot-modes button { flex:0 0 auto; }

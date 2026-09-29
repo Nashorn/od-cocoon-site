@@ -14,7 +14,7 @@ namespace `lab` (
       this.phase = 2;
       this.bootMode = 'auto';
       this.example = 'birth';
-      this.querySelector('.phase-rail').innerHTML = PHASES.map((phase,index) => `<li><button data-phase="${index}"><i></i><span>${phase.label}</span><small>${String(index + 1).padStart(2,'0')}</small></button></li>`).join('');
+      this.querySelector('.phase-rail').innerHTML = PHASES.map((phase,index) => `<li><button data-phase="${index}"><i>${String(index + 1).padStart(2,'0')}</i><span>${phase.label}</span></button></li>`).join('');
       const codeLabels = { tag:'<hello-world>', element:'<hello-world>', root:'#shadow-root' };
       this.root.querySelectorAll('[data-code]').forEach(code => {
         if (codeLabels[code.dataset.code]) code.textContent = codeLabels[code.dataset.code];
