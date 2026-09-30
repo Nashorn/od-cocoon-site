@@ -62,8 +62,8 @@ namespace `lab` (
         const card = name === 'rendered' ? this.querySelector('hello-world') : null;
         const target = name === 'rendered'
           ? card?.shadowRoot?.querySelector('.connector-target')
-          : name === 'element' && (this.phase === 1 || this.phase === 8)
-            ? this.querySelector(this.phase === 8 ? '.page-world-tag-anchor' : '.page-tag-anchor')
+          : name === 'element' && (this.phase === 1 || this.phase === 7)
+            ? this.querySelector(this.phase === 7 ? '.page-world-tag-anchor' : '.page-tag-anchor')
             : this.querySelector(`.layer-${name} .connector-anchor`);
         const connector = this.querySelector(`.layer-connectors [data-reveal="${name}"]`);
         if (!source || !target || !connector) continue;
@@ -85,10 +85,11 @@ namespace `lab` (
     syncConnectorLayers() {
       const back = this.querySelector('.layer-connectors-back');
       const front = this.querySelector('.layer-connectors-front');
-      const active = [null,'element','element','root','root','style','content','rendered','element'][this.phase];
+      const active = [null,'element','element','root','root','style','content','element','rendered'][this.phase];
       for (const name of ['element','root','style','content','rendered']) {
         const connector = this.querySelector(`.layer-connectors [data-reveal="${name}"]`);
-        if (connector) (name === active ? front : back).append(connector);
+        const belongsInFront = name === active || (this.phase === 7 && ['root','style','content'].includes(name));
+        if (connector) (belongsInFront ? front : back).append(connector);
       }
       this.syncConnectors();
     }
@@ -183,7 +184,7 @@ namespace `lab` (
     }
 
     currentLayer() {
-      const selector = ['.layer-page','.layer-page','.layer-element','.layer-root','.layer-root','.layer-style','.layer-content','#live-component','.layer-page'][this.phase];
+      const selector = ['.layer-page','.layer-page','.layer-element','.layer-root','.layer-root','.layer-style','.layer-content','.layer-page','#live-component'][this.phase];
       return selector ? this.querySelector(selector) : null;
     }
 
@@ -226,7 +227,7 @@ namespace `lab` (
 
     syncComponent() {
       const mount = this.querySelector('#live-component');
-      if (this.phase < 7) {
+      if (this.phase < 8) {
         mount.replaceChildren();
         return;
       }

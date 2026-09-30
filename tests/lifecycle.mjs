@@ -32,7 +32,7 @@ try {
   await shell.locator('.lifecycle-stage').waitFor();
   assert.equal(await shell.locator('#current-phase').textContent(), 'DEFINE', 'lifecycle opens at phase 03');
 
-  const phaseLayers = ['.layer-page','.layer-page','.layer-element','.layer-root','.layer-root','.layer-style','.layer-content','#live-component','.layer-page'];
+  const phaseLayers = ['.layer-page','.layer-page','.layer-element','.layer-root','.layer-root','.layer-style','.layer-content','.layer-page','#live-component'];
   for (let phase = 0; phase < phaseLayers.length; phase++) {
     await shell.locator(`.phase-rail [data-phase="${phase}"]`).click();
     await shell.locator('.stage-grid').click({ position:{ x:20, y:20 } });
@@ -50,7 +50,7 @@ try {
       };
     }, phaseLayers[phase]);
     assert.deepEqual(inspection, { active:true, inspecting:true, visibleOthers:0, overflowX:0, overflowY:0 }, `phase ${phase + 1} inspects only its active layer`);
-    if (phase === 8) {
+    if (phase === 7) {
       const worldSource = await shell.locator('.page-source-world').textContent();
       assert.match(worldSource, /<!doctype html>/, 'world-ready page retains a valid doctype');
       assert.match(worldSource, /<hello-world>[\s\S]*#shadow-root \(open\)[\s\S]*<\/hello-world>/, 'world-ready page shows the hydrated host in body');
@@ -64,7 +64,7 @@ try {
 
   await shell.locator('#replay').click();
   await page.waitForTimeout(7000);
-  assert.equal(await shell.locator('#current-phase').textContent(), 'WORLD');
+  assert.equal(await shell.locator('#current-phase').textContent(), 'CONNECTED & RENDERED');
   assert.equal(await shell.locator('#live-component hello-world').count(), 1);
 
   await shell.locator('[data-example="lazy"]').click();
@@ -76,7 +76,7 @@ try {
   await shell.locator('#play').click();
   assert.equal(await shell.locator('#current-phase').textContent(), 'SLEEP');
   await page.waitForTimeout(1100);
-  assert.equal(await shell.locator('#current-phase').textContent(), 'WORLD');
+  assert.equal(await shell.locator('#current-phase').textContent(), 'CONNECTED & RENDERED');
 
   await shell.locator('#view-source').click();
   await shell.locator('.source-view').waitFor();

@@ -7,8 +7,8 @@ export const PHASES = [
   { label:'onConnected Fires', name:'CONNECT', method:'onConnected() callback runs', owner:'Browser', state:'connecting', status:'component activity · started', tasks:['Check if lazy loaded or not','Load component .html template','Load stylesheets'], event:['Entered the document','connectedCallback()'] },
   { label:'Parse Stylesheets', name:'STYLE', method:'Internal loadStylesheets() fires', owner:'Cocoon', state:'styling', status:'stylesheet activity · component', tasks:['Parse and build stylesheet tree','Adopt document stylesheets','Adopt local stylesheets'], event:['Stylesheets adopted','loadStylesheets()'] },
   { label:'Parse DOM', name:'PARSE DOM', method:'Internal engine.parse() fires', owner:'Cocoon', state:'parsing', status:'template activity · hydrated fragment', tasks:['Resolve template','Parse hydrated HTML','Insert DOM fragment'], event:['Hydrated HTML parsed','engine.parse() → fragment'] },
-  { label:'Rendered', name:'RENDERED', method:'onRendered() fires · an available hook', owner:'Cocoon', state:'rendered', status:'render activity · component', tasks:['onConnected completes','Template applied; Styles applied','onRendered() signals completion'], event:['Component rendered','onRendered()'] },
-  { label:'World Ready', name:'WORLD', method:'page:rendered', owner:'Cocoon', state:'alive', status:'page settled · world ready', tasks:['Activate component','Wait for quiet','Announce page ready'], event:['Connected to the world','page:rendered'] }
+  { label:'DOM Hydrated', name:'DOM HYDRATED', method:'engine.parse() → document', owner:'Cocoon', state:'hydrated', status:'DOM activity · hydrated host', tasks:['Commit hydrated host to body','Preserve the open shadow root','Complete component DOM'], event:['DOM hydrated','<hello-world> → document body'] },
+  { label:'Connected & Rendered', name:'CONNECTED & RENDERED', method:'onRendered() → page:rendered', owner:'Cocoon', state:'connected', status:'component connected · rendered', tasks:['Complete onConnected()','Signal onRendered()','Announce the rendered page'], event:['Connected and rendered','onRendered() → page:rendered'] }
 ];
 
 export const STORIES = {
