@@ -7,3 +7,7 @@ services:
     buildCommand: echo "No build required"
     staticPublishPath: .
     autoDeployTrigger: commit
+    routes:
+      - type: redirect
+        source: /__old_index.html
+        destination: /

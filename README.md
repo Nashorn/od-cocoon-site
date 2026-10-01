@@ -59,3 +59,30 @@ consent disables Analytics, clears matching first-party GA cookies and reloads t
 page to unload the tag. Demo/editor storage remains independent of this choice.
 
 Run `node tests/cookie-consent.mjs` to check the consent flow with a mocked tag.
+
+## Search discovery
+
+`scripts/seo.mjs` owns public page URLs and metadata. Run `npm run docs` after
+Markdown edits and `npm run seo` after SEO metadata edits; commit the generated
+HTML and `sitemap.xml`. No deployment build is required. The sitemap includes
+existing standalone labs so crawlers can discover them independently of the
+homepage's lazy-loaded iframes. Each lab uses its own canonical URL, including
+when the editor adds a session query parameter. The homepage canonical combines
+`/index.html` and `/` signals without changing iframe loading or the splash.
+
+`robots.txt` allows crawling, including runtime assets, and advertises the sitemap.
+The hash-driven code-share shell is `noindex`; it is not a stable content page.
+The obsolete `__old_index.html` is retired and has a Render redirect to `/`.
+Render serves existing files before redirect rules, so do not restore that file
+at its former public path. Apply/sync the `render.yaml` route when deploying and
+verify its production 301 response; a local static server cannot validate it.
+
+After deployment, verify ownership of `cocoonframework.com` in Google Search
+Console and Bing Webmaster Tools using the account-provided verification record
+or file. Submit `https://cocoonframework.com/sitemap.xml` to both. Inspect the
+homepage and each lab URL in Google's URL Inspection rendered HTML and Bing's
+inspection tools. Confirm that the existing left-rail text is present. Local
+Chrome rendering verifies application behavior, not search-engine indexing or
+AI citation. Track indexed URLs, search impressions/clicks and Bing AI citation
+reporting where available. These account steps require access to the owner's
+accounts; repository metadata does not register or verify a site automatically.

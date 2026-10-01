@@ -6,7 +6,8 @@
     "start": "http-server ./ -o index.html",
     "docs": "node scripts/build-docs.mjs",
     "test:showcase": "node tests/showcase.mjs",
-    "test:lifecycle": "node tests/lifecycle.mjs"
+    "test:lifecycle": "node tests/lifecycle.mjs",
+    "seo": "node scripts/build-seo.mjs"
   },
   "devDependencies": {
     "marked": "18.0.14",

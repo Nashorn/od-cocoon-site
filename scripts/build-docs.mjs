@@ -1,5 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { Marked } from 'marked';
+import { metadata } from './seo.mjs';
 
 // Reference source: arc-kernel/README.md. Keep this checked-in snapshot explicit
 // so the static site can be built without access to the private source repository.
@@ -25,8 +26,7 @@ for (const [source, output, title, label] of [
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${title} — Arc</title>
-  <meta name="description" content="${label} for Arc, distributed as od-cocoon. Build native web components with HTML, CSS, and JavaScript.">
+  ${metadata(`${output}.html`)}
   <link rel="icon" href="favicon.ico">
   <link rel="stylesheet" href="docs.css">
 </head>
