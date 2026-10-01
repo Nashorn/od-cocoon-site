@@ -1,0 +1,31 @@
+{
+  "paths": [
+    "scripts",
+    "tests",
+    "dist",
+    ".generated",
+    "package.json",
+    "package-lock.json",
+    "render.yaml",
+    "docs/discovery",
+    "docs/generator.md",
+    "docs/manifest.json",
+    "docs/showcase-architecture.md",
+    "docs/privacy-notice-draft.md",
+    "mockups/documentation/previews",
+    "parallel/raytracer-proof"
+  ],
+  "names": [
+    "node_modules",
+    ".git",
+    ".github",
+    ".gitignore",
+    ".gitattributes",
+    ".DS_Store",
+    ".vscode",
+    ".idea",
+    "README.md",
+    "AGENTS.md"
+  ],
+  "namePrefixes": [".env"]
+}

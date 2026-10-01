@@ -1,6 +1,6 @@
 # Your first native component.
 
-Create a component, open your browser, and see it run. Arc is the framework; **od-cocoon** is the package that delivers its kernel.
+Create a component, open your browser, and see it run. Cocoon is the framework; **od-cocoon** is its runtime package.
 
 ## 1. Install the kernel
 
@@ -10,7 +10,7 @@ In an empty project folder, run:
 npm install github:Nashorn/od-cocoon#8.6.0
 ```
 
-This installs the public GitHub release. You’ll need Node.js, npm, and Git installed.
+This pins the older public GitHub release. The newer API drafts target a different runtime; see [documentation compatibility](compatibility.md). You’ll need Node.js, npm, and Git installed.
 
 ## 2. Give your component a home
 
@@ -34,7 +34,7 @@ The page loads the kernel and places your component in the DOM. The empty import
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Hello, Arc</title>
+  <title>Hello, Cocoon</title>
   <script type="importmap">{"imports": {}}</script>
   <script src="node_modules/od-cocoon/framework.src.js"
           data-kernel data-rootpath="./"></script>
@@ -59,7 +59,7 @@ namespace `components` (
 
 ```html
 <template>
-  <h1>Hello, Arc.</h1>
+  <h1>Hello, Cocoon.</h1>
   <p>Your first component is running in the browser.</p>
 </template>
 ```
@@ -76,7 +76,11 @@ namespace `components` (
   border-radius: 1rem;
 }
 
-h1 { color: #7fb1ff; }
+h1 {
+
+  color: #7fb1ff;
+
+}
 ```
 
 ## 3. Open it in the browser
@@ -87,7 +91,7 @@ From the project folder, start a local HTTP server:
 npx http-server . -p 8080 -c-1
 ```
 
-Open [localhost:8080](http://localhost:8080). You should see **Hello, Arc.** in a dark panel. Edit the component’s HTML or CSS, then refresh to see your changes.
+Open [localhost:8080](http://localhost:8080). You should see **Hello, Cocoon.** in a dark panel. Edit the component’s HTML or CSS, then refresh to see your changes.
 
 ## From a component to an application
 

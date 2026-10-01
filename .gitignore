@@ -2,3 +2,10 @@
 node_modules/
 .env
 .env.*
+
+# Generated documentation data; no website pages are built here.
+.generated/documentation/
+
+# Static deployment output and temporary packaging directories.
+/dist/
+.generated/site-stage-*/

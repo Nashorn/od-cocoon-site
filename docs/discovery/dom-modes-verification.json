@@ -1,0 +1,108 @@
+{
+  "passed": 24,
+  "checks": [
+    {
+      "name": "light root is host",
+      "actual": true
+    },
+    {
+      "name": "shadow root separate",
+      "actual": true
+    },
+    {
+      "name": "light initial children replaced",
+      "actual": false
+    },
+    {
+      "name": "shadow initial children retained",
+      "actual": true
+    },
+    {
+      "name": "light slot no projection",
+      "actual": 0
+    },
+    {
+      "name": "shadow named slot projects node",
+      "actual": true
+    },
+    {
+      "name": "shadow default slot projects node",
+      "actual": "EM"
+    },
+    {
+      "name": "document sees light internals",
+      "actual": true
+    },
+    {
+      "name": "document cannot query shadow internals",
+      "actual": null
+    },
+    {
+      "name": "page selectors reach light",
+      "actual": "rgb(200, 0, 0)"
+    },
+    {
+      "name": "page selectors do not reach shadow",
+      "actual": "rgb(0, 0, 0)"
+    },
+    {
+      "name": "tokens inherit without sheet adoption",
+      "actual": "rgb(10, 20, 30)"
+    },
+    {
+      "name": "host token override",
+      "actual": "rgb(40, 50, 60)"
+    },
+    {
+      "name": "noncomposed stays inside shadow",
+      "actual": 0
+    },
+    {
+      "name": "composed event retargeted",
+      "actual": [
+        {
+          "targetIsHost": true,
+          "pathHasInner": true
+        }
+      ]
+    },
+    {
+      "name": "rerender replaces shadow internals",
+      "actual": false
+    },
+    {
+      "name": "rerender retains light children",
+      "actual": true
+    },
+    {
+      "name": "rerender restores slot assignment",
+      "actual": true
+    },
+    {
+      "name": "inline preserves existing light children",
+      "actual": true
+    },
+    {
+      "name": "opted in shadow gets shared rule",
+      "actual": "rgb(0, 100, 0)"
+    },
+    {
+      "name": "light styles are document-owned",
+      "actual": true
+    },
+    {
+      "name": "light conventional sheet installed in head",
+      "actual": true
+    },
+    {
+      "name": "light host selector rewritten",
+      "actual": "1"
+    },
+    {
+      "name": "light namespace dedup skips later same-class inline",
+      "actual": ""
+    }
+  ],
+  "date": "2026-10-01",
+  "runtimeSha256": "3b9d5ebfce2ad8d30e053d80860479426d9c6c0a4be7a08bb81e6a364b246366"
+}

@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 1,
+  "documents": [
+    {
+      "id": "overview",
+      "source": "reference.md",
+      "route": "/documentation",
+      "title": "Documentation",
+      "related": []
+    },
+    {
+      "id": "get-started",
+      "source": "get-started.md",
+      "route": "/documentation/get-started",
+      "title": "Get started",
+      "related": []
+    },
+    {
+      "id": "compatibility",
+      "source": "compatibility.md",
+      "route": "/documentation/compatibility",
+      "title": "Compatibility",
+      "related": []
+    },
+    {
+      "id": "api.application",
+      "source": "api/application.md",
+      "route": "/documentation/api/application",
+      "title": "Application",
+      "related": [
+        "api.script-attributes",
+        "api.namespaces-and-imports",
+        "api.component"
+      ]
+    },
+    {
+      "id": "api.component",
+      "source": "api/component.md",
+      "route": "/documentation/api/component",
+      "title": "Component",
+      "related": [
+        "api.lifecycle",
+        "api.templates",
+        "api.styling"
+      ]
+    },
+    {
+      "id": "api.namespaces-and-imports",
+      "source": "api/namespaces-and-imports.md",
+      "route": "/documentation/api/namespaces-and-imports",
+      "title": "Namespaces and imports",
+      "related": []
+    },
+    {
+      "id": "api.script-attributes",
+      "source": "api/script-attributes.md",
+      "route": "/documentation/api/script-attributes",
+      "title": "Script attributes",
+      "related": []
+    },
+    {
+      "id": "api.component-autodiscovery",
+      "source": "api/component-autodiscovery.md",
+      "route": "/documentation/api/component-autodiscovery",
+      "title": "Component autodiscovery",
+      "related": []
+    },
+    {
+      "id": "api.lifecycle",
+      "source": "api/lifecycle.md",
+      "route": "/documentation/api/lifecycle",
+      "title": "Lifecycle",
+      "related": []
+    },
+    {
+      "id": "api.light-and-shadow-dom",
+      "source": "api/light-and-shadow-dom.md",
+      "route": "/documentation/api/light-and-shadow-dom",
+      "title": "Light DOM and shadow DOM",
+      "related": []
+    },
+    {
+      "id": "api.template-syntax",
+      "source": "api/template-syntax.md",
+      "route": "/documentation/api/template-syntax",
+      "title": "Template syntax",
+      "related": [
+        "api.templates",
+        "api.watching-inputs"
+      ]
+    },
+    {
+      "id": "api.templates",
+      "source": "api/templates.md",
+      "route": "/documentation/api/templates",
+      "title": "Templates and rendering",
+      "related": []
+    },
+    {
+      "id": "api.styling",
+      "source": "api/styling.md",
+      "route": "/documentation/api/styling",
+      "title": "Styling",
+      "related": [
+        "api.light-and-shadow-dom",
+        "api.application"
+      ]
+    },
+    {
+      "id": "api.events",
+      "source": "api/events.md",
+      "route": "/documentation/api/events",
+      "title": "Events and signals",
+      "related": [
+        "api.lifecycle",
+        "api.watching-inputs"
+      ]
+    },
+    {
+      "id": "api.watching-inputs",
+      "source": "api/watching-inputs.md",
+      "route": "/documentation/api/watching-inputs",
+      "title": "Watching inputs",
+      "related": []
+    },
+    {
+      "id": "api.selectors-and-dom",
+      "source": "api/selectors-and-dom.md",
+      "route": "/documentation/api/selectors-and-dom",
+      "title": "Selectors and DOM",
+      "related": []
+    },
+    {
+      "id": "api.class-composition",
+      "source": "api/class-composition.md",
+      "route": "/documentation/api/class-composition",
+      "title": "Class composition",
+      "related": []
+    },
+    {
+      "id": "api.customized-built-in-elements",
+      "source": "api/customized-built-in-elements.md",
+      "route": "/documentation/api/customized-built-in-elements",
+      "title": "Customized built-in elements",
+      "related": []
+    },
+    {
+      "id": "api.world",
+      "source": "api/world.md",
+      "route": "/documentation/api/world",
+      "title": "World and simulation timing",
+      "related": [
+        "api.application",
+        "api.threading"
+      ]
+    },
+    {
+      "id": "api.threading",
+      "source": "api/threading.md",
+      "route": "/documentation/api/threading",
+      "title": "Threading",
+      "related": []
+    },
+    {
+      "id": "api.page-readiness",
+      "source": "api/page-readiness.md",
+      "route": "/documentation/api/page-readiness",
+      "title": "Page readiness",
+      "related": []
+    }
+  ],
+  "navigation": [
+    {
+      "id": "start",
+      "label": "Start here",
+      "documents": [
+        "overview",
+        "get-started",
+        "compatibility"
+      ]
+    },
+    {
+      "id": "api",
+      "label": "API reference",
+      "documents": [
+        "api.application",
+        "api.component",
+        "api.namespaces-and-imports",
+        "api.script-attributes",
+        "api.component-autodiscovery",
+        "api.lifecycle",
+        "api.light-and-shadow-dom",
+        "api.template-syntax",
+        "api.templates",
+        "api.styling",
+        "api.events",
+        "api.watching-inputs",
+        "api.selectors-and-dom",
+        "api.class-composition",
+        "api.customized-built-in-elements",
+        "api.world",
+        "api.threading",
+        "api.page-readiness"
+      ]
+    }
+  ]
+}

@@ -7,7 +7,13 @@
     "docs": "node scripts/build-docs.mjs",
     "test:showcase": "node tests/showcase.mjs",
     "test:lifecycle": "node tests/lifecycle.mjs",
-    "seo": "node scripts/build-seo.mjs"
+    "seo": "node scripts/build-seo.mjs",
+    "test:docs": "node docs/discovery/verify-practical-examples.mjs",
+    "docs:legacy": "node scripts/build-legacy-docs.mjs",
+    "docs:check": "node scripts/build-docs.mjs --check",
+    "test:docs:generator": "node --test tests/docs/generator.test.mjs",
+    "docs:preview": "node scripts/build-docs-preview.mjs",
+    "build:site": "node scripts/build-site.mjs"
   },
   "devDependencies": {
     "marked": "18.0.14",

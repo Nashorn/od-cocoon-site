@@ -4,8 +4,8 @@ services:
   - type: web
     name: od-cocoon-site
     runtime: static
-    buildCommand: echo "No build required"
-    staticPublishPath: .
+    buildCommand: npm ci --include=dev && npm run build:site
+    staticPublishPath: ./dist
     autoDeployTrigger: commit
     routes:
       - type: redirect

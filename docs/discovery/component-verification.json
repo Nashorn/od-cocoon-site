@@ -1,0 +1,263 @@
+{
+  "passed": 54,
+  "checks": [
+    {
+      "name": "qualified tag",
+      "actual": true
+    },
+    {
+      "name": "explicit tag",
+      "actual": true
+    },
+    {
+      "name": "explicit tag not inherited",
+      "actual": true
+    },
+    {
+      "name": "child gets its own conventional template",
+      "actual": "/__docs_probe__/src/docsprobe/ChildCard/index.html"
+    },
+    {
+      "name": "explicit template inheritance",
+      "actual": "base"
+    },
+    {
+      "name": "default light root",
+      "actual": true
+    },
+    {
+      "name": "default inShadow",
+      "actual": false
+    },
+    {
+      "name": "shadow root",
+      "actual": true
+    },
+    {
+      "name": "query shadow first",
+      "actual": "shadow"
+    },
+    {
+      "name": "query host fallback",
+      "actual": true
+    },
+    {
+      "name": "findAll default partial timeout",
+      "actual": 1
+    },
+    {
+      "name": "findAll returns array",
+      "actual": true
+    },
+    {
+      "name": "find missing timeout",
+      "actual": null
+    },
+    {
+      "name": "find child mutation",
+      "actual": true
+    },
+    {
+      "name": "connection ordering",
+      "actual": [
+        "before",
+        "rendered",
+        "awake",
+        "signal",
+        "after",
+        "disconnected",
+        "sleep"
+      ]
+    },
+    {
+      "name": "disconnect ordering",
+      "actual": [
+        "disconnected",
+        "sleep"
+      ]
+    },
+    {
+      "name": "render uses supplied data",
+      "actual": "next"
+    },
+    {
+      "name": "render does not save supplied data",
+      "actual": true
+    },
+    {
+      "name": "template cached",
+      "actual": false
+    },
+    {
+      "name": "render data prototype",
+      "actual": true
+    },
+    {
+      "name": "inline preserves content",
+      "actual": "preserved"
+    },
+    {
+      "name": "stylesheet order",
+      "actual": [
+        "StylesBase",
+        "base-inline",
+        "StylesChild",
+        "child-inline",
+        "extra"
+      ]
+    },
+    {
+      "name": "skin null skips own inline too",
+      "actual": false
+    },
+    {
+      "name": "skin null retains parent css",
+      "actual": 2
+    },
+    {
+      "name": "instance css field is not collected",
+      "actual": false
+    },
+    {
+      "name": "add return"
+    },
+    {
+      "name": "late add prepends",
+      "actual": true
+    },
+    {
+      "name": "add identity dedup",
+      "actual": 6
+    },
+    {
+      "name": "document sheet replay",
+      "actual": true
+    },
+    {
+      "name": "unannounced document sheet not adopted",
+      "actual": false
+    },
+    {
+      "name": "replay and unsubscribe",
+      "actual": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "dispatch returns event",
+      "actual": true
+    },
+    {
+      "name": "flat event flag removed",
+      "actual": [
+        true,
+        false
+      ]
+    },
+    {
+      "name": "nested event flags honored",
+      "actual": false
+    },
+    {
+      "name": "delegation matched target",
+      "actual": [
+        1,
+        true
+      ]
+    },
+    {
+      "name": "watch initial falsy and unchanged old",
+      "actual": [
+        [
+          "",
+          null
+        ],
+        [
+          "",
+          "new"
+        ]
+      ]
+    },
+    {
+      "name": "watch is not arbitrary property reactivity",
+      "actual": 1
+    },
+    {
+      "name": "append resolves node",
+      "actual": true
+    },
+    {
+      "name": "rect center",
+      "actual": "number"
+    },
+    {
+      "name": "declarative existing root preserved",
+      "actual": "declarative"
+    },
+    {
+      "name": "declarative dynamic branch precedes declarative false",
+      "actual": "existing"
+    },
+    {
+      "name": "attribute-only change does not wake find",
+      "actual": null
+    },
+    {
+      "name": "watch force false",
+      "actual": 0
+    },
+    {
+      "name": "watch absent target"
+    },
+    {
+      "name": "named skin html path",
+      "actual": "/__docs_probe__/src/docsprobe/DarkCard/skins/dark/index.html"
+    },
+    {
+      "name": "getSkin",
+      "actual": {
+        "name": "dark",
+        "path": "skins/dark/"
+      }
+    },
+    {
+      "name": "csstext false suppresses ancestry inline",
+      "actual": false
+    },
+    {
+      "name": "own instance template precedes html",
+      "actual": "instance provider"
+    },
+    {
+      "name": "declarative false replaces static content",
+      "actual": "own new"
+    },
+    {
+      "name": "async onRendered not awaited",
+      "actual": [
+        "start",
+        "finish"
+      ]
+    },
+    {
+      "name": "signal retains payload reference",
+      "actual": 9
+    },
+    {
+      "name": "disconnect stops document sheet adoption",
+      "actual": false
+    },
+    {
+      "name": "template provider cached across renders",
+      "actual": false
+    },
+    {
+      "name": "native accessor via plain data receiver fails",
+      "actual": true
+    }
+  ],
+  "runtimeSha256": "3b9d5ebfce2ad8d30e053d80860479426d9c6c0a4be7a08bb81e6a364b246366",
+  "date": "2026-10-01"
+}

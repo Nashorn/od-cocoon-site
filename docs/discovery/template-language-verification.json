@@ -1,0 +1,126 @@
+{
+  "passed": 28,
+  "checks": [
+    {
+      "name": "actual Arc2D template async method",
+      "actual": "Hello"
+    },
+    {
+      "name": "actual Arc2D template count",
+      "actual": "4 countries"
+    },
+    {
+      "name": "actual Arc2D template conditional option",
+      "actual": "Select from 4 Countries"
+    },
+    {
+      "name": "actual Arc2D template mapped options",
+      "actual": 4
+    },
+    {
+      "name": "actual Arc2D template selected option",
+      "actual": "United States"
+    },
+    {
+      "name": "multi statement loop",
+      "actual": 3
+    },
+    {
+      "name": "conditional empty branch",
+      "actual": ""
+    },
+    {
+      "name": "independent block scopes",
+      "actual": "Aundefined"
+    },
+    {
+      "name": "missing return prints undefined",
+      "actual": "undefined"
+    },
+    {
+      "name": "native interpolation",
+      "actual": "native"
+    },
+    {
+      "name": "unjoined array inserts commas",
+      "actual": "A,B"
+    },
+    {
+      "name": "awaited Promise.all rows",
+      "actual": "46"
+    },
+    {
+      "name": "async without await interpolates promise",
+      "actual": "[object Promise]"
+    },
+    {
+      "name": "multiple awaited blocks",
+      "actual": "AB"
+    },
+    {
+      "name": "await blocks sequential",
+      "actual": [
+        "first",
+        "second"
+      ]
+    },
+    {
+      "name": "conditional boolean attribute",
+      "actual": false
+    },
+    {
+      "name": "customized span native type",
+      "actual": true
+    },
+    {
+      "name": "customized span cocoon class",
+      "actual": true
+    },
+    {
+      "name": "customized span shadow template",
+      "actual": "span content"
+    },
+    {
+      "name": "customized span listener",
+      "actual": 1
+    },
+    {
+      "name": "programmatic is creation",
+      "actual": true
+    },
+    {
+      "name": "autonomous spelling not equivalent",
+      "actual": false
+    },
+    {
+      "name": "setting is afterward not upgrade",
+      "actual": false
+    },
+    {
+      "name": "native button preserved",
+      "actual": [
+        true,
+        "Save",
+        true
+      ]
+    },
+    {
+      "name": "documented CountryPicker async heading",
+      "actual": "Choose a destination"
+    },
+    {
+      "name": "documented CountryPicker selected code",
+      "actual": "US"
+    },
+    {
+      "name": "documented CountryPicker option count",
+      "actual": 4
+    },
+    {
+      "name": "adjacent close delimiter consumes tag bracket",
+      "actual": null
+    }
+  ],
+  "date": "2026-10-01",
+  "runtimeSha256": "3b9d5ebfce2ad8d30e053d80860479426d9c6c0a4be7a08bb81e6a364b246366"
+}

@@ -1,0 +1,146 @@
+{
+  "baseline": "site runtime with current arc-kernel bootloader substituted in the isolated fixture",
+  "world": {
+    "sameApp": true,
+    "running": true,
+    "step": 33.333333333333336,
+    "fixed": 33.333333333333336,
+    "hasDraw": true,
+    "stopped": true
+  },
+  "readiness": [
+    {
+      "name": "page:pre:rendered",
+      "detail": {
+        "reason": "settled",
+        "elapsed": 402,
+        "blockedBy": "recent activity",
+        "href": "http://127.0.0.1:8081/__kernel_docs__/index.html"
+      },
+      "at": 417
+    },
+    {
+      "name": "page:rendered",
+      "detail": {
+        "reason": "settled",
+        "elapsed": 402,
+        "blockedBy": "recent activity",
+        "href": "http://127.0.0.1:8081/__kernel_docs__/index.html"
+      },
+      "at": 741.7999999523163
+    }
+  ],
+  "language": {
+    "returned": true,
+    "registry": true,
+    "ordinaryClass": 6,
+    "mixedValue": "B",
+    "getter": "getter",
+    "fieldPresent": false,
+    "method": true,
+    "base": true
+  },
+  "workers": [
+    {
+      "name": "pool serial state",
+      "actual": 1
+    },
+    {
+      "name": "job rejection",
+      "actual": true
+    },
+    {
+      "name": "pool usable after caught job error",
+      "actual": 3
+    },
+    {
+      "name": "queued input cloned at dispatch",
+      "actual": "after"
+    },
+    {
+      "name": "direct concurrent result mapping",
+      "actual": [
+        "slow",
+        "fast"
+      ]
+    },
+    {
+      "name": "termination active and queue errors",
+      "actual": [
+        "Thread terminated",
+        "ThreadPool terminated"
+      ]
+    },
+    {
+      "name": "noncloneable input rejects",
+      "actual": true
+    },
+    {
+      "name": "raw message receives event",
+      "actual": 8
+    }
+  ],
+  "composition": [
+    {
+      "name": "mixin constructors not run",
+      "actual": 0
+    },
+    {
+      "name": "base constructor runs",
+      "actual": true
+    },
+    {
+      "name": "later mixin wins",
+      "actual": "B"
+    },
+    {
+      "name": "getter descriptor copied",
+      "actual": "ready"
+    },
+    {
+      "name": "later static wins",
+      "actual": "B"
+    },
+    {
+      "name": "mixin fields not initialized",
+      "actual": false
+    },
+    {
+      "name": "not instance of mixin",
+      "actual": false
+    },
+    {
+      "name": "symbol not copied",
+      "actual": "undefined"
+    },
+    {
+      "name": "reserved substring method not copied",
+      "actual": "undefined"
+    },
+    {
+      "name": "ordinary method copied",
+      "actual": 2
+    },
+    {
+      "name": "private field brand not supplied",
+      "actual": true
+    },
+    {
+      "name": "super keeps original home chain",
+      "actual": "trait-parent"
+    },
+    {
+      "name": "object descriptor mixin",
+      "actual": [
+        true,
+        "object"
+      ]
+    }
+  ],
+  "flags": {
+    "falseStringStillLoads": true,
+    "emptyDisables": true
+  },
+  "date": "2026-10-01",
+  "siteRuntimeSha256": "3b9d5ebfce2ad8d30e053d80860479426d9c6c0a4be7a08bb81e6a364b246366"
+}
