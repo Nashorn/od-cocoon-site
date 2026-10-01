@@ -6,7 +6,7 @@ let timeout;
 const load = () => {
   if (started) return;
   started = true;
-  frame.src = './parallel/index.html';
+  frame.src = './parallel/raytracer.html';
   timeout = setTimeout(showError, 20000);
 };
 function showError() {
@@ -18,6 +18,7 @@ addEventListener('message', event => {
   if (event.source !== frame.contentWindow || event.origin !== location.origin || event.data?.type !== 'cocoon-parallel') return;
   if (Number.isFinite(event.data.height) && event.data.height > 0) frame.style.height = `${event.data.height}px`;
   if (event.data.ready) { clearTimeout(timeout); loading.hidden = true; frame.classList.add('ready'); }
+  if (event.data.ready && typeof event.data.title === 'string') frame.title = event.data.title;
   if (event.data.error) { clearTimeout(timeout); showError(); }
 });
 const observer = new IntersectionObserver(entries => {

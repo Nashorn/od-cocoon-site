@@ -8,31 +8,44 @@ namespace `lab` (
     static tag = 'arc-parallel';
 
     inShadow() { return true; }
+    get benchmark() { return 'mandelbrot'; }
+    get exampleFiles() { return ExampleFiles; }
+    get sourceEntry() { return 'src/examples/mandelbrot/MandelbrotField/index.js'; }
 
     async onConnected() {
       await super.onConnected();
-      this.subscribe('mandelbrot:ready', event => {
+      this.subscribe(`${this.benchmark}:ready`, event => {
         this.field = event.detail.field;
         this.setupThreadModes();
         this.fire('parallel:ready');
         window.parallelFrame?.ready();
       });
-      this.subscribe('mandelbrot:render-start', event => this.onViewRenderStart(event.detail));
-      this.subscribe('mandelbrot:rendered', event => this.onViewRendered(event.detail));
+      this.subscribe(`${this.benchmark}:render-start`, event => this.onViewRenderStart(event.detail));
+      this.subscribe(`${this.benchmark}:rendered`, event => this.onViewRendered(event.detail));
+      this.on('click', event => {
+        const button = event.target.closest('[data-example]');
+        if (!button || button.hasAttribute('aria-current')) return;
+        const pages = { mandelbrot: './index.html', raytracer: './raytracer.html' };
+        if (pages[button.dataset.example]) location.assign(pages[button.dataset.example]);
+      }, false, this.querySelector('.example-picker'));
       this.on('click', event => {
         const button = event.target.closest('[data-threads]');
         if (button) this.setThreads(button);
       }, false, this.querySelector('.thread-modes'));
-      this.on('input', event => {
-        this.querySelector('#iterations-value').textContent = event.target.value;
-      }, false, this.querySelector('#iterations'));
-      // Re-render on release, not on every slider step: each render is real work.
-      this.on('change', event => this.field.setIterations(Number(event.target.value)), false, this.querySelector('#iterations'));
+      this.bindBenchmarkControls();
       this.on('click', () => this.field.renderView(), false, this.querySelector('#render'));
       this.on('click', () => this.reset(), false, this.querySelector('#reset'));
       this.on('click', () => this.showSource(), false, this.querySelector('#view-source'));
       this.on('click', () => this.closeSource(), false, this.querySelector('#close-source'));
       this.on('click', () => this.download(), false, this.querySelector('#download'));
+    }
+
+    bindBenchmarkControls() {
+      this.on('input', event => {
+        this.querySelector('#iterations-value').textContent = event.target.value;
+      }, false, this.querySelector('#iterations'));
+      // Re-render on release, not on every slider step: each render is real work.
+      this.on('change', event => this.field.setIterations(Number(event.target.value)), false, this.querySelector('#iterations'));
     }
 
     // Fixed counts at or above this device's pool size would duplicate "All".
@@ -96,7 +109,7 @@ namespace `lab` (
     }
 
     async loadFiles() {
-      if (!this.files) this.files = await ExampleFiles.load();
+      if (!this.files) this.files = await this.exampleFiles.load();
       return this.files;
     }
 
@@ -111,7 +124,7 @@ namespace `lab` (
         const explorer = this.querySelector('#source-explorer');
         if (!this.sourceLoaded) {
           explorer.setFiles(this.files);
-          explorer.openFile('src/examples/mandelbrot/MandelbrotField/index.js');
+          explorer.openFile(this.sourceEntry);
           this.sourceLoaded = true;
         }
         this.querySelector('#live-label').textContent = 'SOURCE';
@@ -136,7 +149,7 @@ namespace `lab` (
       button.disabled = true; button.setAttribute('aria-busy','true');
       const status = this.querySelector('#action-status');
       status.textContent = 'Preparing example…';
-      try { await ExampleFiles.download(await this.loadFiles()); status.textContent = 'Downloaded. Extract and serve locally to run.'; }
+      try { await this.exampleFiles.download(await this.loadFiles()); status.textContent = 'Downloaded. Extract and serve locally to run.'; }
       catch(error) { status.textContent = error.message; }
       finally { button.disabled = false; button.removeAttribute('aria-busy'); }
     }

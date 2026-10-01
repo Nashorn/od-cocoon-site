@@ -1,6 +1,7 @@
 import { ExampleDownload } from '../../showcase/core/ExampleDownload.js';
 
 export class ExampleFiles {
+  static archiveName = 'mandelbrot';
   static paths = [
     'src/examples/mandelbrot/MandelbrotWorld/index.js',
     'src/examples/mandelbrot/MandelbrotWorld/index.css',
@@ -53,20 +54,20 @@ export class ExampleFiles {
 
   static async download(files) {
     const archive = { ...files, 'index.html': this.htmlTemplate() };
-    archive['.importmap'] = JSON.stringify({ imports: {
+    archive['.importmap'] = JSON.stringify({ imports: this.imports || {
       'examples.mandelbrot.MandelbrotWorld': './src/examples/mandelbrot/MandelbrotWorld/index.js',
       'examples.mandelbrot.MandelbrotField': './src/examples/mandelbrot/MandelbrotField/index.js',
     } }, null, 2);
     archive['src/core/ui/World/index.css'] = '/* World has no visual UI. */';
-    archive['README.md'] = '# Mandelbrot · Cocoon parallel example\n\nThe Mandelbrot set rendered in tiles on a Cocoon ThreadPool: one worker per core, each tile a job, pixels handed back without a copy.\n\nServe this folder with a local HTTP server (for example python3 -m http.server 8080), then open http://localhost:8080. No build or internet connection is needed. Browser file:// restrictions mean double-clicking index.html is not supported.\n\nThe maths is in src/examples/mandelbrot/Mandelbrot.js. Mandelbrot.renderTile runs inside worker threads as source text, so keep it self-contained. The pool, canvas and input live in MandelbrotField; MandelbrotWorld drives the heartbeat that shows whether the main thread is free.\n';
+    archive['README.md'] = this.readme || '# Mandelbrot · Cocoon parallel example\n\nThe Mandelbrot set rendered in tiles on a Cocoon ThreadPool: one worker per core, each tile a job, pixels handed back without a copy.\n\nServe this folder with a local HTTP server (for example python3 -m http.server 8080), then open http://localhost:8080. No build or internet connection is needed. Browser file:// restrictions mean double-clicking index.html is not supported.\n\nThe maths is in src/examples/mandelbrot/Mandelbrot.js. Mandelbrot.renderTile runs inside worker threads as source text, so keep it self-contained. The pool, canvas and input live in MandelbrotField; MandelbrotWorld drives the heartbeat that shows whether the main thread is free.\n';
     for (const [path, url] of [['vendor/framework.min.js','/vendor/cocoon/framework.min.js'],['vendor/LICENSE.txt','/vendor/cocoon/LICENSE.txt']]) {
       const response = await fetch(url);
       if (!response.ok) throw new Error(`Could not package ${path}`);
       archive[path] = new Uint8Array(await response.arrayBuffer());
     }
-    const blob = ExampleDownload.zip(archive, 'mandelbrot');
+    const blob = ExampleDownload.zip(archive, this.archiveName);
     const url = URL.createObjectURL(blob);
-    const link = Object.assign(document.createElement('a'), { href:url, download:'cocoon-mandelbrot.zip' });
+    const link = Object.assign(document.createElement('a'), { href:url, download:`cocoon-${this.archiveName}.zip` });
     document.body.append(link); link.click(); link.remove();
     setTimeout(() => URL.revokeObjectURL(url), 60000);
   }

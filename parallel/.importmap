@@ -1,5 +1,9 @@
 {
   "imports": {
+    "lab.RayTracerApplication": "./src/lab/RayTracerApplication/index.js",
+    "lab.RayTracerShell": "./src/lab/RayTracerShell/index.js",
+    "examples.raytracer.RayTracerWorld": "./src/examples/raytracer/RayTracerWorld/index.js",
+    "examples.raytracer.RayTracerField": "./src/examples/raytracer/RayTracerField/index.js",
     "lab.ParallelApplication": "./src/lab/ParallelApplication/index.js",
     "lab.ParallelShell": "./src/lab/ParallelShell/index.js",
     "examples.mandelbrot.MandelbrotWorld": "./src/examples/mandelbrot/MandelbrotWorld/index.js",

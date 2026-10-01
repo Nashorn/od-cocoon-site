@@ -1,0 +1,16 @@
+:host { display: block; position: relative; min-width: 0; aspect-ratio: 16/9; align-self: start; overflow: hidden; border: 1px solid var(--arc-stage-border, #233047); border-radius: 12px; background: var(--arc-stage-background, #070c15); }
+canvas { display: block; width: 100%; height: 100%; }
+.scene { cursor: grab; touch-action: pan-y pinch-zoom; outline-offset: -4px; }
+.scene.is-dragging { cursor: grabbing; }
+.scene:focus-visible, #reset-view:focus-visible { outline: 2px solid var(--arc-focus, #a9c8ff); }
+#reset-view { position: absolute; top: 14px; right: 16px; border: 1px solid var(--arc-stage-border, #233047); border-radius: 20px; background: var(--arc-stage-chip, #070c15cc); color: var(--arc-stage-hint, #8fa5ca); padding: 7px 12px; font: 10px ui-monospace, monospace; cursor: pointer; }
+#reset-view:hover { color: var(--arc-text, #eef2fa); }
+.overlay { position: absolute; inset: 0; pointer-events: none; }
+.heartbeat { position: absolute; top: 14px; left: 16px; display: flex; align-items: center; gap: 10px; padding: 7px 12px; border: 1px solid var(--arc-stage-border, #233047); border-radius: 20px; background: var(--arc-stage-chip, #070c15cc); color: var(--arc-stage-hint, #8fa5ca); font: 9px ui-monospace, monospace; letter-spacing: .08em; pointer-events: none; }
+.heartbeat-track { position: relative; width: 64px; height: 2px; background: var(--arc-stage-border, #233047); }
+.heartbeat-dot { position: absolute; top: -2px; left: 0; width: 6px; height: 6px; border-radius: 50%; background: var(--arc-live, #5fe9bd); }
+#field-hint { position: absolute; bottom: 16px; right: 18px; margin: 0; color: var(--arc-stage-hint, #8fa5ca); font: 10px ui-monospace, monospace; pointer-events: none; }
+.progress { position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: #152034; }
+.progress-fill { height: 100%; width: 0; background: linear-gradient(90deg, #7774f6, #78e4c4); }
+@media(max-width: 720px) { .heartbeat { top: 10px; left: 10px; font-size: 7px; padding: 6px 9px; } .heartbeat-track { width: 36px; } #field-hint { bottom: 10px; right: 10px; font-size: 8px; } }
+@media(max-width: 720px) { #reset-view { top: 10px; right: 10px; padding: 6px 9px; font-size: 8px; } }

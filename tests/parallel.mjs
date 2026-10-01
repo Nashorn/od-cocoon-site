@@ -40,7 +40,10 @@ try {
   assert.equal(await host.locator('#parallel-frame').getAttribute('src'), null, 'parallel must remain lazy above section');
   await host.locator('nav a[href="#parallel"]').click();
   await host.waitForFunction(() => document.querySelector('#parallel-frame').classList.contains('ready'), null, { timeout: 20000 });
-  const page = host.frames().find(f => f.url().includes('/parallel/index.html'));
+  const page = host.frames().find(f => f.url().includes('/parallel/raytracer.html'));
+  await page.locator('[data-example="mandelbrot"]').click();
+  await page.waitForURL('**/parallel/index.html');
+  await page.locator('arc-mandelbrot-field').scrollIntoViewIfNeeded();
   const shell = page.locator('arc-parallel');
   await page.waitForFunction(() => document.querySelector('arc-parallel')?.field?.hasRendered, null, { timeout: 20000 });
   await page.waitForFunction(() => !document.querySelector('arc-parallel').field.rendering, null, { timeout: 30000 });

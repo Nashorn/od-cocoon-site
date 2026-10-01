@@ -1,0 +1,4 @@
+:host { display: block; }
+.live-metric.is-blocked { color: var(--arc-stat-amber); }
+select { border: 1px solid var(--arc-secondary-border); border-radius: 7px; background: var(--arc-secondary-background); color: var(--arc-secondary-text); padding: 8px 28px 8px 10px; font: inherit; }
+.example-picker [data-example="raytracer"] svg { fill: none; stroke: #788dff; }

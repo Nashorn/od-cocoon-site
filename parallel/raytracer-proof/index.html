@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Ray Tracer · Cocoon visual proof</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="../../styles/interactive-tokens.css">
+  <link rel="stylesheet" href="./studio.css">
+  <script src="../../vendor/cocoon/framework.src.js" data-kernel data-namespace="proof.Studio" data-controller="index.js" data-rootpath="./" data-src-path="/src/" data-sandbox="false"></script>
+</head>
+<body namespace="proof.Studio">
+  <header class="masthead"><a href="../../index.html" class="brand"><img src="../../assets/brand/cocoon-mark.png" alt="" width="28" height="28">Cocoon</a><span>EXPERIMENT / 02</span><a href="../index.html">Back to Mandelbrot <span aria-hidden="true">↗</span></a></header>
+  <main>
+    <div class="intro"><p class="eyebrow">MULTICORE COMPUTING</p><p class="proof-label">Ray Tracer <span>Visual proof</span></p></div>
+    <div class="layout">
+      <aside>
+        <p class="eyebrow">02 / RAY TRACER</p>
+        <h1>Light.<br> Reflections.<br><span>Every core.</span></h1>
+        <p class="description">A little scene.<br>A lot of light.</p>
+        <p class="explanation">Real rays, soft shadows, and recursive reflections. Rendered on the CPU with Cocoon’s thread pool.</p>
+        <div class="materials"><span><i class="chrome"></i>Chrome</span><span><i class="violet"></i>Violet lacquer</span><span><i class="mint"></i>Mint ceramic</span></div>
+        <p class="note">The picture refines as samples arrive. The heartbeat stays on the main thread.</p>
+      </aside>
+      <section class="studio" aria-label="Ray-traced studio scene">
+        <div class="viewport">
+          <canvas id="scene" width="1200" height="750" aria-label="Three reflective spheres on a checkerboard floor"></canvas>
+          <canvas id="tiles" width="1200" height="750" aria-hidden="true"></canvas>
+          <div class="heartbeat"><span>MAIN THREAD</span><div class="track"><i id="pulse"></i></div></div>
+          <div class="stage-caption"><span id="stage-state">Preparing studio…</span><span>CPU RAY TRACING</span></div>
+        </div>
+        <div class="toolbar">
+          <label>QUALITY<select id="quality"><option value="24">Preview · 24 samples</option><option value="96" selected>Studio · 96 samples</option><option value="256">Fine · 256 samples</option></select></label>
+          <div class="pool-info"><i></i><span id="workers">Preparing workers</span></div>
+          <button id="render" disabled>Render again <span aria-hidden="true">↻</span></button>
+          <button id="stop" class="secondary" disabled>Stop</button>
+        </div>
+        <div class="progress"><div id="progress-fill"></div></div>
+        <div class="status"><p id="status" role="status" aria-live="polite">Loading Cocoon…</p><span id="timing"></span></div>
+      </section>
+    </div>
+    <footer><span>Three spheres. Three softboxes. One thread pool.</span><span>Standalone visual study · shared playground renderer</span></footer>
+  </main>
+</body>
+</html>

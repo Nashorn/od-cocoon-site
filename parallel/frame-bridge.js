@@ -17,7 +17,7 @@
       this.isReady = true;
       new ResizeObserver(report).observe(document.body);
       document.fonts.ready.then(report);
-      send({ready:true}); report();
+      send({ready:true, title:document.title}); report();
     }
   };
   const fail = () => {
